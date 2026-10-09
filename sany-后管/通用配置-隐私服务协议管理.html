@@ -1,0 +1,1524 @@
+<html lang="zh" data-inspector-id="html:291349ea:0" class=" "><head>
+<title>隐私/服务协议管理 - MySANY管理平台</title>
+
+<link href="assets/static/css/main.6cd91e5d.chunk.css" rel="stylesheet"><link rel="stylesheet" type="text/css" href="assets/static/css/37.78112ff5.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/0.99af9f63.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/1.d4a8b7f4.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/3.d23637bb.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/2.9c61b49c.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/4.18e36531.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/5.678c0f40.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/7.62c80fee.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/9.5cf34aef.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/24.f512a245.chunk.css"><style id="hzero-front-ui_other_injection"></style><style id="hzero-ued-c7n-polyfill-style"><style data-styled="active" data-styled-version="5.3.11"></style></style><style id="hzero-common-global-style"><style data-styled="active" data-styled-version="5.3.11"></style></style><style id="hzero-ued-theme-layout-and-global-style"></style><style id="current-theme-animations-and-common-style"><style data-styled="active" data-styled-version="5.3.11"></style></style><link rel="stylesheet" type="text/css" href="assets/static/css/6.5d7c95e6.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/10.0977f962.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/12.3a0b4868.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/13.517b2fb1.chunk.css"><link rel="stylesheet" type="text/css" href="assets/static/css/18.4b402703.chunk.css"><style data-styled="active" data-styled-version="5.3.11"></style><link rel="stylesheet" type="text/css" href="assets/static/css/149.547bf439.chunk.css"><style id="UED_C7N-UI_OVERRIDE_INJECTION_SPIN"><style data-styled="active" data-styled-version="5.3.11"></style></style><link rel="stylesheet" type="text/css" href="assets/packages/gcp-front-admin/static/css/13.0f074c63.chunk.css"><link rel="stylesheet" type="text/css" href="assets/packages/gcp-front-admin/static/css/52.873f508c.chunk.css"><style id="local-layout-fix">
+/* 左侧导航被内容区盖住的修正。
+   1) 滚动容器抓取时固化成 width:224px，而 .hzero-normal-nav 只有 220px，
+      多出的 4px 落在 position:relative 的内容区下面被盖住。
+   2) 内层是 react-custom-scrollbars，正常运行时会把 margin-right/-bottom
+      设成负的滚动条宽度（约 -17px）把原生滚动条顶到 overflow:hidden 之外；
+      快照里被固化成 0px，于是原生滚动条直接露出来，
+      竖向的吃掉菜单右边缘，横向的在底部多出一条。
+      这里直接隐藏原生滚动条，滚动行为不变，且不依赖具体系统的滚动条宽度。 */
+.hzero-main-menu-scroll {
+  width: 100% !important;
+}
+.hzero-main-menu-scroll > div {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hzero-main-menu-scroll > div::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+/* 表格宽度是固化的运行时值，右侧会空出一条。用 min-width 撑满，
+   窄窗口仍保留横向滚动。本页吸收余量的列是末列（同意时间），可安全启用。 */
+.c7n-pro-table-content > table {
+  min-width: 100%;
+}
+/* 字段浮层外壳：真实系统由 React 运行时内联白底与投影，快照里丢失，
+   这里补齐。内部一律使用 c7n 自带 class，配色与悬停态保持原样。 */
+.local-pop-shell {
+  position: fixed;
+  z-index: 1050;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+}
+.local-pop-shell .c7n-pro-calendar-footer {
+  padding: 0 .12rem;
+  text-align: left;
+}
+</style><style id="local-page-style">
+/* ===== 隐私/服务协议管理 · 页面局部样式（仅作用于本页内容区，不动锁定外壳） ===== */
+#local-view-list .customer_search_inner__212YB > div > span{color:#333;font-size:12px;white-space:nowrap;margin-right:6px}
+/* 列表操作列文字按钮 */
+.local-op{color:#29bece;cursor:pointer;font-size:12px;background:none;border:none;padding:0;margin-right:10px;font-family:inherit;line-height:inherit}
+.local-op:hover{color:#1995a8;text-decoration:underline}
+.local-op.is-danger{color:#d50000}
+.local-op.is-danger:hover{color:#b00000}
+.local-op.is-disabled{color:rgba(0,0,0,.25);cursor:not-allowed;text-decoration:none}
+.local-vlink{color:#29bece;cursor:pointer;font-weight:600}
+.local-vlink:hover{text-decoration:underline}
+.local-site-more{color:#29bece;cursor:pointer;font-size:12px;margin-left:2px}
+/* 状态点：本系统无统一 success/warning 色板，用圆点 + 主色表达 */
+.local-st{display:inline-flex;align-items:center;font-size:12px;line-height:20px;white-space:nowrap}
+.local-st i{width:6px;height:6px;border-radius:50%;margin-right:5px;flex-shrink:0;background:#bfbfbf}
+.local-st.is-draft i{background:#bfbfbf}
+.local-st.is-sched i{background:#29bece}
+.local-st.is-pub i{background:#52c41a}
+.local-st.is-exp i{background:#8c8c8c}
+/* 内容构成 tag */
+.local-ctag{display:inline-block;font-size:12px;line-height:18px;padding:0 6px;border-radius:2px;margin-right:4px;border:1px solid #29bece;color:#29bece;background:rgba(41,190,206,.06)}
+.local-ctag.is-off{border-color:#e0e0e0;color:#bfbfbf;background:#fafafa}
+/* 表格操作列容器 */
+.c7n-pro-table-cell .local-ops-wrap{display:flex;align-items:center;white-space:nowrap}
+/* ===== 编辑视图 ===== */
+.local-edit-head{display:flex;align-items:center;height:36px;border-bottom:1px solid #e8e8e8;margin:-4px 0 12px}
+.local-back{color:#29bece;cursor:pointer;font-size:12px}
+.local-back:hover{text-decoration:underline}
+.local-edit-title{font-size:14px;font-weight:600;color:#333;margin-left:16px}
+.local-edit-tag{margin-left:10px}
+.local-edit-ops{margin-left:auto;display:flex;align-items:center}
+.local-card{border:1px solid #e8e8e8;border-radius:2px;background:#fff;margin-bottom:12px}
+.local-card-title{height:36px;line-height:36px;padding:0 12px;font-size:13px;font-weight:600;color:#333;border-bottom:1px solid #e8e8e8;background:rgba(0,0,0,.02)}
+.local-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+.local-grid-1{grid-template-columns:1fr}
+.local-field{display:flex;align-items:flex-start;padding:8px 12px;border-bottom:1px solid #f2f2f2}
+.local-field > label{width:80px;flex-shrink:0;text-align:right;color:#333;font-size:12px;line-height:28px;padding-right:8px}
+.local-field > label::after{content:"："}
+.local-field .c7n-pro-input-wrapper,.local-field .c7n-pro-select-wrapper{flex:1;min-width:0;width:auto!important}
+.local-field-full{grid-column:1 / -1}
+.local-field .local-tip{margin-left:8px;line-height:28px;white-space:nowrap}
+.local-tip{color:rgba(0,0,0,.45);font-size:12px}
+.local-tip-warn{color:#d46b08;line-height:18px!important;white-space:normal!important;margin:4px 0 0!important;padding-left:80px}
+.local-field-full .local-tip-warn{padding-left:80px}
+.local-req{color:#d50000;font-style:normal;margin-right:2px}
+.local-radios{display:flex;align-items:center;flex-wrap:wrap;min-height:28px}
+.local-radios-wrap{min-height:28px}
+.c7n-pro-radio-wrapper{display:inline-flex;align-items:center;font-size:12px;color:#333;cursor:pointer;margin-right:0}
+.c7n-pro-radio-wrapper input{margin:0 5px 0 0;accent-color:#29bece}
+/* 快照里 c7n 未运行，radio 被其样式隐藏（opacity:0/absolute），此处强制显示原生单选框 */
+input.c7n-pro-radio{opacity:1 !important;position:static !important;width:14px !important;height:14px !important;appearance:auto !important;-webkit-appearance:radio !important;cursor:pointer;flex:none;vertical-align:middle}
+input.c7n-pro-radio:disabled{cursor:not-allowed;opacity:.5 !important}
+.local-datetime{display:inline-block;height:28px;line-height:28px;padding:0 10px;border:1px solid #d9d9d9;border-radius:2px;font-size:12px;color:#333;background:#fff;margin-left:12px;cursor:pointer;min-width:150px}
+.local-datetime:hover{border-color:#29bece}
+.local-datetime.is-disabled{color:#bbb;background:#f5f5f5;cursor:not-allowed;border-color:#e8e8e8;pointer-events:none}
+.local-mini-btn{display:inline-block;height:28px;line-height:28px;padding:0 16px;border:1px solid #d9d9d9;border-radius:2px;font-size:12px;background:#fff;color:#333}
+.local-mini-btn-primary{background:#1a1a1a;border-color:#1a1a1a;color:#fff}
+.local-textarea{width:100%;border:1px solid #d9d9d9;border-radius:2px;font-size:12px;font-family:inherit;color:#333;padding:6px 8px;box-sizing:border-box;resize:vertical;line-height:1.7;outline:none}
+.local-textarea:focus{border-color:#29bece}
+/* Tab */
+.local-tabs{display:flex;align-items:center;border-bottom:1px solid #e8e8e8;padding:0 12px;background:#fff}
+.local-tab{position:relative;padding:0 16px;height:40px;line-height:40px;font-size:13px;color:#333;cursor:pointer;user-select:none}
+.local-tab:hover{color:#29bece}
+.local-tab.is-active{color:#29bece;font-weight:600}
+.local-tab.is-active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#29bece}
+.local-tab .local-req{margin-left:2px}
+/* 编辑器 */
+.local-editor{margin:12px}
+.local-editor-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:4px;padding:6px 8px;border:1px solid #d9d9d9;border-bottom:none;border-radius:2px 2px 0 0;background:rgba(0,0,0,.02)}
+.local-tb{height:24px;min-width:24px;padding:0 6px;font-size:12px;font-family:inherit;color:#333;background:#fff;border:1px solid #d9d9d9;border-radius:2px;cursor:pointer;line-height:1}
+.local-tb:hover{border-color:#29bece;color:#29bece}
+.local-tb-sep{width:1px;height:16px;background:#e0e0e0;margin:0 2px}
+.local-editor-body{min-height:4.2rem;max-height:6rem;overflow:auto;padding:14px 16px;border:1px solid #d9d9d9;border-radius:0 0 2px 2px;font-size:13px;line-height:1.9;color:#333;outline:none;background:#fff}
+.local-editor-body:focus{border-color:#29bece}
+.local-editor-body h3{font-size:15px;text-align:center;margin:0 0 12px;font-weight:600}
+.local-editor-body p{margin:0 0 8px;text-align:justify}
+.local-editor-body:empty::before{content:attr(data-placeholder);color:#bfbfbf}
+.local-editor-foot{display:flex;gap:6px;justify-content:flex-end;padding:6px 2px 0;font-size:12px;color:rgba(0,0,0,.45)}
+/* 多语言子 tab：每个主 Tab（隐私政策/服务协议/弹窗）内嵌的语言切换 */
+.local-langbar{display:flex;align-items:center;flex-wrap:wrap;padding:8px 12px;background:rgba(41,190,206,.04);border-top:1px solid #f2f2f2;border-bottom:1px solid #f2f2f2}
+.local-langbar-label{font-size:12px;color:#333;margin-right:8px;white-space:nowrap}
+.local-langtabs{display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap}
+.local-langtab{height:24px;line-height:22px;padding:0 12px;font-size:12px;border:1px solid #d9d9d9;border-radius:12px;background:#fff;color:#333;cursor:pointer;user-select:none;transition:all .15s}
+.local-langtab:hover{border-color:#29bece;color:#29bece}
+.local-langtab.is-active{background:#29bece;border-color:#29bece;color:#fff;font-weight:600}
+.local-langpane{display:none;padding:0 0 8px}
+.local-langpane.is-active{display:block}
+.local-pane-form{flex:1;min-width:0}
+/* 日志表 */
+.local-log-table{width:100%;border-collapse:collapse;font-size:12px}
+.local-log-table th{background:rgba(0,0,0,.04);font-weight:700;color:rgba(0,0,0,.85);text-align:left;padding:0 10px;height:36px;border-bottom:1px solid #e0e0e0}
+.local-log-table td{padding:0 10px;height:36px;border-bottom:1px solid #f0f0f0;color:#333}
+/* 弹窗外壳 */
+.local-mask{position:fixed;inset:0;background:rgba(0,0,0,.288);z-index:1200;display:flex;align-items:center;justify-content:center}
+.local-mask[hidden]{display:none}
+.local-modal{width:520px;max-width:92vw;background:#fff;border-radius:2px;display:flex;flex-direction:column;max-height:88vh}
+.local-modal-sm{width:460px}
+.local-modal-header{display:flex;align-items:center;justify-content:space-between;padding:15px 24px;border-bottom:1px solid #e8e8e8;flex-shrink:0}
+.local-modal-title{font-size:18px;font-weight:500;color:#333}
+.local-modal-close{background:none;border:none;font-size:15px;color:rgba(0,0,0,.45);cursor:pointer;padding:0;line-height:1}
+.local-modal-close:hover{color:#333}
+.local-modal-body{padding:24px;overflow:auto}
+.local-modal-footer{display:flex;justify-content:flex-end;gap:8px;padding:12px 24px;border-top:1px solid #e8e8e8;flex-shrink:0}
+.local-mbtn{height:30px!important;border-radius:2px!important;font-size:12px!important;padding:0 15px!important}
+.local-confirm-text{font-size:13px;line-height:1.8;color:#333;margin-bottom:12px}
+.local-err{color:#d50000;font-size:12px;margin-top:6px}
+.local-toast-host{position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:1300;display:flex;flex-direction:column;align-items:center;gap:8px}
+.local-toast{background:#fff;border:1px solid #e8e8e8;border-left:3px solid #29bece;border-radius:2px;box-shadow:0 3px 12px rgba(0,0,0,.12);padding:8px 16px;font-size:12px;color:#333}
+.local-toast.is-err{border-left-color:#d50000}
+</style>
+</head><body data-inspector-id="html:291349ea:1"><noscript>You need to enable JavaScript to run this app.</noscript><div id="root" data-inspector-id="html:291349ea:6"><div class="hzero-normal-container"><div class="hzero-normal-header"><div class="hzero-normal-header-container"><div class="hzero-normal-header-left"><div class="hzero-normal-header-logo"><a href="/"><i class="anticon anticon- hzero-normal-header-logo-icon-icon"></i><h1 class="hzero-normal-header-title">MySANY管理平台</h1></a></div><i class="anticon anticon-menu-fold hzero-normal-header-collapsed-trigger"></i></div><div class="hzero-normal-header-right"><div class="hzero-normal-header-right-item"><div class="index_chooseBtn__30rEv">新加坡站点 <i class="icon icon-expand_more"></i></div></div><span class="hzero-normal-header-right-item hzero-normal-header-right-item-divider"></span><div class="ant-select-sm select-no-border default-language-select hzero-normal-header-right-item hzero-normal-header-right-item-select ant-select ant-select-enabled"><div class="ant-select-selection
+            ant-select-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0"><div class="ant-select-selection__rendered"><div class="ant-select-selection-selected-value" title="三一集团" style="display: block; opacity: 1;">三一集团</div></div><span class="ant-select-arrow" unselectable="on" style="user-select: none;"><i class="ant-select-arrow-icon"></i></span></div></div><div class="ant-select-sm select-no-border default-language-select hzero-normal-header-right-item hzero-normal-header-right-item-select hzero-normal-header-right-item-language ant-select ant-select-enabled"><div class="ant-select-selection
+            ant-select-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0"><div class="ant-select-selection__rendered"><div class="ant-select-selection-selected-value" title="简体中文" style="display: block; opacity: 1;">简体中文</div></div><span class="ant-select-arrow" unselectable="on" style="user-select: none;"><i class="ant-select-arrow-icon"></i></span></div></div><span class="hzero-normal-header-right-item hzero-normal-header-right-item-notice index_noticeButton__2Z7Ls"><span class="ant-badge"><i class="anticon anticon-undefined index_notification-icon__2s7gT"></i></span></span><a class="sc-klVQfs cYvEQW"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDU4ICg4NDY2MykgLSBodHRwczovL3NrZXRjaC5jb20gLS0+CiAgICA8dGl0bGU+Y29uZmlndXJlPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9Iumhtemdoi0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0i6aG26YOo5a+86Iiq5qC35byPMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEwMTguMDAwMDAwLCAtMTMuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSLnvJbnu4QtNTgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwMC4wMDAwMDAsIDAuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICA8ZyBpZD0iY29uZmlndXJlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MTguMDAwMDAwLCAxMy4wMDAwMDApIj4KICAgICAgICAgICAgICAgICAgICA8cmVjdCBpZD0i55+p5b2iIiBmaWxsPSIjRDhEOEQ4IiBvcGFjaXR5PSIwLjAxIiB4PSIwIiB5PSIwIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjwvcmVjdD4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYuNTc3MTAwOCw0IEMxNi44ODM5NzM5LDQgMTcuMTczODU2MSw0LjE0MDg5OTE1IDE3LjM2MzQ0MDUsNC4zODIyMDU2NCBMMjAuNTUxNjI3OSw4LjQ0MDE4NzUyIEMyMC44MTkwNDAyLDguNzgwNTU0NjIgMjAuODM3MTEyNCw5LjI1NDMyODU4IDIwLjU5NjQwNjIsOS42MTQwNzc5NyBMMTkuMzkzMjE5MywxMS40MTIzMTA4IEMxOS4yMTQ4NzgzLDExLjY3ODg1MTggMTguODU0MjMwMiwxMS43NTAzNTIxIDE4LjU4NzY4OTIsMTEuNTcyMDExMSBDMTguNTU2MTc4NywxMS41NTA5Mjc2IDE4LjUyNjgwODgsMTEuNTI2ODA4OCAxOC41LDExLjUgQzE4LjM4NTYxODEsMTEuMzg1NjE4MSAxOC4yMDAxNjg0LDExLjM4NTYxODEgMTguMDg1Nzg2NCwxMS41IEMxOC4wMzA4NTgzLDExLjU1NDkyODEgMTgsMTEuNjI5NDI2NyAxOCwxMS43MDcxMDY4IEwxOCwxOSBDMTgsMTkuNTUyMjg0NyAxNy41NTIyODQ3LDIwIDE3LDIwIEw3LDIwIEM2LjQ0NzcxNTI1LDIwIDYsMTkuNTUyMjg0NyA2LDE5IEw2LDExLjcwNzEwNjggQzYsMTEuNTQ1MzQ2MyA1Ljg2ODg2NzI0LDExLjQxNDIxMzYgNS43MDcxMDY3OCwxMS40MTQyMTM2IEM1LjYyOTQyNjY3LDExLjQxNDIxMzYgNS41NTQ5MjgxMywxMS40NDUwNzE5IDUuNSwxMS41IEM1LjI3MTkzNzUzLDExLjcyODA2MjUgNC45MDIxNzUyMSwxMS43MjgwNjI1IDQuNjc0MTEyNzQsMTEuNSBDNC42NDc5MjA1MywxMS40NzM4MDc4IDQuNjI0Mjc5NjksMTEuNDQ1MTgzIDQuNjAzNTA5NzgsMTEuNDE0NTEyNiBMMy40MTQ1MjkxNiw5LjY1ODc3NDAyIEMzLjE2ODE4MTExLDkuMjk0OTk3ODggMy4xODgxMTk1Niw4LjgxMzA0MDA2IDMuNDYzNjczMDEsOC40NzA4NTQ4MyBMNi43NjM3MzQ4MSw0LjM3MjgwMjY2IEM2Ljk1MzU2MTY1LDQuMTM3MDczNjYgNy4yMzk5MzYzMyw0IDcuNTQyNTk1Miw0IEw5LjE3MTAwMDAxLDQuMDAwODMyMjYgQzkuNTgzMDcxMzEsNS4xNjU1ODk4NyAxMC42OTQwOTIyLDYgMTIsNiBDMTMuMzA1OTA3OCw2IDE0LjQxNjkyODcsNS4xNjU1ODk4NyAxNC44MjksNC4wMDA4MzIyNiBMMTYuNTc3MTAwOCw0IFoiIGlkPSLnn6nlvaItOCIgZmlsbD0iI0ZGRkZGRiI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSLnn6nlvaIiIGZpbGw9IiNGRDY4NjgiIHg9IjcuNSIgeT0iMTMiIHdpZHRoPSIxIiBoZWlnaHQ9IjMiIHJ4PSIwLjUiPjwvcmVjdD4KICAgICAgICAgICAgICAgICAgICA8cmVjdCBpZD0i55+p5b2iIiBmaWxsPSIjRkQ2ODY4IiB4PSIxNS41IiB5PSIxMyIgd2lkdGg9IjEiIGhlaWdodD0iMyIgcng9IjAuNSI+PC9yZWN0PgogICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSLnn6nlvaIiIGZpbGw9IiNGOEIzMDMiIHg9IjkuNSIgeT0iMTIiIHdpZHRoPSIxIiBoZWlnaHQ9IjUiIHJ4PSIwLjUiPjwvcmVjdD4KICAgICAgICAgICAgICAgICAgICA8cmVjdCBpZD0i55+p5b2iIiBmaWxsPSIjRjhCMzAzIiB4PSIxMy41IiB5PSIxMiIgd2lkdGg9IjEiIGhlaWdodD0iNSIgcng9IjAuNSI+PC9yZWN0PgogICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSLnn6nlvaIiIGZpbGw9IiMzOUM4NzgiIHg9IjExLjUiIHk9IjExIiB3aWR0aD0iMSIgaGVpZ2h0PSI3IiByeD0iMC41Ij48L3JlY3Q+CiAgICAgICAgICAgICAgICA8L2c+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==" alt="theme-icon"></a><span class="hzero-normal-header-right-item hzero-normal-header-right-item-avatar hzero-normal-header-right-item-last ant-dropdown-trigger"><span title="产品顾问-刘伏旺" class="ant-avatar hzero-normal-header-right-item-avatar-img ant-avatar-sm ant-avatar-circle ant-avatar-image"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABS2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIi8+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo8P3hwYWNrZXQgZW5kPSJyIj8+nhxg7wAADa5JREFUeJzdnVuMXVd5x3/f2mfOmesZe+yMPcbYbmI7JXbihJAUEA8ppKCq8BAS6A2kXtRKSFUpL5X61pe+VKpQqZBaVUorBdoqDSAVpBZSQUpTIMFgBUhS32LLsk0cY489njm3vff6+vDtPTNn5lz23nPOselfOnM7a6/Lf9a31ndb68g3TnluA8rAOFAVONIIObJU9/eqcgDYDcwBE8A0EALLwE1gBfgZcB44BfwEeBVYAhpAa7TDgNII26oAu4D7gceBx4BjKy2V5YaC9nxuGiO2ExR4BXgB+E/gx8AVoDmgfveEjGAG7gXuBT4E/DawJ32j1lRuNRQZbHuXgS8CXwdOAhcHW307hkngIeD9wCeA9218c6WpLA+evI14EfgC8E3g9DAaGAaBvwB8FPgN4F2dCtRaynK9u8wOAceBfwG+DJwbZMWDJFCAPwB+B3hPxwKSiO1oyVuP7wL/CPw9vVbdHHCDqAR4EHgW+DxdyHMCjZaJ7W3Ee7A+Pgs8NIgKB0Hg7wHPAU/RZVcXgWZk5Olt5Q+wPj4F/CvW9y1hKwROA58F/hq4p1shAWIPyw0lirfQ2uBxD9b3z2JjKYSiBB7EFuQ/7te4ArWG0gptJt5hmMbG8BVsTLlRhMCHgC8Bv9LveRFohEo91DuRvBQOU+y/RIF1MS+Bj2IL8AP9CgoQxrbr+ttiLebGA9jYHs3zUB4CH8SU0kxTXYF6S2lFd6TodsNBbIwPZn0gK4GHkooPZSksAq1IqTfvaNHthlxjzULgLPC3wJGsPfAeVpqgyrBNtWHhCPB32Nh7IguBf4HZtJnRjKB5Z28cWfDL2Nh7oh+Bfwh8Kk+rXqHW9AMzcW4zPoVx0BW9xvku4M/6lNmEVpgozD/fsy+Fwzh4pFeBTgiAPwUO5G1xpXX7bbUB4wDGRUcztRuBvws8kbelZqjEd5a5Nig8gXGyCZ0IvBv4fQq4++vh/7vZlyLAHA93b3xjI4EO+Bjw7rwtRDGEUaHO/bzg3Rg3bZxtJPAg5oLPhdTmHYSLUtW8N5E3U3DjK/L2vh9Mc3nxCTYo2OvF1AEfBI7mrVUxy2MrA4oSUsbHoFoWygGMBeaIFWknthUrjRAaof3NOSvnhr/zH8WcKKcBD+0EzgOfLFJrGFHYYeATYrZNwq4ZYW5SmJ0QJktQGYPAGYFeIY5NSa9HynITlpvKShNuNpSlhs3QEZD4ScyB/Ca0E/gQOT0RYB1uhYovMP1ib7Ps8F2O/Ttgx6QQuHYRDZNdXZIv42MwWRZ2TkHghDCCpaayWIPXryhL9aFbQI9iXP07rK2BE8BHitSWDjKvq94rTJbhkf3Csb3Czikh9jbDUnFeX6div3tdWx8bocnR7LiwpypE8ciM749gnK0SuBN4Mm8tIhB5Jfb5Oq5ApQS/tF/Yt826EMbFNgVNCL1eM7EekQH0FMbZKoH3Y2tgbkSRzYo8HRfg2Nsc8zNu00wrAsE2khGaj3dhnOGwRJ/Hi9QimP6XhwAPLFSFt2+TgaoiMxVbBoqsxQXxOFB2WJbUY0VriTPOoLTIeAnu2yUDXegVKJfgnXsd02VGReJjwLgDZoBjRWrwmk19SQneOyt84LBj2+TgZU0Vtk/C/W+TUcWejwFVh3lfc7vv0nivz9DbWOHAHDyy3zFdlqFaEDumHLurjCIG7YAjjgwRto6QzapGJ8QeZifg8HxAOTAyhwUFJsdgd1WG2s46PODIGDzpBO9BPT13v9DDwoyjOm7qxjChapZLdVwYC0ZiKx9yzrE/tSPXvyR9dXlSMPHtwx+CKcxjbjTGv1fTMacrxc3LHNhXurGsCykDgQDOhDsQEGfmUilZITX5khKhyc/9CHRutLHhUmAkLg2/qYVSvaU70t9EgGTWCWuz0DkjtJR4SMYCQdJtpw+DnkRXHN4g2qHm/SytG0eHIoPCjpKI2XTra1cSX01qgMo6QgERpTImNEPFqxL0mF5OLE7SjAQnW7c6ekEVVGytrbUsMyKVnnQM6XdbqmwibEE4xkvAVKd3ZNMPayKrCtrSxJ2kVEomMpWxzV1xAjfqSq2pVCcGtzt2+0cI5pBYaemq88Ee6FR2bXK4ZLkK8il00yXsHEYlz1MpTaq2C7dCS19baSiVsjBeElxg5QKB6ytwow7ViV619kdWi+dGTblZtyWnX9lViYsxbw62kweBkdlvdjrgVv9udcbGNcYr1JvKYs2z3FBacZKl5WGxpoRxsc1EM5qLTqARwbXa2swqgjiZFI2WEkbay2Zf2RKBXaGWD7204lmseabLsDBru3nWNTAlLZejQmGiBPftdsxPy5atEdXE79hSWp2JrDvsGFUhpLt0x/eS78sNmKnA3GQ2Ey4vaRsRK0yVhbumB2uNxAmRG8IX1xyJb78IsoiIAKK66rXpNaZB7tDD2u3DSGlGmjqALzoKnuBRQCRRTXqUcw7qoTUMtO+MaV0DcKqutod5yZvxcPyraYQwjJRWqKcdduqxEFYtjB6DX1VjWonXOIH3oFosGNULIlALYanh29obBiLPKYcdyMsPzWaiBQ6urdguvFpUQUkWZR3s2REncKuhXFshr06XGwInHfA6pgvmgpI6HXozKNhse+OqZ7mpici3M6YMRoZdMvsuXLckpyGb3yHweqrGfL9IDYGQSUzKJThzVTl71RP7zic0PVu3URW4dMNz9qpSHv5J6OPALYed9H6haC1BD1UmhQAqygsnY05f8US+i5GvxdJD0mX48k3lpXMjSy3+FtBw2FT8dpEaFChlWAcjbyIVefj6azEvnomJujBVhESv8JNLnv86FdPyIyPw20CYCuBrwNXcVSiUSvRUZby33Jn1GfuvXPScfNN3tVXzkBgIXFj0nLjkGV1iAlcxzlaDST/DEmZyQTEPhuvCoCq04sQ1tg4i8IPzMSvJptKx7gwkmu2r/PiSH0VS0Xo8h3G2SmAd+GqRmgTzemwUG8WyFrTLpnGjDt8563uqQpqEDDq2m4QeXrnouVEv0vMt4asYZ23hzBPAy3lr8grl0uZAeRwrUZeTNumfXr3sOXFBKbseaWmqm0KnknjH//eK59Rb2lbnCPAyxhXQTuBbwDNFahwrtSutse8fl01z/v77dMTL5+NVvbIbNCEx9Yq/dtlz/EKy7o1WfJ/BuALaCfTA89hlNrkgCqVSMgo1x2SWTcCJuYteOOV56ZzpNl3FmcSDjIntS+f9qBIq1+NVjKPVlWWjGnwaO2iXCwqMj8lqulse+zZwRuKlRaXW7EOICLWW8tMlc9aOmDwwbtqcLxsJ9NhdAt/LW3PJ2bpUxImZxqH7E69Enr7iPiR8DztP3LavdTLE3gCeBnJTERQInqfurW0TSTC8RwWqlroxOTbyLP0Y4+SNjW90s2T/AbsTITO8WpgwqwdEsc1GBN6x2/HQPofr4/L3ahvWvbuEPbNrfxsBvoxxsgndhhsBf0kHxrshdZhOVPrLVpyc9ZibEt57MODXHgiYm8oWw4hi2D0rvP/egKMLwnRlLad6SHgD46LjMaJe8+U48OdkcHWprsUJyqXuszD2FjWbrsDRPY4P3x/w3rvdaqpcVkSxZUg8uj/gffcEHNhh50pa8cCJjDAOjncr0M/p8wzwTuBPuhUQWZt9YDraRMVxq+ZX3d+Rt9Dm9gnYP+c4tNtxcKdDxA7MFIGq/TMWqsLO6YBz1zwXris/vWne77EgcfgWqz7F5+mjG8sXvt/3gFsVu1el66n1Rth+M0fkYXHZU29ZZtZdM8Le7cK+7cK+OUdlzGbLIDzRDkvPGAssnePSTSPxypKyWFNinwTKe1k7nfEt7JTmzV6FshAIlkP4FTbcmyBiSnMrTKL7SRy1Og7zVaFaVrZNOKoTwtyUDTIcvJjhEu07EAgCaIYWh7nVtAyF6zXlyk1lpWWqVgYiX8XI6xtwy0og2OmcZ1l37YkINFtKmGwK2yeEw7uEhaowWRHGS+DEZkHWZPQisISnNVZE1hy9UWyiXm8pl5eUM28pi/V1SUebcQb4OOvs3Z5t5yAQ7JjTF0lIVLVD1pGHX9ztuG+XY6qS6IOJfufTgkOG62IDplllTmwdXmnCa296Tl7p6AI7g92ymdmpkjdu9TL23/kRJBmqasnjD7/dMTO+Pvm8WANF0e1/lC4tkbe+VMfh4X2OR/a7jYH+HwG/Tk6PVJHxnQCeFHi+GeHfseA4PO8IXHfrYBRWVxb3RUpmycHhecd9C44wxmOX1z4J/DBvu0UnyJnI89H5GfncwZ2yXA56S2m/0OegkHWhUIVyAIfmZXnXDJ+LYp7AxDc3CktY5FneMyuf2TYpn449Z/uVHwWJmmOtjT1nt03Kp/fMus9EvniC1ZaWqOScyNPYXQLP0cXcgTSXcPQulA6IsL5+TJWnt6pSDWqNP4FtLn+EXfTaESLD31T6TMLvYn3MrKb0wyDj94pd2PUN7Brk3wQe3lRKbB7mEbf83dg0038A/DNDuAZ5GAkQ54C/Av4N+ACmV7VdxG3Z8jIUEjX5kiy5L2J66zfZQhZaLwwzg+R08voacBj4VeC3SK6CHyKJl0H/CeQ/GMFV8KP4MIKLyet/gL9h3YcRCBwTESmaE5NAuY0fRjDKT3NoAheS1/MkH4cBHBGRo6ocBj3A2sdhTAGTybM17KMwrmMpyee5Qz4O4/8AOJ3GLOkJZf4AAAAASUVORK5CYII="></span><span class="hzero-normal-header-right-item-avatar-name">产品顾问-刘伏旺<i class="anticon anticon-down hzero-normal-header-right-item-avatar-name-realName"></i></span></span></div></div></div><div class="hzero-normal-body"><div class="hzero-normal-nav"><div class="hzero-normal-nav-container"><div class="hzero-normal-nav-normal-search"><div class="hzero-normal-side-search"><span class="hzero-normal-side-search-icon"></span><div class="ant-select-sm hzero-normal-side-search-input ant-select ant-select-enabled ant-select-no-arrow"><div class="ant-select-selection
+            ant-select-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0"><div class="ant-select-selection__rendered"><div unselectable="on" class="ant-select-selection__placeholder" style="display: block; user-select: none;">菜单搜索</div><div class="ant-select-search ant-select-search--inline" style="display: none;"><div class="ant-select-search__field__wrap"><input autocomplete="off" class="ant-select-search__field" value=""><span class="ant-select-search__field__mirror">&nbsp;</span></div></div></div></div></div></div></div><div class="hzero-normal-nav-menu"><div class="styles_main-menu-wrap__MSTXP  hzero-main-menu-wrap"><div class="hzero-main-menu-scroll" style="position: relative; overflow: hidden; width: 224px; height: 100%;"><div style="position: absolute; inset: 0px; overflow: scroll; margin-right: 0px; margin-bottom: 0px;"><ul class="styles_main-menu__1NeP9 hzero-main-menu"><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-activity"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">活动管理模块</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-activity_management"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">活动管理</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-advertisement"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">广告管理</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-audit_check"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">审核检查</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-customer_analysis"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">客户分析</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item styles_main-menu-item-hover__18bWn hzero-main-menu-item-tab-active hzero-main-menu-item-hzero-customers"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">客户管理</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-data_managment"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">数据管理</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-device-management"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">设备管理</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-feedback"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-message__1SWIG styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">反馈管理</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-friends_management"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">圈子管理</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-genesetting"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">通用配置</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-goods"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">积分商城管理</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-maintenance_ledger"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">保养台账管理</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-operate_activity"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">运营活动管理</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-system-settings"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">系统设置</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-dev"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-development-management__3RXtI styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">开发管理</span></div></li><li class="styles_main-menu-item__1g_Q5 hzero-main-menu-item hzero-main-menu-item-hzero-msg"><div class="styles_main-menu-item-content__2LX70 hzero-main-menu-item-content"><i class="iconfont_hzero-icon__3yKDx iconfont_hzero-icon-message-management__ap5I9 styles_main-menu-item-icon__3r3WB " style="font-size: 12px; width: 12px;"></i><span class="styles_main-menu-item-title__1z1ls hzero-main-menu-item-title">消息管理</span></div></li></ul></div><div style="position: absolute; height: 6px; display: none; right: 2px; bottom: 2px; left: 2px; border-radius: 3px;"><div style="position: relative; display: block; height: 100%; cursor: pointer; border-radius: inherit; background-color: rgba(0, 0, 0, 0.2);"></div></div><div style="position: absolute; width: 6px; display: none; right: 2px; bottom: 2px; top: 2px; border-radius: 3px;"><div style="position: relative; display: block; width: 4px; background-color: rgb(193, 193, 193); border-radius: 5px;"></div></div></div></div></div></div></div><div class="hzero-normal-content"><div class="hzero-normal-content-container"><div class="ant-tabs ant-tabs-top index_menu-tabs__3nJ_L ant-tabs-card ant-tabs-editable-card ant-tabs-no-animation"><div role="tablist" class="ant-tabs-bar" tabindex="0"><div class="ant-tabs-nav-container ant-tabs-nav-container-scrolling"><span unselectable="unselectable" class="ant-tabs-tab-prev ant-tabs-tab-btn-disabled ant-tabs-tab-arrow-show"><span class="ant-tabs-tab-prev-icon"></span></span><span unselectable="unselectable" class="ant-tabs-tab-next ant-tabs-tab-arrow-show"><span class="ant-tabs-tab-next-icon"></span></span><div class="ant-tabs-nav-wrap"><div class="ant-tabs-nav-scroll"><div class="ant-tabs-nav ant-tabs-nav-animated"><div><div role="tab" aria-disabled="false" aria-selected="false" class=" ant-tabs-tab"><div class="ant-tabs-tab-unclosable"><span><i class="anticon anticon-home"></i>工作台</span></div></div><div role="tab" aria-disabled="false" aria-selected="false" class=" ant-tabs-tab"><div><span>月活跃用户</span><i class="anticon anticon-close"></i></div></div><div role="tab" aria-disabled="false" aria-selected="false" class=" ant-tabs-tab"><div><span>用户留存率</span><i class="anticon anticon-close"></i></div></div><div role="tab" aria-disabled="false" aria-selected="false" class=" ant-tabs-tab"><div><span>隐私授权记录</span><i class="anticon anticon-close"></i></div></div><div role="tab" aria-disabled="false" aria-selected="true" class="ant-tabs-tab-active ant-tabs-tab"><div><span>隐私/服务协议管理</span><i class="anticon anticon-close"></i></div></div><div role="tab" aria-disabled="false" aria-selected="false" class=" ant-tabs-tab"><div><span>异常申诉</span><i class="anticon anticon-close"></i></div></div><div role="tab" aria-disabled="false" aria-selected="false" class=" ant-tabs-tab"><div><span>租户审核</span><i class="anticon anticon-close"></i></div></div><div role="tab" aria-disabled="false" aria-selected="false" class=" ant-tabs-tab"><div><span>设备管理员配置</span><i class="anticon anticon-close"></i></div></div><div role="tab" aria-disabled="false" aria-selected="false" class=" ant-tabs-tab"><div><span>组织管理</span><i class="anticon anticon-close"></i></div></div><div role="tab" aria-disabled="false" aria-selected="false" class=" ant-tabs-tab"><div><span>直接创建租户</span><i class="anticon anticon-close"></i></div></div><div role="tab" aria-disabled="false" aria-selected="false" class=" ant-tabs-tab"><div><span>客户认证使用</span><i class="anticon anticon-close"></i></div></div><div role="tab" aria-disabled="false" aria-selected="false" class=" ant-tabs-tab"><div><span>客户分析</span><i class="anticon anticon-close"></i></div></div></div><div class="ant-tabs-ink-bar ant-tabs-ink-bar-animated" style="transform: translate3d(313px, 0px, 0px); width: 94px; display: block;"></div></div></div></div></div></div><div class="ant-tabs-content ant-tabs-content-no-animated"><div role="tabpanel" aria-hidden="true" class="ant-tabs-tabpane ant-tabs-tabpane-inactive"></div><div role="tabpanel" aria-hidden="true" class="ant-tabs-tabpane ant-tabs-tabpane-inactive"></div><div role="tabpanel" aria-hidden="true" class="ant-tabs-tabpane ant-tabs-tabpane-inactive"><div class="page-container ant-layout-content"></div></div><div role="tabpanel" aria-hidden="false" class="ant-tabs-tabpane ant-tabs-tabpane-active"><div class="page-container ant-layout-content">
+<div class="page-head">
+<span class="page-head-title">隐私/服务协议管理</span>
+<div class="page-head-operator">
+<button class="c7n-pro-btn-wrapper customer_primaryColor__1XKG8 c7n-pro-btn c7n-pro-btn-raised c7n-pro-btn-primary" type="button" id="local-btn-new" style="margin-right: 8px;"><span><i class="anticon anticon-plus" style="margin-right: 6px; font-size: 12px; line-height: 1;"></i><span>新建版本</span></span></button>
+</div>
+</div>
+<div class="page-content-wrap" style="height: calc(100% - 48px);">
+<div class="page-content" style="margin: 8px 16px 16px; padding: 16px; height: calc(100% - 32px); background-color: #fff; overflow: auto;">
+
+<!-- ===================== 视图一：列表 ===================== -->
+<div id="local-view-list">
+<!-- 查询表单：4 列栅格 -->
+<div class="customer_search_inner__212YB">
+<div><span>发布编号：</span><div><span class="c7n-pro-input-wrapper c7n-pro-input-empty c7n-pro-input-border" style="width: 100%;"><label><input class="c7n-pro-input" type="text" autocomplete="off" name="version" placeholder="请输入发布编号" value=""></label></span></div></div>
+<div><span>适用站点：</span><div><span class="c7n-pro-select-wrapper c7n-pro-select-suffix-button c7n-pro-select-border c7n-pro-select-not-editable" style="width: 100%;"><input type="hidden" name="site" value="" data-options="全部|新加坡|法兰克福"><label><input class="c7n-pro-select" type="text" autocomplete="off" readonly="" value="全部"><div class="c7n-pro-select-suffix c7n-pro-select-allow-clear"><i class="icon icon-baseline-arrow_drop_down c7n-pro-select-trigger"></i></div><div class="c7n-pro-select-inner-button c7n-pro-select-clear-button"><i class="icon icon-close"></i></div></label></span></div></div>
+<div><span>状态：</span><div><span class="c7n-pro-select-wrapper c7n-pro-select-suffix-button c7n-pro-select-border c7n-pro-select-not-editable" style="width: 100%;"><input type="hidden" name="status" value="" data-options="全部|草稿|待生效|已发布|已失效"><label><input class="c7n-pro-select" type="text" autocomplete="off" readonly="" value="全部"><div class="c7n-pro-select-suffix c7n-pro-select-allow-clear"><i class="icon icon-baseline-arrow_drop_down c7n-pro-select-trigger"></i></div><div class="c7n-pro-select-inner-button c7n-pro-select-clear-button"><i class="icon icon-close"></i></div></label></span></div></div>
+<div><span>生效时间：</span><div><span class="c7n-pro-calendar-picker-wrapper c7n-pro-calendar-picker-empty c7n-pro-calendar-picker-suffix-button c7n-pro-calendar-picker-range c7n-pro-calendar-picker-border" style="width: 100%;"><label><span class="c7n-pro-calendar-picker"><span class="c7n-pro-calendar-picker-range-text"><input class="c7n-pro-calendar-picker-range-input" type="text" autocomplete="off" placeholder="" value="" style="left: 0px;"><input tabindex="-1" class="c7n-pro-calendar-picker-range-start" placeholder="开始日期" readonly="" value=""><span class="c7n-pro-calendar-picker-range-split">~</span><input tabindex="-1" class="c7n-pro-calendar-picker-range-end" placeholder="结束日期" readonly="" value=""></span></span><div class="c7n-pro-calendar-picker-suffix c7n-pro-calendar-picker-allow-clear"><i class="icon icon-date_range c7n-pro-calendar-picker-trigger"></i></div><div class="c7n-pro-calendar-picker-inner-button c7n-pro-calendar-picker-clear-button"><i class="icon icon-close"></i></div></label></span></div></div>
+<div><span>发布人：</span><div><span class="c7n-pro-input-wrapper c7n-pro-input-empty c7n-pro-input-border" style="width: 100%;"><label><input class="c7n-pro-input" type="text" autocomplete="off" name="publisher" placeholder="请输入发布人" value=""></label></span></div></div>
+</div>
+<!-- 查询/重置 -->
+<div style="width: 630px; margin: 20px auto;">
+<button id="local-btn-query" class="c7n-pro-btn-wrapper customer_primaryColor__1XKG8 c7n-pro-btn c7n-pro-btn-raised c7n-pro-btn-primary" type="button" style="margin-right: 8px;"><span><span>查询</span></span></button>
+<button id="local-btn-reset" class="c7n-pro-btn-wrapper customer_primaryColor__1XKG8 c7n-pro-btn c7n-pro-btn-raised c7n-pro-btn-primary" type="button"><span><span>重置</span></span></button>
+</div>
+
+<!-- 表格 -->
+<div class="c7n-pro-table-wrapper c7n-pro-table-wrapper-border" style="margin-top: 8px;">
+<div class="c7n-pro-table-toolbar"></div>
+<div class="c7n-pro-table-error"></div>
+<div class="c7n-spin-nested-loading"><div class="c7n-spin-container">
+<div tabindex="0" class="c7n-pro-table c7n-pro-table-bordered" style="line-height: 0.36rem;">
+<div class="c7n-pro-table-content c7n-pro-table-content-overflow">
+<table class="c7n-pro-table-last-row-bordered" style="width: 100%; min-width: 14.4rem;">
+<colgroup>
+<col class="c7n-pro-table-col" style="width: 1rem;">
+<col class="c7n-pro-table-col" style="width: 1.5rem;">
+<col class="c7n-pro-table-col" style="width: 1.4rem;">
+<col class="c7n-pro-table-col" style="width: 1.4rem;">
+<col class="c7n-pro-table-col" style="width: 0.9rem;">
+<col class="c7n-pro-table-col" style="width: 1rem;">
+<col class="c7n-pro-table-col" style="width: 0.8rem;">
+<col class="c7n-pro-table-col" style="width: 2.4rem;">
+</colgroup>
+<thead class="c7n-pro-table-thead c7n-pro-table-column-resizable">
+<tr>
+<th class="c7n-pro-table-cell" data-index="version" scope="col"><div class="c7n-pro-table-cell-inner c7n-pro-table-cell-inner-row-height-fixed" style="height: 0.36rem; line-height: 0.34rem;"><span>发布编号</span></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-right"></div></th>
+<th class="c7n-pro-table-cell" data-index="site" scope="col"><div class="c7n-pro-table-cell-inner c7n-pro-table-cell-inner-row-height-fixed" style="height: 0.36rem; line-height: 0.34rem;"><span>适用站点</span></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-left"></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-right"></div></th>
+<th class="c7n-pro-table-cell" data-index="status" scope="col"><div class="c7n-pro-table-cell-inner c7n-pro-table-cell-inner-row-height-fixed" style="height: 0.36rem; line-height: 0.34rem;"><span>状态</span></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-left"></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-right"></div></th>
+<th class="c7n-pro-table-cell" data-index="effectiveTime" scope="col"><div class="c7n-pro-table-cell-inner c7n-pro-table-cell-inner-row-height-fixed" style="height: 0.36rem; line-height: 0.34rem;"><span>生效时间</span></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-left"></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-right"></div></th>
+<th class="c7n-pro-table-cell" data-index="expireTime" scope="col"><div class="c7n-pro-table-cell-inner c7n-pro-table-cell-inner-row-height-fixed" style="height: 0.36rem; line-height: 0.34rem;"><span>失效时间</span></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-left"></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-right"></div></th>
+<th class="c7n-pro-table-cell" data-index="totalUser" scope="col"><div class="c7n-pro-table-cell-inner c7n-pro-table-cell-inner-row-height-fixed" style="height: 0.36rem; line-height: 0.34rem;"><span>触达人数</span></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-left"></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-right"></div></th>
+<th class="c7n-pro-table-cell" data-index="agreeUser" scope="col"><div class="c7n-pro-table-cell-inner c7n-pro-table-cell-inner-row-height-fixed" style="height: 0.36rem; line-height: 0.34rem;"><span>同意人数</span></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-left"></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-right"></div></th>
+<th class="c7n-pro-table-cell" data-index="publisher" scope="col"><div class="c7n-pro-table-cell-inner c7n-pro-table-cell-inner-row-height-fixed" style="height: 0.36rem; line-height: 0.34rem;"><span>发布人</span></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-left"></div><div class="c7n-pro-table-resizer c7n-pro-table-resizer-right"></div></th>
+<th class="c7n-pro-table-cell c7n-pro-table-cell-last" data-index="action" scope="col"><div class="c7n-pro-table-cell-inner c7n-pro-table-cell-inner-row-height-fixed" style="height: 0.36rem; line-height: 0.34rem;"><span>操作</span></div></th>
+</tr>
+</thead>
+<tbody id="local-tbody"></tbody>
+</table>
+</div>
+</div>
+</div></div>
+</div>
+<nav class="c7n-pro-pagination-wrapper c7n-pro-table-pagination c7n-pro-pagination" style="margin-top: 10px;">
+<span class="c7n-pro-pagination-perpage">每页行数：</span>
+<span class="c7n-pro-select-wrapper c7n-pro-pagination-size-changer c7n-pro-select-sm c7n-pro-select-suffix-button c7n-pro-select-border c7n-pro-select-flat c7n-pro-select-not-editable">
+<input type="hidden" value="20" data-options="10|20|50|100">
+<label><input class="c7n-pro-select" type="text" autocomplete="off" readonly="" value="20" style="width: 17.1016px; box-sizing: content-box;"><div class="c7n-pro-select-suffix"><i class="icon icon-baseline-arrow_drop_down c7n-pro-select-trigger"></i></div></label>
+</span>
+<span class="c7n-pro-pagination-page-info" id="local-page-info">1 - 6 / 6</span>
+<button class="c7n-pro-btn-wrapper c7n-pro-pagination-pager c7n-pro-pagination-pager-first c7n-pro-btn-disabled c7n-pro-btn c7n-pro-btn-flat c7n-pro-btn-default c7n-pro-btn-icon-only" disabled="" type="button"><i class="icon icon-first_page"></i></button>
+<button class="c7n-pro-btn-wrapper c7n-pro-pagination-pager c7n-pro-pagination-pager-prev c7n-pro-btn-disabled c7n-pro-btn c7n-pro-btn-flat c7n-pro-btn-default c7n-pro-btn-icon-only" disabled="" type="button"><i class="icon icon-navigate_before"></i></button>
+<button class="c7n-pro-btn-wrapper c7n-pro-pagination-pager c7n-pro-pagination-pager-next c7n-pro-btn-disabled c7n-pro-btn c7n-pro-btn-flat c7n-pro-btn-default c7n-pro-btn-icon-only" disabled="" type="button"><i class="icon icon-navigate_next"></i></button>
+<button class="c7n-pro-btn-wrapper c7n-pro-pagination-pager c7n-pro-pagination-pager-last c7n-pro-btn-disabled c7n-pro-btn c7n-pro-btn-flat c7n-pro-btn-default c7n-pro-btn-icon-only" disabled="" type="button"><i class="icon icon-last_page"></i></button>
+</nav>
+</div>
+
+<!-- ===================== 视图二：新建 / 编辑 / 查看 ===================== -->
+<div id="local-view-edit" style="display: none;">
+<div class="local-edit-head">
+  <span class="local-back" id="local-btn-back">&#8592; 返回列表</span>
+  <span class="local-edit-title" id="local-edit-title">新建协议版本</span>
+  <span class="local-edit-tag" id="local-edit-statetag"></span>
+  <span class="local-edit-ops">
+    <button class="c7n-pro-btn-wrapper c7n-pro-btn c7n-pro-btn-raised c7n-pro-btn-default" type="button" id="local-btn-draft" style="height: 28px; border-radius: 2px; font-size: 12px; padding: 0 15px; margin-left: 8px;"><span><span>保存草稿</span></span></button>
+    <button class="c7n-pro-btn-wrapper customer_primaryColor__1XKG8 c7n-pro-btn c7n-pro-btn-raised c7n-pro-btn-primary" type="button" id="local-btn-publish" style="height: 28px; border-radius: 2px; font-size: 12px; padding: 0 15px; margin-left: 8px;"><span><span>提交发布</span></span></button>
+  </span>
+</div>
+
+<div class="local-card">
+  <div class="local-card-title">基础信息</div>
+  <div class="local-grid">
+    <div class="local-field"><label><i class="local-req">*</i>发布编号</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" id="local-f-version" value="VS20261012"></label></span><div class="local-tip"></div></div>
+    <div class="local-field"><label><i class="local-req">*</i>适用站点</label><span class="c7n-pro-select-wrapper c7n-pro-select-suffix-button c7n-pro-select-border c7n-pro-select-not-editable"><input type="hidden" id="local-f-site" value="新加坡" data-options="新加坡|法兰克福"><label><input class="c7n-pro-select" type="text" autocomplete="off" readonly="" value="新加坡"><div class="c7n-pro-select-suffix"><i class="icon icon-baseline-arrow_drop_down c7n-pro-select-trigger"></i></div></label></span><div class="local-tip">可多选，多站点共用同一份正文</div></div>
+    <div class="local-field"><label><i class="local-req">*</i>生效方式</label>
+      <div class="local-radios"><label class="c7n-pro-radio-wrapper"><input class="c7n-pro-radio" type="radio" name="local-efftype" value="IMMEDIATE"><span>立即生效</span></label><label class="c7n-pro-radio-wrapper" style="margin-left: 16px;"><input class="c7n-pro-radio" type="radio" name="local-efftype" value="SCHEDULED" checked><span>定时生效</span></label><span class="local-datetime" id="local-f-efftime">2026-10-15 00:00</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="local-card">
+  <div class="local-tabs" id="local-tabs">
+    <div class="local-tab is-active" data-tab="privacy">隐私政策<i class="local-req">*</i></div>
+    <div class="local-tab" data-tab="service">用户服务协议<i class="local-req">*</i></div>
+    <div class="local-tab" data-tab="popup">变更内容弹窗<i class="local-req">*</i></div>
+  </div>
+
+  <!-- 隐私政策 -->
+  <div class="local-pane" data-pane="privacy">
+    <div class="local-langbar">
+      <span class="local-langbar-label">语言版本：</span>
+      <div class="local-langtabs" data-langtabs="privacy">
+        <div class="local-langtab is-active" data-lang="zh-CN">简体中文</div>
+        <div class="local-langtab" data-lang="en-US">English</div>
+        <div class="local-langtab" data-lang="id-ID">Bahasa Indonesia</div>
+        <div class="local-langtab" data-lang="zh-TW">繁體中文</div>
+      </div>
+      <span class="local-tip" style="margin-left: 12px;">每个语言都必须填写标题与正文，缺失则不可发布</span>
+    </div>
+    <!-- 简体中文 -->
+    <div class="local-langpane is-active" data-lang="zh-CN" data-pane="privacy">
+      <div class="local-grid">
+        <div class="local-field local-field-full"><label><i class="local-req">*</i>文档标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-title="zh-CN" value="隐私政策"></label></span></div>
+        <div class="local-field"><label><i class="local-req">*</i>版本号</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-version="zh-CN" value="V2.1"></label></span><div class="local-tip"></div></div>
+      </div>
+      <div class="local-editor">
+        <div class="local-editor-toolbar">
+          <button type="button" class="local-tb" title="加粗"><b>B</b></button>
+          <button type="button" class="local-tb" title="斜体"><i>I</i></button>
+          <button type="button" class="local-tb" title="下划线"><u>U</u></button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="一级标题">H1</button>
+          <button type="button" class="local-tb" title="二级标题">H2</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="无序列表">&#8226; 列表</button>
+          <button type="button" class="local-tb" title="有序列表">1. 列表</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="插入链接">链接</button>
+          <button type="button" class="local-tb" title="插入表格">表格</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="源码模式">&lt;/&gt; 源码</button>
+        </div>
+        <div class="local-editor-body" contenteditable="true" data-doc-body="zh-CN" data-pane="privacy" data-placeholder="请输入简体中文版隐私政策正文"><p><strong>更新日期：</strong>2026 年 10 月 15 日</p><p><strong>生效日期：</strong>2026 年 10 月 15 日</p><p>MG Live（以下简称"我们"）非常重视用户个人信息和隐私保护。在您使用 MG Live APP 及相关服务时，我们可能会收集和使用您的相关信息。我们希望通过本《隐私政策》向您说明，在您使用我们的服务时，我们如何收集、使用、储存、共享和转让这些信息，以及我们为您提供的访问、更新、删除和保护这些信息的方式。</p><p><strong>一、我们如何收集和使用您的个人信息</strong></p><p>1. 账号注册与登录：当您注册 MG Live 账号时，我们会收集您的手机号码、验证码，用于创建账号、登录验证与找回密码。</p><p>2. 车辆绑定与服务：当您绑定车辆时，我们会收集车辆识别代号（VIN）、车牌号、车型信息，用于提供车辆状态查询、远程控制、保养提醒等服务。</p><p>3. 位置信息：当您使用附近经销商、道路救援、行程记录等功能时，我们会收集您的地理位置信息。您可以在系统设置中随时关闭定位权限，关闭后不影响其他功能的使用。</p><p>4. 设备信息：为保障服务正常运行、预防恶意程序，我们会收集设备型号、操作系统版本、设备标识符、网络状态。</p><p><strong>二、我们如何使用 Cookie 和同类技术</strong></p><p>为确保 APP 正常运转、为您获得更轻松的访问体验，我们会在您的设备上存储名为 Cookie 的小数据文件。</p><p><strong>三、我们如何共享、转让、公开披露您的个人信息</strong></p><p>我们不会与任何公司、组织和个人共享您的个人信息，但以下情况除外：事先获得您明确的同意或授权；根据适用的法律法规、法律程序的要求、强制性的行政或司法要求所必需的情况。</p><p><strong>四、我们如何保护您的个人信息</strong></p><p>我们已使用符合业界标准的安全防护措施保护您提供的个人信息，防止数据遭到未经授权的访问、公开披露、使用、修改、损坏或丢失。</p><p><strong>五、您的权利</strong></p><p>您可以通过 APP「我的 - 设置」访问、更正、删除您的个人信息，也可以注销账号。如您无法通过上述方式行使权利，可通过本政策末尾的联系方式与我们取得联系。</p><p><strong>六、我们如何处理未成年人的个人信息</strong></p><p>我们的产品、网站和服务主要面向成人。如果没有父母或监护人的同意，未成年人不应创建自己的个人信息主体账户。</p><p><strong>七、本政策如何更新</strong></p><p>我们可能适时修订本政策的条款。未经您明确同意，我们不会削减您按照本政策所应享有的权利。对于重大变更，我们会通过弹窗提示等显著方式通知您。</p><p><strong>八、如何联系我们</strong></p><p>如您对本政策有任何疑问、意见或建议，可通过客服电话 400-828-1088 与我们联系。</p></div>
+        <div class="local-editor-foot"><span class="local-count" data-pane="privacy" data-lang="zh-CN">字数 1,482</span><span class="local-edited" data-pane="privacy" data-lang="zh-CN">· 最后编辑 2026-09-29 18:02</span></div>
+      </div>
+    </div>
+    <!-- English -->
+    <div class="local-langpane" data-lang="en-US" data-pane="privacy">
+      <div class="local-grid">
+        <div class="local-field local-field-full"><label><i class="local-req">*</i>文档标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-title="en-US" value="MG Live Privacy Policy"></label></span></div>
+        <div class="local-field"><label><i class="local-req">*</i>版本号</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-version="en-US" value="V2.1"></label></span><div class="local-tip"></div></div>
+      </div>
+      <div class="local-editor">
+        <div class="local-editor-toolbar">
+          <button type="button" class="local-tb" title="加粗"><b>B</b></button>
+          <button type="button" class="local-tb" title="斜体"><i>I</i></button>
+          <button type="button" class="local-tb" title="下划线"><u>U</u></button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="一级标题">H1</button>
+          <button type="button" class="local-tb" title="二级标题">H2</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="无序列表">&#8226; 列表</button>
+          <button type="button" class="local-tb" title="有序列表">1. 列表</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="插入链接">链接</button>
+          <button type="button" class="local-tb" title="插入表格">表格</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="源码模式">&lt;/&gt; 源码</button>
+        </div>
+        <div class="local-editor-body" contenteditable="true" data-doc-body="en-US" data-pane="privacy" data-placeholder="Please enter the English version of the privacy policy"><h3>MG Live Privacy Policy</h3><p><strong>Last Updated:</strong> October 15, 2026</p><p><strong>Effective Date:</strong> October 15, 2026</p><p>MG Live (hereinafter referred to as "we") attaches great importance to the protection of your personal information and privacy. When you use the MG Live APP and related services, we may collect and use your relevant information. Through this Privacy Policy, we want to explain how we collect, use, store, share, and transfer this information when you use our services, as well as how we provide you with access, update, deletion, and protection of this information.</p><p><strong>1. How We Collect and Use Your Personal Information</strong></p><p>1.1 Account Registration and Login: When you register an MG Live account, we collect your mobile number and verification code to create your account, verify your login, and recover your password.</p><p>1.2 Vehicle Binding and Services: When you bind a vehicle, we collect the Vehicle Identification Number (VIN), license plate number, and vehicle model to provide vehicle status queries, remote control, and maintenance reminders.</p><p>1.3 Location Information: When you use features such as nearby dealers, roadside assistance, and trip records, we collect your geographic location. You may disable location permissions in your system settings at any time without affecting other functions.</p><p>1.4 Device Information: To ensure proper service operation and prevent malicious programs, we collect device model, operating system version, device identifier, and network status.</p><p><strong>2. How We Use Cookies and Similar Technologies</strong></p><p>To ensure the APP functions properly and to provide you with a smoother access experience, we store small data files called Cookies on your device.</p><p><strong>3. How We Share, Transfer, and Disclose Your Personal Information</strong></p><p>We do not share your personal information with any company, organization, or individual, except in the following cases: with your prior explicit consent or authorization; or as required by applicable laws, regulations, legal procedures, mandatory administrative or judicial requirements.</p><p><strong>4. How We Protect Your Personal Information</strong></p><p>We have implemented security measures that meet industry standards to protect the personal information you provide against unauthorized access, public disclosure, use, modification, damage, or loss.</p><p><strong>5. Your Rights</strong></p><p>You may access, correct, or delete your personal information, or cancel your account, via "My - Settings" in the APP. If you are unable to exercise these rights through the above means, please contact us using the information at the end of this policy.</p><p><strong>6. How We Handle Minors' Personal Information</strong></p><p>Our products, websites, and services are primarily intended for adults. Without the consent of a parent or guardian, minors should not create their own personal information subject accounts.</p><p><strong>7. How This Policy Is Updated</strong></p><p>We may revise the terms of this policy from time to time. Without your explicit consent, we will not reduce the rights you are entitled to under this policy. For material changes, we will notify you through prominent means such as popup prompts.</p><p><strong>8. How to Contact Us</strong></p><p>If you have any questions, comments, or suggestions regarding this policy, please contact us via customer service hotline 400-828-1088.</p></div>
+        <div class="local-editor-foot"><span class="local-count" data-pane="privacy" data-lang="en-US">字数 0</span><span class="local-edited" data-pane="privacy" data-lang="en-US">· 最后编辑 —</span></div>
+      </div>
+    </div>
+    <!-- Bahasa Indonesia -->
+    <div class="local-langpane" data-lang="id-ID" data-pane="privacy">
+      <div class="local-grid">
+        <div class="local-field local-field-full"><label><i class="local-req">*</i>文档标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-title="id-ID" value="Kebijakan Privasi MG Live"></label></span></div>
+        <div class="local-field"><label><i class="local-req">*</i>版本号</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-version="id-ID" value="V2.1"></label></span><div class="local-tip"></div></div>
+      </div>
+      <div class="local-editor">
+        <div class="local-editor-toolbar">
+          <button type="button" class="local-tb" title="加粗"><b>B</b></button>
+          <button type="button" class="local-tb" title="斜体"><i>I</i></button>
+          <button type="button" class="local-tb" title="下划线"><u>U</u></button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="一级标题">H1</button>
+          <button type="button" class="local-tb" title="二级标题">H2</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="无序列表">&#8226; 列表</button>
+          <button type="button" class="local-tb" title="有序列表">1. 列表</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="插入链接">链接</button>
+          <button type="button" class="local-tb" title="插入表格">表格</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="源码模式">&lt;/&gt; 源码</button>
+        </div>
+        <div class="local-editor-body" contenteditable="true" data-doc-body="id-ID" data-pane="privacy" data-placeholder="Silakan masukkan teks Kebijakan Privasi versi Bahasa Indonesia"></div>
+        <div class="local-editor-foot"><span class="local-count" data-pane="privacy" data-lang="id-ID">字数 0</span><span class="local-edited" data-pane="privacy" data-lang="id-ID">· 最后编辑 —</span></div>
+      </div>
+    </div>
+    <!-- 繁體中文 -->
+    <div class="local-langpane" data-lang="zh-TW" data-pane="privacy">
+      <div class="local-grid">
+        <div class="local-field local-field-full"><label><i class="local-req">*</i>文档标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-title="zh-TW" value="MG Live 隱私權政策"></label></span></div>
+        <div class="local-field"><label><i class="local-req">*</i>版本号</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-version="zh-TW" value="V2.1"></label></span><div class="local-tip"></div></div>
+
+      </div>
+      <div class="local-editor">
+        <div class="local-editor-toolbar">
+          <button type="button" class="local-tb" title="加粗"><b>B</b></button>
+          <button type="button" class="local-tb" title="斜体"><i>I</i></button>
+          <button type="button" class="local-tb" title="下划线"><u>U</u></button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="一级标题">H1</button>
+          <button type="button" class="local-tb" title="二级标题">H2</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="无序列表">&#8226; 列表</button>
+          <button type="button" class="local-tb" title="有序列表">1. 列表</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="插入链接">链接</button>
+          <button type="button" class="local-tb" title="插入表格">表格</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="源码模式">&lt;/&gt; 源码</button>
+        </div>
+        <div class="local-editor-body" contenteditable="true" data-doc-body="zh-TW" data-pane="privacy" data-placeholder="請輸入繁體中文版隱私權政策正文"></div>
+        <div class="local-editor-foot"><span class="local-count" data-pane="privacy" data-lang="zh-TW">字数 0</span><span class="local-edited" data-pane="privacy" data-lang="zh-TW">· 最后编辑 —</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 用户服务协议 -->
+  <div class="local-pane" data-pane="service" style="display: none;">
+    <div class="local-langbar">
+      <span class="local-langbar-label">语言版本：</span>
+      <div class="local-langtabs" data-langtabs="service">
+        <div class="local-langtab is-active" data-lang="zh-CN">简体中文</div>
+        <div class="local-langtab" data-lang="en-US">English</div>
+        <div class="local-langtab" data-lang="id-ID">Bahasa Indonesia</div>
+        <div class="local-langtab" data-lang="zh-TW">繁體中文</div>
+      </div>
+      <span class="local-tip" style="margin-left: 12px;">每个语言都必须填写标题与正文，缺失则不可发布</span>
+    </div>
+    <!-- 简体中文 -->
+    <div class="local-langpane is-active" data-lang="zh-CN" data-pane="service">
+      <div class="local-grid">
+        <div class="local-field local-field-full"><label><i class="local-req">*</i>文档标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-title="zh-CN" value="用户服务协议"></label></span></div>
+        <div class="local-field"><label><i class="local-req">*</i>版本号</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-version="zh-CN" value="V2.1"></label></span><div class="local-tip"></div></div>
+      </div>
+      <div class="local-editor">
+        <div class="local-editor-toolbar">
+          <button type="button" class="local-tb" title="加粗"><b>B</b></button>
+          <button type="button" class="local-tb" title="斜体"><i>I</i></button>
+          <button type="button" class="local-tb" title="下划线"><u>U</u></button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="一级标题">H1</button>
+          <button type="button" class="local-tb" title="二级标题">H2</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="无序列表">&#8226; 列表</button>
+          <button type="button" class="local-tb" title="有序列表">1. 列表</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="插入链接">链接</button>
+          <button type="button" class="local-tb" title="插入表格">表格</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="源码模式">&lt;/&gt; 源码</button>
+        </div>
+        <div class="local-editor-body" contenteditable="true" data-doc-body="zh-CN" data-pane="service" data-placeholder="请输入简体中文版用户服务协议正文"><p><strong>更新日期：</strong>2026 年 10 月 15 日</p><p><strong>生效日期：</strong>2026 年 10 月 15 日</p><p>欢迎您使用 MG Live！本协议是您与 MG Live 之间就您使用 MG Live 平台及相关服务所订立的协议。请您仔细阅读本协议的全部内容，特别是以粗体标注的条款。</p><p><strong>一、协议的范围</strong></p><p>1.1 本协议是您与 MG Live 之间关于您下载、安装、使用 MG Live 客户端，以及使用 MG Live 相关服务所订立的协议。</p><p>1.2 本协议内容同时包括 MG Live 可能不断发布的关于本服务的相关协议、业务规则等内容。上述内容一经正式发布，即视为本协议不可分割的组成部分。</p><p><strong>二、关于本服务</strong></p><p>2.1 本服务是指 MG Live 向您提供的车辆管理、远程控制、保养提醒、社区互动、积分商城等服务。</p><p>2.2 您使用本服务需要注册 MG Live 账号，并绑定您的车辆。您应确保注册信息真实、准确、完整。</p><p><strong>三、账号与密码安全</strong></p><p>3.1 您应妥善保管您的账号及密码，并对该账号下发生的一切行为承担责任。</p><p>3.2 如您发现账号被非法使用或存在安全漏洞，应立即通知 MG Live。</p><p><strong>四、您的行为规范</strong></p><p>4.1 您在使用本服务时须遵守法律法规，不得利用本服务从事违法违规活动。</p><p>4.2 您不得利用任何技术手段干扰、破坏本服务的正常运行。</p><p><strong>五、知识产权声明</strong></p><p>MG Live 在本服务中提供的内容（包括但不限于网页、文字、图片、音频、视频、图表等）的知识产权均归 MG Live 所有。</p><p><strong>六、免责声明</strong></p><p>您理解并同意，在使用本服务的过程中，可能会遇到不可抗力等风险因素，使本服务发生中断。MG Live 将努力在第一时间与相关单位配合，及时进行修复。</p><p><strong>七、协议的变更</strong></p><p>MG Live 有权在必要时修改本协议条款。您可以在相关页面查阅最新版本的协议条款。本协议条款变更后，如果您继续使用本服务，即视为您已接受修改后的协议。</p></div>
+        <div class="local-editor-foot"><span class="local-count" data-pane="service" data-lang="zh-CN">字数 986</span><span class="local-edited" data-pane="service" data-lang="zh-CN">· 最后编辑 2026-09-29 18:02</span></div>
+      </div>
+    </div>
+    <!-- English -->
+    <div class="local-langpane" data-lang="en-US" data-pane="service">
+      <div class="local-grid">
+        <div class="local-field local-field-full"><label><i class="local-req">*</i>文档标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-title="en-US" value="MG Live User Service Agreement"></label></span></div>
+        <div class="local-field"><label><i class="local-req">*</i>版本号</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-version="en-US" value="V2.1"></label></span><div class="local-tip"></div></div>
+      </div>
+      <div class="local-editor">
+        <div class="local-editor-toolbar">
+          <button type="button" class="local-tb" title="加粗"><b>B</b></button>
+          <button type="button" class="local-tb" title="斜体"><i>I</i></button>
+          <button type="button" class="local-tb" title="下划线"><u>U</u></button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="一级标题">H1</button>
+          <button type="button" class="local-tb" title="二级标题">H2</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="无序列表">&#8226; 列表</button>
+          <button type="button" class="local-tb" title="有序列表">1. 列表</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="插入链接">链接</button>
+          <button type="button" class="local-tb" title="插入表格">表格</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="源码模式">&lt;/&gt; 源码</button>
+        </div>
+        <div class="local-editor-body" contenteditable="true" data-doc-body="en-US" data-pane="service" data-placeholder="Please enter the English version of the user service agreement"><h3>MG Live User Service Agreement</h3><p><strong>Last Updated:</strong> October 15, 2026</p><p><strong>Effective Date:</strong> October 15, 2026</p><p>Welcome to MG Live! This Agreement is entered into between you and MG Live regarding your use of the MG Live platform and related services. Please read all terms of this Agreement carefully, especially those in bold.</p><p><strong>1. Scope of the Agreement</strong></p><p>1.1 This Agreement governs your download, installation, and use of the MG Live client and related services.</p><p>1.2 The Agreement also includes any additional terms, business rules, and related agreements that MG Live may publish from time to time. Once formally published, the foregoing shall be deemed an integral part of this Agreement.</p><p><strong>2. About the Services</strong></p><p>2.1 The Services refer to vehicle management, remote control, maintenance reminders, community interaction, points mall, and other services provided by MG Live to you.</p><p>2.2 To use the Services, you must register an MG Live account and bind your vehicle. You should ensure that your registration information is true, accurate, and complete.</p><p><strong>3. Account and Password Security</strong></p><p>3.1 You shall properly keep your account and password, and you shall be responsible for all activities under your account.</p><p>3.2 If you discover that your account has been used illegally or there is a security vulnerability, you shall notify MG Live immediately.</p><p><strong>4. Your Code of Conduct</strong></p><p>4.1 You shall comply with laws and regulations when using the Services, and shall not engage in illegal or irregular activities through the Services.</p><p>4.2 You shall not use any technical means to interfere with or disrupt the normal operation of the Services.</p><p><strong>5. Intellectual Property Statement</strong></p><p>The intellectual property rights of the content provided by MG Live in the Services (including but not limited to web pages, text, images, audio, video, charts, etc.) belong to MG Live.</p><p><strong>6. Disclaimer</strong></p><p>You understand and agree that during the use of the Services, force majeure and other risk factors may cause the Services to be interrupted. MG Live will endeavor to cooperate with the relevant parties and restore the Services as soon as possible.</p><p><strong>7. Changes to the Agreement</strong></p><p>MG Live reserves the right to modify the terms of this Agreement when necessary. You may consult the latest version of the Agreement on the relevant pages. If you continue to use the Services after the Agreement has been changed, you are deemed to have accepted the modified Agreement.</p></div>
+        <div class="local-editor-foot"><span class="local-count" data-pane="service" data-lang="en-US">字数 0</span><span class="local-edited" data-pane="service" data-lang="en-US">· 最后编辑 —</span></div>
+      </div>
+    </div>
+    <!-- Bahasa Indonesia -->
+    <div class="local-langpane" data-lang="id-ID" data-pane="service">
+      <div class="local-grid">
+        <div class="local-field local-field-full"><label><i class="local-req">*</i>文档标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-title="id-ID" value="Perjanjian Layanan Pengguna MG Live"></label></span></div>
+        <div class="local-field"><label><i class="local-req">*</i>版本号</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-version="id-ID" value="V2.1"></label></span><div class="local-tip"></div></div>
+      </div>
+      <div class="local-editor">
+        <div class="local-editor-toolbar">
+          <button type="button" class="local-tb" title="加粗"><b>B</b></button>
+          <button type="button" class="local-tb" title="斜体"><i>I</i></button>
+          <button type="button" class="local-tb" title="下划线"><u>U</u></button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="一级标题">H1</button>
+          <button type="button" class="local-tb" title="二级标题">H2</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="无序列表">&#8226; 列表</button>
+          <button type="button" class="local-tb" title="有序列表">1. 列表</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="插入链接">链接</button>
+          <button type="button" class="local-tb" title="插入表格">表格</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="源码模式">&lt;/&gt; 源码</button>
+        </div>
+        <div class="local-editor-body" contenteditable="true" data-doc-body="id-ID" data-pane="service" data-placeholder="Silakan masukkan teks Perjanjian Layanan Pengguna versi Bahasa Indonesia"></div>
+        <div class="local-editor-foot"><span class="local-count" data-pane="service" data-lang="id-ID">字数 0</span><span class="local-edited" data-pane="service" data-lang="id-ID">· 最后编辑 —</span></div>
+      </div>
+    </div>
+    <!-- 繁體中文 -->
+    <div class="local-langpane" data-lang="zh-TW" data-pane="service">
+      <div class="local-grid">
+        <div class="local-field local-field-full"><label><i class="local-req">*</i>文档标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-title="zh-TW" value="MG Live 用戶服務協議"></label></span></div>
+        <div class="local-field"><label><i class="local-req">*</i>版本号</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-doc-version="zh-TW" value="V2.1"></label></span><div class="local-tip"></div></div>
+      </div>
+      <div class="local-editor">
+        <div class="local-editor-toolbar">
+          <button type="button" class="local-tb" title="加粗"><b>B</b></button>
+          <button type="button" class="local-tb" title="斜体"><i>I</i></button>
+          <button type="button" class="local-tb" title="下划线"><u>U</u></button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="一级标题">H1</button>
+          <button type="button" class="local-tb" title="二级标题">H2</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="无序列表">&#8226; 列表</button>
+          <button type="button" class="local-tb" title="有序列表">1. 列表</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="插入链接">链接</button>
+          <button type="button" class="local-tb" title="插入表格">表格</button>
+          <span class="local-tb-sep"></span>
+          <button type="button" class="local-tb" title="源码模式">&lt;/&gt; 源码</button>
+        </div>
+        <div class="local-editor-body" contenteditable="true" data-doc-body="zh-TW" data-pane="service" data-placeholder="請輸入繁體中文版用戶服務協議正文"></div>
+        <div class="local-editor-foot"><span class="local-count" data-pane="service" data-lang="zh-TW">字数 0</span><span class="local-edited" data-pane="service" data-lang="zh-TW">· 最后编辑 —</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 变更内容弹窗 -->
+  <div class="local-pane" data-pane="popup" style="display: none;">
+    <div class="local-tip" style="margin-bottom: 12px;"></div>
+    <div class="local-pane-form">
+      <div class="local-grid local-grid-1">
+        <div class="local-field"><label>客服电话</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" id="local-f-phone" value="400-828-1088"></label></span><div class="local-tip">所有语言共用同一客服电话；在弹窗正文中可用 <code>{{客服电话}}</code> 占位符引用</div></div>
+      </div>
+      <div class="local-langbar" style="margin-top: 8px;">
+        <span class="local-langbar-label">语言版本：</span>
+        <div class="local-langtabs" data-langtabs="popup">
+          <div class="local-langtab is-active" data-lang="zh-CN">简体中文</div>
+          <div class="local-langtab" data-lang="en-US">English</div>
+          <div class="local-langtab" data-lang="id-ID">Bahasa Indonesia</div>
+          <div class="local-langtab" data-lang="zh-TW">繁體中文</div>
+        </div>
+        <span class="local-tip" style="margin-left: 12px;">每个语言都必须填写标题与正文，缺失则不可发布</span>
+      </div>
+      <!-- 简体中文 -->
+      <div class="local-langpane is-active" data-lang="zh-CN" data-pane="popup">
+        <div class="local-grid local-grid-1" style="padding: 12px 0 0;">
+          <div class="local-field"><label><i class="local-req">*</i>弹窗标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-pop-title="zh-CN" value="更新提示"></label></span></div>
+          <div class="local-field"><label><i class="local-req">*</i>弹窗正文</label>
+            <textarea class="local-textarea" data-pop-body="zh-CN" rows="8">尊敬的用户，感谢您使用 MG Live APP，为了更好地保障您的用户权益，我们对《隐私政策》与《个人信息共享清单》进行了优化更新。本次更新主要涉及以下内容：
+1. 更新了《隐私政策》与《个人信息共享清单》中，Growing IO的隐私政策地址；
+
+建议您仔细阅读并充分理解上述更新内容，如果您勾选同意或继续使用 MG 官方平台，即表示您知情并接受更新后的隐私政策内容。若您对更新后的《隐私政策》与《个人信息共享清单》有异议，建议您暂停下一步操作。
+如果您有任何疑问或需要任何帮助，欢迎随时联系我们（{{客服电话}}），我们将竭诚为您解答。</textarea>
+          </div>
+        </div>
+      </div>
+      <!-- English -->
+      <div class="local-langpane" data-lang="en-US" data-pane="popup">
+        <div class="local-grid local-grid-1" style="padding: 12px 0 0;">
+          <div class="local-field"><label><i class="local-req">*</i>弹窗标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-pop-title="en-US" value="Update Notice"></label></span></div>
+          <div class="local-field"><label><i class="local-req">*</i>弹窗正文</label>
+            <textarea class="local-textarea" data-pop-body="en-US" rows="8">Dear user, thank you for using MG Live APP. To better protect your rights, we have optimized and updated the "Privacy Policy" and the "Personal Information Sharing List". The main updates are as follows:
+1. Updated the privacy policy address of Growing IO in the "Privacy Policy" and the "Personal Information Sharing List";
+
+Please carefully read and fully understand the above updates. By selecting "Agree" or continuing to use the MG official platform, you acknowledge and accept the updated privacy policy. If you have any objection to the updated "Privacy Policy" and "Personal Information Sharing List", we recommend that you stop further actions.
+
+If you have any questions or need any help, please feel free to contact us ({{客服电话}}). We are happy to assist you.</textarea>
+          </div>
+        </div>
+      </div>
+      <!-- Bahasa Indonesia -->
+      <div class="local-langpane" data-lang="id-ID" data-pane="popup">
+        <div class="local-grid local-grid-1" style="padding: 12px 0 0;">
+          <div class="local-field"><label><i class="local-req">*</i>弹窗标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-pop-title="id-ID" value="Pemberitahuan Pembaruan"></label></span></div>
+          <div class="local-field"><label><i class="local-req">*</i>弹窗正文</label>
+            <textarea class="local-textarea" data-pop-body="id-ID" rows="8" placeholder="Silakan masukkan teks Bahasa Indonesia untuk isi popup"></textarea>
+          </div>
+        </div>
+      </div>
+      <!-- 繁體中文 -->
+      <div class="local-langpane" data-lang="zh-TW" data-pane="popup">
+        <div class="local-grid local-grid-1" style="padding: 12px 0 0;">
+          <div class="local-field"><label><i class="local-req">*</i>弹窗标题</label><span class="c7n-pro-input-wrapper c7n-pro-input-border"><label><input class="c7n-pro-input" type="text" data-pop-title="zh-TW" value="更新提示"></label></span></div>
+          <div class="local-field"><label><i class="local-req">*</i>弹窗正文</label>
+            <textarea class="local-textarea" data-pop-body="zh-TW" rows="8" placeholder="請輸入繁體中文版彈窗正文"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="local-tip" style="padding: 8px 0 0;"> </div>
+    </div>
+  </div>
+</div>
+
+<div class="local-card" id="local-card-log" style="display: none;">
+  <div class="local-card-title">操作日志</div>
+  <table class="local-log-table">
+    <thead><tr><th style="width: 1.6rem;">时间</th><th style="width: 1rem;">操作人</th><th style="width: 1.2rem;">动作</th><th>备注</th></tr></thead>
+    <tbody id="local-log-body"></tbody>
+  </table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- ===================== 弹窗：取消发布 ===================== -->
+<div class="local-mask" id="local-mask-cancel" hidden>
+  <div class="local-modal" role="dialog" aria-modal="true">
+    <div class="c7n-pro-modal-header local-modal-header">
+      <span class="local-modal-title">取消发布</span>
+      <button type="button" class="local-modal-close" data-close>&#10005;</button>
+    </div>
+    <div class="local-modal-body">
+      <div class="local-confirm-text">取消后该版本将退回「草稿」状态，可重新编辑，操作会记入日志。请填写取消原因：</div>
+      <textarea class="local-textarea" rows="4" id="local-cancel-reason" placeholder="请输入取消原因（必填，不少于 5 个字）"></textarea>
+      <div class="local-err" id="local-cancel-err" style="display: none;">请填写取消原因</div>
+    </div>
+    <div class="local-modal-footer">
+      <button type="button" class="c7n-pro-btn-wrapper c7n-pro-btn c7n-pro-btn-raised c7n-pro-btn-default local-mbtn" data-close>取消</button>
+      <button type="button" class="c7n-pro-btn-wrapper customer_primaryColor__1XKG8 c7n-pro-btn c7n-pro-btn-raised c7n-pro-btn-primary local-mbtn" id="local-cancel-ok">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 弹窗：删除确认 ===================== -->
+<div class="local-mask" id="local-mask-del" hidden>
+  <div class="local-modal local-modal-sm" role="dialog" aria-modal="true">
+    <div class="c7n-pro-modal-header local-modal-header">
+      <span class="local-modal-title">删除确认</span>
+      <button type="button" class="local-modal-close" data-close>&#10005;</button>
+    </div>
+    <div class="local-modal-body">
+      <div class="local-confirm-text" id="local-del-text">确定删除该草稿版本？删除后不可恢复。</div>
+      <div class="local-tip">仅「草稿」状态可删除。已发布 / 已失效的版本永久留存供举证，不提供删除。</div>
+    </div>
+    <div class="local-modal-footer">
+      <button type="button" class="c7n-pro-btn-wrapper c7n-pro-btn c7n-pro-btn-raised c7n-pro-btn-default local-mbtn" data-close>取消</button>
+      <button type="button" class="c7n-pro-btn-wrapper c7n-pro-btn c7n-pro-btn-raised c7n-pro-btn-danger local-mbtn" id="local-del-ok">确定删除</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 轻提示 ===================== -->
+<div class="local-toast-host" id="local-toast-host"></div>
+
+
+
+<script id="local-page-script">
+/* 隐私/服务协议管理 · 页面交互层（离线原型）
+   数据为内存 mock，操作就地生效，不落库。 */
+(function () {
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+  /* ---------------- 轻提示 ---------------- */
+  function toast(text, isErr) {
+    var d = document.createElement('div');
+    d.className = 'local-toast' + (isErr ? ' is-err' : '');
+    d.textContent = text;
+    $('#local-toast-host').appendChild(d);
+    setTimeout(function () { d.remove(); }, 2200);
+  }
+
+  /* ---------------- 状态元数据 ---------------- */
+  var ST = {
+    DRAFT:     { text: '草稿',   cls: 'is-draft',  canEdit: true,  canDelete: true  },
+    SCHEDULED: { text: '待生效', cls: 'is-sched',  canEdit: false, canDelete: false },
+    PUBLISHED: { text: '已发布', cls: 'is-pub',    canEdit: false, canDelete: false },
+    EXPIRED:   { text: '已失效', cls: 'is-exp',    canEdit: false, canDelete: false }
+  };
+
+  /* ---------------- Mock 数据 ---------------- */
+  /* 多语言：每个版本下挂多份独立内容（隐私政策 / 服务协议 / 弹窗），按语言 key 区分 */
+  var LANGS = [
+    { code: 'zh-CN', label: '简体中文' },
+    { code: 'en-US', label: 'English' },
+    { code: 'id-ID', label: 'Bahasa Indonesia' },
+    { code: 'zh-TW', label: '繁體中文' }
+  ];
+  /* 按语言获取编辑器正文（DOM 读取，避免数据重复） */
+  function readBody(pane, lang) {
+    var el = $('.local-pane[data-pane="' + pane + '"] .local-editor-body[data-doc-body="' + lang + '"]');
+    return el ? el.innerHTML : '';
+  }
+  function readTitle(pane, lang) {
+    var el = $('.local-pane[data-pane="' + pane + '"] input[data-doc-title="' + lang + '"]');
+    return el ? el.value : '';
+  }
+  function readPopTitle(lang) {
+    var el = $('input[data-pop-title="' + lang + '"]');
+    return el ? el.value : '';
+  }
+  function readPopBody(lang) {
+    var el = $('textarea[data-pop-body="' + lang + '"]');
+    return el ? el.value : '';
+  }
+
+  var ROWS = [
+    { id: 6, version: 'VS20261012', sites: ['新加坡'], langs: ['zh-CN','en-US'], has: ['P','S','C'], status: 'DRAFT',
+      eff: '', exp: '', total: 0, agree: 0, publisher: '刘伏旺', created: '2026-09-29 18:02' },
+    { id: 5, version: 'VS20260703', sites: ['新加坡'], langs: ['zh-CN','en-US'], has: ['P','S','C'], status: 'SCHEDULED',
+      eff: '2026-10-15 00:00', exp: '', total: 0, agree: 0, publisher: '刘伏旺', created: '2026-09-28 10:15' },
+    { id: 4, version: 'VS20260512', sites: ['新加坡'], langs: ['zh-CN','en-US'], has: ['P','S','C'], status: 'SCHEDULED',
+      eff: '2026-11-01 00:00', exp: '', total: 0, agree: 0, publisher: '刘伏旺', created: '2026-09-20 09:40' },
+    { id: 3, version: 'VS20260302', sites: ['法兰克福'], langs: ['zh-CN','en-US','id-ID'], has: ['P','S'], status: 'PUBLISHED',
+      eff: '2026-03-01 00:00', exp: '', total: 214860, agree: 208913, publisher: '王丽', created: '2026-02-18 14:22' },
+    { id: 2, version: 'VS20260204', sites: ['新加坡'], langs: ['zh-CN'], has: ['P','S','C'], status: 'EXPIRED',
+      eff: '2025-11-01 00:00', exp: '2026-03-01 00:00', total: 186204, agree: 180655, publisher: '王丽', created: '2025-10-20 11:05' },
+    { id: 1, version: 'VS20250101', sites: ['新加坡'], langs: ['zh-CN'], has: ['P','S'], status: 'EXPIRED',
+      eff: '2025-06-01 00:00', exp: '2025-11-01 00:00', total: 152377, agree: 149802, publisher: '陈建国', created: '2025-05-15 16:31' }
+  ];
+
+  var LOGS = {
+    6: [['2026-09-29 18:02', '刘伏旺', '创建草稿', '由 V2.1 复制而来']],
+    5: [['2026-09-28 10:15', '刘伏旺', '创建草稿', '—'], ['2026-09-28 16:40', '刘伏旺', '提交发布', '定时生效']],
+    4: [['2026-09-20 09:40', '刘伏旺', '创建草稿', '—'], ['2026-09-21 10:12', '刘伏旺', '提交发布', '定时生效']],
+    3: [['2026-02-18 14:22', '王丽', '创建草稿', '—'], ['2026-02-19 09:30', '王丽', '提交发布', '—'], ['2026-03-01 00:00', '系统', '发布生效', '取代 V1.1']],
+    2: [['2025-10-20 11:05', '王丽', '创建草稿', '—'], ['2025-10-21 09:10', '王丽', '提交发布', '—'], ['2025-11-01 00:00', '系统', '发布生效', '取代 V1.0'], ['2026-03-01 00:00', '系统', '失效', '被 V1.2 取代']],
+    1: [['2025-05-15 16:31', '陈建国', '创建草稿', '—'], ['2025-05-16 10:20', '陈建国', '提交发布', '—'], ['2025-06-01 00:00', '系统', '发布生效', '首个版本'], ['2025-11-01 00:00', '系统', '失效', '被 V1.1 取代']]
+  };
+
+  /* ---------------- 列表渲染 ---------------- */
+  function tag(has, k, label) {
+    var on = has.indexOf(k) >= 0;
+    return '<span class="local-ctag' + (on ? '' : ' is-off') + '">' + label + '</span>';
+  }
+
+  function opsFor(r) {
+    var h = '';
+    if (r.status === 'DRAFT') {
+      h += '<button type="button" class="local-op" data-act="edit" data-id="' + r.id + '">编辑</button>';
+      h += '<button type="button" class="local-op" data-act="publish" data-id="' + r.id + '">发布</button>';
+      h += '<button type="button" class="local-op is-danger" data-act="delete" data-id="' + r.id + '">删除</button>';
+    } else if (r.status === 'SCHEDULED') {
+      h += '<button type="button" class="local-op" data-act="view" data-id="' + r.id + '">查看</button>';
+      h += '<button type="button" class="local-op" data-act="cancel" data-id="' + r.id + '">取消发布</button>';
+    } else if (r.status === 'PUBLISHED') {
+      h += '<button type="button" class="local-op" data-act="view" data-id="' + r.id + '">查看</button>';
+      h += '<button type="button" class="local-op" data-act="copy" data-id="' + r.id + '">基于此版本新建</button>';
+    } else if (r.status === 'EXPIRED') {
+      h += '<button type="button" class="local-op" data-act="view" data-id="' + r.id + '">查看</button>';
+      h += '<button type="button" class="local-op" data-act="copy" data-id="' + r.id + '">基于此版本新建</button>';
+    }
+    return '<div class="local-ops-wrap">' + h + '</div>';
+  }
+
+  function siteCell(r) {
+    if (r.sites.length <= 1) return '<span class="s-ellipsis">' + r.sites[0] + '</span>';
+    return '<span class="s-ellipsis">' + r.sites[0] + '</span><span class="local-site-more" title="' + r.sites.join('、') + '">等' + r.sites.length + '个</span>';
+  }
+
+  function langsCell(r) {
+    if (!r.langs || !r.langs.length) return '<span style="color:rgba(0,0,0,.25);">未填写</span>';
+    var html = r.langs.map(function (code) {
+      var lang = LANGS.filter(function (l) { return l.code === code; })[0];
+      return '<span class="local-ctag" style="margin-right:2px;">' + (lang ? lang.label : code) + '</span>';
+    }).join('');
+    return html;
+  }
+
+  function renderList() {
+    var tb = $('#local-tbody');
+    tb.innerHTML = ROWS.map(function (r) {
+      var st = ST[r.status];
+      return '<tr class="c7n-pro-table-row">' +
+        '<td class="c7n-pro-table-cell"><div class="c7n-pro-table-cell-inner"><span class="local-vlink" data-act="view" data-id="' + r.id + '">' + r.version + '</span></div></td>' +
+        '<td class="c7n-pro-table-cell"><div class="c7n-pro-table-cell-inner">' + siteCell(r) + '</div></td>' +
+        '<td class="c7n-pro-table-cell"><div class="c7n-pro-table-cell-inner"><span class="local-st ' + st.cls + '"><i></i>' + st.text + '</span></div></td>' +
+        '<td class="c7n-pro-table-cell"><div class="c7n-pro-table-cell-inner"><span>' + (r.eff || '-') + '</span></div></td>' +
+        '<td class="c7n-pro-table-cell"><div class="c7n-pro-table-cell-inner"><span>' + (r.exp || '-') + '</span></div></td>' +
+        '<td class="c7n-pro-table-cell"><div class="c7n-pro-table-cell-inner" style="text-align:right;font-variant-numeric:tabular-nums;"><span>' + (r.total ? r.total.toLocaleString('en-US') : '-') + '</span></div></td>' +
+        '<td class="c7n-pro-table-cell"><div class="c7n-pro-table-cell-inner" style="text-align:right;font-variant-numeric:tabular-nums;"><span>' + (r.agree ? '<span class="local-vlink" data-act="agree" data-id="' + r.id + '">' + r.agree.toLocaleString('en-US') + '</span>' : '-') + '</span></div></td>' +
+        '<td class="c7n-pro-table-cell"><div class="c7n-pro-table-cell-inner"><span>' + r.publisher + '</span></div></td>' +
+        '<td class="c7n-pro-table-cell c7n-pro-table-cell-last"><div class="c7n-pro-table-cell-inner">' + opsFor(r) + '</div></td>' +
+      '</tr>';
+    }).join('');
+    $('#local-page-info').textContent = '1 - ' + ROWS.length + ' / ' + ROWS.length;
+  }
+
+  function rowById(id) {
+    for (var i = 0; i < ROWS.length; i++) if (ROWS[i].id === +id) return ROWS[i];
+    return null;
+  }
+
+  /* ---------------- 视图切换 ---------------- */
+  function showList() {
+    $('#local-view-edit').style.display = 'none';
+    $('#local-view-list').style.display = '';
+    $('#local-btn-new').style.display = '';
+  }
+
+  function openEdit(r, mode) {
+    if (!$('#local-view-edit') || !r) return;
+    curRow = r; curMode = mode;
+    $('#local-view-list').style.display = 'none';
+    $('#local-view-edit').style.display = '';
+    $('#local-btn-new').style.display = 'none';
+    var title = { edit: '编辑协议版本', view: '协议版本详情', copy: '基于此版本新建', new: '新建协议版本' }[mode] || '协议版本详情';
+    $('#local-edit-title').textContent = title + ' · ' + r.version;
+    var st = ST[r.status];
+    $('#local-edit-statetag').innerHTML = '<span class="local-st ' + st.cls + '"><i></i>' + st.text + '</span>';
+
+    var readOnly = (mode === 'view');
+    $('#local-btn-draft').style.display = readOnly ? 'none' : '';
+    $('#local-btn-publish').style.display = readOnly ? 'none' : '';
+    $$('#local-view-edit .c7n-pro-input, #local-view-edit .local-textarea, #local-view-edit .local-datetime').forEach(function (el) {
+      if (el.tagName === 'INPUT' && el.classList.contains('c7n-pro-select')) return;
+      el.readOnly = readOnly; el.disabled = readOnly;
+      if (readOnly) el.setAttribute('disabled', 'disabled'); else el.removeAttribute('disabled');
+    });
+    $$('#local-view-edit .local-editor-body').forEach(function (el) {
+      el.setAttribute('contenteditable', readOnly ? 'false' : 'true');
+      el.style.background = readOnly ? '#fafafa' : '#fff';
+    });
+    $$('#local-view-edit .local-tb, #local-view-edit .c7n-pro-radio, #local-view-edit #local-btn-publish').forEach(function (el) {
+      el.disabled = readOnly;
+    });
+    $$('#local-view-edit .c7n-pro-radio-wrapper').forEach(function (el) {
+      el.style.opacity = readOnly ? '.6' : '1';
+      el.style.pointerEvents = readOnly ? 'none' : '';
+    });
+    /* 语言子 tab 也需要只读控制 */
+    $$('#local-view-edit .local-langtab').forEach(function (el) {
+      el.style.pointerEvents = readOnly ? 'none' : '';
+      el.style.opacity = readOnly ? '.6' : '1';
+    });
+
+    $('#local-f-version').value = r.version;
+    $$('#local-view-edit input[data-doc-version]').forEach(function (el) { el.value = r.version; });
+    $('#local-f-site').value = r.sites[0];
+    $('#local-f-site').parentNode.querySelector('input.c7n-pro-select').value = r.sites[0];
+    $('#local-f-efftime').textContent = r.eff || '2026-10-15 00:00';
+    /* 同步生效方式 radio：定时生效才显示日期，立即生效时禁用日期 */
+    var eff = r.effType || 'SCHEDULED';
+    var effR = document.querySelector('input[name="local-efftype"][value="' + eff + '"]');
+    if (effR) effR.checked = true;
+    syncEffTimeState();
+
+    var showLog = (mode !== 'new');
+    $('#local-card-log').style.display = showLog ? '' : 'none';
+    if (showLog) {
+      $('#local-log-body').innerHTML = (LOGS[r.id] || []).map(function (l) {
+        return '<tr><td>' + l[0] + '</td><td>' + l[1] + '</td><td>' + l[2] + '</td><td>' + l[3] + '</td></tr>';
+      }).join('');
+    }
+    /* 三个主 Tab 内的语言子 tab 全部默认切到当前 row 的第一个语言（如果存在） */
+    var firstLang = (r.langs && r.langs.length) ? r.langs[0] : 'zh-CN';
+    switchPaneLang('privacy', firstLang);
+    switchPaneLang('service', firstLang);
+    switchPaneLang('popup', firstLang);
+    switchTab('privacy');
+  }
+
+  /* 主 Tab 内的语言子 tab 切换 */
+  function switchPaneLang(pane, lang) {
+    $$('.local-langtabs[data-langtabs="' + pane + '"] .local-langtab').forEach(function (t) {
+      t.classList.toggle('is-active', t.getAttribute('data-lang') === lang);
+    });
+    $$('.local-langpane[data-pane="' + pane + '"]').forEach(function (p) {
+      p.classList.toggle('is-active', p.getAttribute('data-lang') === lang);
+    });
+  }
+
+  /* 生效方式联动：立即生效 → 日期不可点；定时生效 → 日期可点 */
+  function syncEffTimeState() {
+    var eff = (document.querySelector('input[name="local-efftype"]:checked') || {}).value;
+    var dt = $('#local-f-efftime');
+    if (!dt) return;
+    if (eff === 'IMMEDIATE') {
+      dt.classList.add('is-disabled');
+      dt.title = '「立即生效」无需选择生效时间';
+    } else {
+      dt.classList.remove('is-disabled');
+      dt.title = '';
+    }
+  }
+  $$('input[name="local-efftype"]').forEach(function (el) {
+    el.addEventListener('change', syncEffTimeState);
+  });
+  var _effDt = $('#local-f-efftime');
+  if (_effDt) _effDt.addEventListener('click', function (e) {
+    if (_effDt.classList.contains('is-disabled')) { e.stopPropagation(); e.preventDefault(); }
+  });
+  syncEffTimeState();
+
+  /* Tab 级版本号：同一主 Tab 下各语言联动（版本号与语言无关） */
+  $$('input[data-doc-version]').forEach(function (el) {
+    el.addEventListener('input', function () {
+      var pane = el.closest('.local-pane').getAttribute('data-pane');
+      $$('.local-pane[data-pane="' + pane + '"] input[data-doc-version]').forEach(function (o) { if (o !== el) o.value = el.value; });
+    });
+  });
+
+  function switchTab(name) {
+    $$('#local-tabs .local-tab').forEach(function (t) { t.classList.toggle('is-active', t.getAttribute('data-tab') === name); });
+    $$('#local-view-edit .local-pane').forEach(function (p) { p.style.display = p.getAttribute('data-pane') === name ? '' : 'none'; });
+  }
+
+  function langLabel(code) {
+    for (var i = 0; i < LANGS.length; i++) if (LANGS[i].code === code) return LANGS[i].label;
+    return code;
+  }
+
+  /* ---------------- 弹窗开关 ---------------- */
+  function openMask(id) { $(id).hidden = false; }
+  function closeMask(id) { $(id).hidden = true; }
+  $$('.local-mask').forEach(function (m) {
+    m.addEventListener('click', function (e) { if (e.target === m) m.hidden = true; });
+    $$('[data-close]', m).forEach(function (b) { b.addEventListener('click', function () { m.hidden = true; }); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') $$('.local-mask').forEach(function (m) { m.hidden = true; });
+  });
+
+  /* ---------------- 事件委托：列表操作 ---------------- */
+  var curRow = null, curMode = 'view', delId = null, cancelId = null, pendingPublish = null;
+
+  $('#local-tbody').addEventListener('click', function (e) {
+    var el = e.target.closest('[data-act]');
+    if (!el) return;
+    var act = el.getAttribute('data-act'), id = el.getAttribute('data-id'), r = rowById(id);
+    if (!r) return;
+
+    if (act === 'edit') { openEdit(r, 'edit'); }
+    else if (act === 'view') { openEdit(r, 'view'); }
+    else if (act === 'copy') { openEdit(r, 'copy'); toast('已复制 ' + r.version + ' 的全部内容为新草稿'); }
+    else if (act === 'publish') { pendingPublish = r; doPublish(r); }
+    else if (act === 'cancel') { cancelId = r.id; $('#local-cancel-reason').value = ''; $('#local-cancel-err').style.display = 'none'; openMask('#local-mask-cancel'); }
+    else if (act === 'delete') { delId = r.id; $('#local-del-text').textContent = '确定删除草稿 ' + r.version + '？删除后不可恢复。'; openMask('#local-mask-del'); }
+    else if (act === 'agree') { toast('跳转「隐私授权记录」，按版本号 ' + r.version + ' 筛选'); }
+  });
+
+  /* 发布：无审核机制，提交即进入待生效 */
+  function doPublish(r) {
+    finishPublish(r);
+  }
+  function finishPublish(r) {
+    r.status = 'SCHEDULED';
+    renderList();
+    showList();
+    toast('已提交发布，' + (r.eff || '2026-10-15 00:00') + ' 生效');
+  }
+
+  /* ---------------- 编辑视图操作 ---------------- */
+  $('#local-btn-back').addEventListener('click', function () { showList(); });
+  $('#local-tabs').addEventListener('click', function (e) {
+    var t = e.target.closest('.local-tab');
+    if (t) switchTab(t.getAttribute('data-tab'));
+  });
+
+  $('#local-btn-draft').addEventListener('click', function () {
+    toast('已保存草稿');
+  });
+  $('#local-btn-publish').addEventListener('click', function () {
+    var r = curRow;
+    if (!r) return;
+    /* 版本号必填（隐私政策 / 用户服务协议 两个 Tab） */
+    var vpNames = { privacy: '隐私政策', service: '用户服务协议' };
+    var verEmpty = null;
+    Object.keys(vpNames).forEach(function (vp) {
+      if (verEmpty) return;
+      var vEl = $('.local-pane[data-pane="' + vp + '"] .local-langpane.is-active input[data-doc-version]');
+      if (vEl && !vEl.value.trim()) verEmpty = vp;
+    });
+    if (verEmpty) {
+      switchTab(verEmpty);
+      toast('「' + vpNames[verEmpty] + '」版本号不能为空', true);
+      return;
+    }
+    /* 隐私政策 / 用户服务协议 / 变更内容弹窗：每个 pane 的全部语言都必须填全"标题 + 正文" */
+    var panes = [
+      { pane: 'privacy', typeName: '隐私政策' },
+      { pane: 'service', typeName: '用户服务协议' },
+      { pane: 'popup',   typeName: '变更内容弹窗' }
+    ];
+    var filledLangs = {};
+    for (var i = 0; i < panes.length; i++) {
+      var p = panes[i];
+      /* 检查每种语言是否都填全 */
+      var missingLangs = LANGS.filter(function (L) {
+        var title = p.pane === 'popup' ? readPopTitle(L.code) : readTitle(p.pane, L.code);
+        var body  = p.pane === 'popup' ? readPopBody(L.code)  : readBody(p.pane, L.code);
+        if (p.pane === 'privacy' || p.pane === 'service') {
+          return !(title.trim() && body.replace(/<[^>]+>/g, '').trim());
+        } else {
+          return !(title.trim() && body.trim());
+        }
+      });
+      if (missingLangs.length > 0) {
+        switchTab(p.pane);
+        switchPaneLang(p.pane, missingLangs[0].code);
+        toast('「' + p.typeName + '」还有未填全的语言：' + missingLangs.map(function (L) { return L.label; }).join('、'), true);
+        return;
+      }
+      /* 全部语言都填全 */
+      filledLangs[p.pane] = LANGS.map(function (L) { return L.code; });
+    }
+    /* 弹窗正文占位符校验：仅在已填语言里 */
+    var placeholderErr = '';
+    filledLangs.popup.forEach(function (code) {
+      var body = readPopBody(code);
+      var residue = body.replace(/\{\{客服电话\}\}/g, '');
+      if (/\{\{[^}]*\}\}/.test(residue)) placeholderErr = code;
+    });
+    if (placeholderErr) {
+      switchPaneLang('popup', placeholderErr);
+      switchTab('popup');
+      toast('弹窗正文存在未替换的占位符（' + langLabel(placeholderErr) + '）', true);
+      return;
+    }
+    /* 记录已填语言到 row.langs（取三个 pane 的并集） */
+    var allLangs = [];
+    panes.forEach(function (p) {
+      (filledLangs[p.pane] || []).forEach(function (c) {
+        if (allLangs.indexOf(c) < 0) allLangs.push(c);
+      });
+    });
+    r.langs = allLangs;
+    r.has = ['P','S','C'];
+    doPublish(r);
+  });
+  $('#local-btn-new').addEventListener('click', function () {
+    var max = 0;
+    ROWS.forEach(function (x) { var n = parseFloat(String(x.version).replace('V', '')); if (n > max) max = n; });
+    var nv = 'V' + (max + 0.1).toFixed(1);
+    var nr = { id: 100 + ROWS.length, version: nv, sites: ['新加坡'], langs: [], has: ['P','S','C'],
+      status: 'DRAFT', eff: '', exp: '', total: 0, agree: 0, publisher: '刘伏旺', created: '2026-09-30 10:00' };
+    ROWS.unshift(nr);
+    LOGS[nr.id] = [['2026-09-30 10:00', '刘伏旺', '创建草稿', '新建']];
+    /* 新建时清空已填的正文（保留简体中文的默认模板） */
+    $$('.local-editor-body[data-doc-body]').forEach(function (el) {
+      var lang = el.getAttribute('data-doc-body');
+      if (lang !== 'zh-CN') el.innerHTML = '';
+    });
+    $$('textarea[data-pop-body]').forEach(function (el) {
+      var lang = el.getAttribute('data-pop-body');
+      if (lang !== 'zh-CN') el.value = '';
+    });
+    bindCount();
+    renderList();
+    openEdit(nr, 'new');
+  });
+
+  /* 多语言子 tab：点击切换当前 pane 的显示语言 */
+  $$('.local-langtab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      var pane = t.parentNode.getAttribute('data-langtabs');
+      var lang = t.getAttribute('data-lang');
+      switchPaneLang(pane, lang);
+    });
+  });
+
+  /* 字数统计：每个 pane + lang 单独一个 .local-count */
+  function bindCount() {
+    $$('.local-editor-body[data-doc-body]').forEach(function (el) {
+      var lang = el.getAttribute('data-doc-body');
+      var pane = el.getAttribute('data-pane');
+      var out = $('.local-count[data-pane="' + pane + '"][data-lang="' + lang + '"]');
+      if (!out) return;
+      var fn = function () { out.textContent = '字数 ' + (el.innerText || '').replace(/\s/g, '').length.toLocaleString('en-US'); };
+      el.addEventListener('input', fn); fn();
+    });
+  }
+  bindCount();
+
+  /* 富文本工具栏：仅加粗/斜体/下划线可用，其余给出原型提示 */
+  $$('.local-tb').forEach(function (b) {
+    b.addEventListener('mousedown', function (e) { e.preventDefault(); });
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('title');
+      var body = b.closest('.local-editor').querySelector('.local-editor-body');
+      if (body && body.getAttribute('contenteditable') === 'false') return;
+      if (t === '加粗' || t === '斜体' || t === '下划线') {
+        try { document.execCommand(t === '加粗' ? 'bold' : t === '斜体' ? 'italic' : 'underline'); } catch (err) {}
+      } else { toast('原型演示：' + t + ' 需接入完整富文本编辑器'); }
+    });
+  });
+
+  /* 取消发布确认 */
+  $('#local-cancel-ok').addEventListener('click', function () {
+    var v = $('#local-cancel-reason').value.trim();
+    if (v.length < 5) { $('#local-cancel-err').style.display = ''; return; }
+    var r = rowById(cancelId);
+    if (r) { r.status = 'DRAFT'; renderList(); }
+    closeMask('#local-mask-cancel');
+    toast('已取消发布，退回草稿');
+  });
+  $('#local-del-ok').addEventListener('click', function () {
+    var i = -1;
+    ROWS.forEach(function (r, idx) { if (r.id === delId) i = idx; });
+    if (i >= 0) ROWS.splice(i, 1);
+    renderList();
+    closeMask('#local-mask-del');
+    toast('已删除');
+  });
+
+  /* 查询 / 重置 */
+  $('#local-btn-query').addEventListener('click', function () { renderList(); toast('查询完成'); });
+  $('#local-btn-reset').addEventListener('click', function () {
+    $$('#local-view-list input').forEach(function (f) {
+      if (f.classList.contains('c7n-pro-select') || f.classList.contains('c7n-pro-calendar-picker-range-start') || f.classList.contains('c7n-pro-calendar-picker-range-end')) return;
+      f.value = '';
+    });
+    $$('#local-view-list input[type="hidden"][data-options]').forEach(function (h) { h.value = ''; });
+    $$('#local-view-list input.c7n-pro-select').forEach(function (f) { f.value = '全部'; });
+    renderList();
+    toast('已重置');
+  });
+
+  /* 初始化 */
+  renderList();
+})();
+</script>
+
+</div></div><div role="tabpanel" aria-hidden="true" class="ant-tabs-tabpane ant-tabs-tabpane-inactive"></div><div role="tabpanel" aria-hidden="true" class="ant-tabs-tabpane ant-tabs-tabpane-inactive"></div><div role="tabpanel" aria-hidden="true" class="ant-tabs-tabpane ant-tabs-tabpane-inactive"></div><div role="tabpanel" aria-hidden="true" class="ant-tabs-tabpane ant-tabs-tabpane-inactive"></div><div role="tabpanel" aria-hidden="true" class="ant-tabs-tabpane ant-tabs-tabpane-inactive"></div><div role="tabpanel" aria-hidden="true" class="ant-tabs-tabpane ant-tabs-tabpane-inactive"></div><div role="tabpanel" aria-hidden="true" class="ant-tabs-tabpane ant-tabs-tabpane-inactive"></div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 20px; top: 56px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 391px; top: 56px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 20px; top: 174px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 391px; top: 174px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 20px; top: 292px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 391px; top: 292px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 20px; top: 410px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 391px; top: 410px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 20px; top: 528px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 391px; top: 528px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 20px; top: 646px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 391px; top: 646px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 20px; top: 764px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div><div class="mask_mark" style="transform: rotate(-15deg); position: absolute; left: 391px; top: 764px; overflow: hidden; z-index: 1000; pointer-events: none; opacity: 0.2; font-size: 12px; font-family: 微软雅黑; color: rgb(170, 170, 170); text-align: center; width: 210px; height: 60px; display: block !important; visibility: visible !important;">产品顾问-刘伏旺</div></div></div></div></div></div></div></div><div class="c7n-pro-modal-container" data-inspector-id="html:291349ea:7"><div class="c7n-pro-mask-wrapper c7n-pro-mask" hidden="" data-inspector-id="html:291349ea:8"></div></div>
+
+
+
+
+
+
+
+
+
+<script id="local-nav-interact">
+/* 本地离线导航交互层（浮层式，与原系统 HZERO 交互一致）：
+   一级菜单 悬停/点击 -> 弹出二级浮层面板；二级项悬停(有三级) -> 弹出三级浮层面板；点击叶子项 -> 跳转本地页面。
+   不修改任何页面数据，完全本地离线运行。 */
+(function(){
+  var cur = decodeURIComponent(location.pathname.split('/').pop());
+  var MAP = {
+    '月活跃用户': '客户分析-月活跃用户.html',
+    '用户留存率': '客户分析-用户留存率.html',
+    '账户管理': '客户管理-账户管理.html',
+    '客户分析': '客户管理-客户分析.html',
+    '异常申诉': '客户管理-异常申诉.html',
+    '租户审核': '客户管理-租户审核.html',
+    '隐私授权记录': '客户管理-隐私授权记录.html',
+    '设备管理员配置': '客户管理-设备管理员配置.html',
+    '组织管理': '客户管理-组织管理.html',
+    '直接创建租户': '客户管理-直接创建租户.html',
+    '客户认证使用': '客户管理-客户认证使用.html',
+    '隐私/服务协议管理': '通用配置-隐私服务协议管理.html',
+    '注销申请管理': '客户管理-注销申请管理.html',
+    '公告': '通用配置-公告.html'
+  };
+  var TREE = {"活动管理模块": {"人群管理": ["人群圈选"], "活动列表": []}, "活动管理": {"渠道分析": [], "产品品鉴官活动": [], "进群有礼": [], "充值卡管理": [], "邀请有礼": [], "新手权益活动": []}, "广告管理": {"首页广告管理": [], "首页工作台配置": [], "咨讯热搜管理": [], "宣传活动列表": [], "活动Banner管理": [], "整机广告管理": []}, "审核检查": {"检查导入": []}, "客户分析": {"月活跃用户": [], "用户留存率": []}, "客户管理": {"账户管理": [], "隐私授权记录": [], "客户分析": [], "异常申诉": [], "租户审核": [], "设备管理员配置": [], "组织管理": [], "直接创建租户": [], "客户认证使用": []}, "数据管理": {"转化率报表": ["漏斗转化率与留存", "用户留存与流失", "设备维护转化率报表", "用户留存率看板"], "大盘数据": [], "用户活跃报表": [], "流失用户分析": [], "用户管理": [], "用户群体画像": [], "用户角色分布": []}, "设备管理": {"机型图片配置": []}, "反馈管理": {"服务召请&配件询价评价管理": [], "APP功能反馈广告配置": [], "设备数据异常反馈": [], "油耗准确性反馈": [], "反馈管理列表": [], "NPS反馈列表": []}, "圈子管理": {"数据统计": [], "话题管理": [], "内容管理": [], "内容审核": [], "数据配置": []}, "通用配置": {"设备工况数据源配置": [], "隐私/服务协议管理": []}, "积分商城管理": {"大区配置": [], "积分分类配置": [], "积分商城配置": [], "积分订单配置": [], "积分明细": []}, "保养台账管理": {"保养项目维护": [], "保养周期维护": []}, "运营活动管理": {"礼品卡管理": [], "活动配置": [], "商品配置": [], "订单列表": [], "新用户列表": []}, "系统设置": {"邮件服务配置": [], "邮件模板设置": [], "触发日志": []}, "开发管理": {"值集配置": [], "值集视图配置": []}, "消息管理": {"消息列表": [], "消息模板": []}};
+  TREE["客户管理"]["注销申请管理"] = [];
+  TREE["通用配置"]["公告"] = [];
+  var curModule = null;
+  for (var m in TREE) {
+    for (var s in TREE[m]) {
+      if (MAP[s] === cur) { curModule = m; break; }
+    }
+    if (curModule) break;
+  }
+
+  var style = document.createElement('style');
+  style.textContent =
+    /* 二级浮层面板（模拟 hzero-sub-menu） */
+    '.local-pop{display:none;position:fixed;width:220px;background:#0a1736;box-shadow:4px 0 16px rgba(0,0,0,.35);border:1px solid #14264e;border-left:none;z-index:9999;padding:6px 0;max-height:85vh;overflow-y:auto;}' +
+    '.local-pop-item{display:block;padding:10px 18px 10px 24px;font-size:13px;color:#c3cee8;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:3px solid transparent;position:relative;}' +
+    '.local-pop-item:hover{background:#16264f;color:#fff;}' +
+    '.local-pop-item.active{background:#1d3163;color:#fff;border-left-color:#35c6e8;}' +
+    '.local-pop-item.has3::after{content:"";position:absolute;right:12px;top:50%;width:6px;height:6px;border-right:2px solid #8ea4d8;border-bottom:2px solid #8ea4d8;transform:translateY(-60%) rotate(-45deg);}' +
+    /* 三级浮层面板（模拟 hzero-leaf-menu） */
+    '.local-pop3{display:none;position:fixed;width:220px;background:#0a1736;box-shadow:4px 0 16px rgba(0,0,0,.35);border:1px solid #14264e;border-left:none;z-index:10000;padding:6px 0;max-height:85vh;overflow-y:auto;}' +
+    '.local-pop3-item{display:block;padding:9px 18px 9px 24px;font-size:13px;color:#b6c2e2;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:3px solid transparent;}' +
+    '.local-pop3-item:hover{background:#16264f;color:#fff;}' +
+    '.local-pop3-item.active{background:#1d3163;color:#fff;border-left-color:#35c6e8;}' +
+    '.local-module-active{background:#1d3163 !important;color:#fff !important;border-left:3px solid #35c6e8 !important;}' +
+    '.local-module-active .hzero-main-menu-item-title{color:#fff !important;}';
+  document.head.appendChild(style);
+
+  var pop = document.createElement('div'); pop.className = 'local-pop';
+  var pop3 = document.createElement('div'); pop3.className = 'local-pop3';
+  document.body.appendChild(pop); document.body.appendChild(pop3);
+
+  var go = function(file){ if (file && file !== cur) location.href = file; };
+
+  function closeAll(){
+    pop.style.display = 'none';
+    pop3.style.display = 'none';
+  }
+
+  /* 高亮一级模块（仅当前模块）；
+     同时清掉快照里写死的 tab-active / hover 高亮，避免出现双高亮 */
+  function markModule(li){
+    document.querySelectorAll('.hzero-main-menu-item').forEach(function(o){
+      o.classList.remove('local-module-active');
+      o.classList.remove('hzero-main-menu-item-tab-active');
+      o.classList.remove('styles_main-menu-item-hover__18bWn');
+    });
+    if (li) li.classList.add('local-module-active');
+  }
+
+  /* 渲染二级浮层 */
+  function showSub(li, t1){
+    var subs = TREE[t1];
+    if (!subs) return;
+    pop.innerHTML = '';
+    Object.keys(subs).forEach(function(t2){
+      var thirds = subs[t2] || [];
+      var item = document.createElement('div');
+      item.className = 'local-pop-item' + (MAP[t2] === cur ? ' active' : '') + (thirds.length ? ' has3' : '');
+      item.textContent = t2;
+      if (thirds.length) {
+        item.addEventListener('mouseenter', function(e){
+          pop3.innerHTML = '';
+          thirds.forEach(function(t3){
+            var a3 = document.createElement('div');
+            a3.className = 'local-pop3-item' + (t3 === cur ? ' active' : '');
+            a3.textContent = t3;
+            a3.addEventListener('click', function(ev){
+              ev.stopPropagation();
+              closeAll();
+              if (MAP[t3]) go(MAP[t3]);
+            });
+            pop3.appendChild(a3);
+          });
+          var r3 = item.getBoundingClientRect();
+          pop3.style.left = (r3.right + 1) + 'px';
+          pop3.style.top = Math.max(0, Math.min(window.innerHeight - 60, r3.top)) + 'px';
+          pop3.style.display = 'block';
+        });
+        item.addEventListener('mouseleave', function(){
+          var t = setTimeout(function(){
+            var pr = pop3.getBoundingClientRect();
+            var mx = lastMouseX, my = lastMouseY;
+            if (!(mx >= pr.left && mx <= pr.right && my >= pr.top && my <= pr.bottom)) pop3.style.display = 'none';
+          }, 150);
+        });
+      } else {
+        item.addEventListener('mouseenter', function(){ pop3.style.display = 'none'; });
+        item.addEventListener('click', function(e){
+          e.stopPropagation();
+          closeAll();
+          if (MAP[t2]) go(MAP[t2]);
+        });
+      }
+      pop.appendChild(item);
+    });
+    var r = li.getBoundingClientRect();
+    pop.style.left = (r.right + 1) + 'px';
+    pop.style.top = Math.max(0, Math.min(window.innerHeight - 60, r.top - 8)) + 'px';
+    pop.style.display = 'block';
+  }
+
+  /* 记录鼠标位置（用于浮层关闭判断） */
+  var lastMouseX = -1, lastMouseY = -1;
+  document.addEventListener('mousemove', function(e){
+    lastMouseX = e.clientX; lastMouseY = e.clientY;
+  });
+
+  /* 一级菜单：悬停或点击 -> 弹出二级浮层 */
+  document.querySelectorAll('.hzero-main-menu-item').forEach(function(li){
+    var titleEl = li.querySelector('.hzero-main-menu-item-title');
+    if (!titleEl) return;
+    var t1 = (titleEl.textContent || '').trim();
+    li.addEventListener('mouseenter', function(){ showSub(li, t1); markModule(li); });
+    li.addEventListener('click', function(e){
+      e.stopPropagation();
+      showSub(li, t1);
+      markModule(li);
+    });
+    /* 当前模块高亮 */
+    if (curModule === t1) li.classList.add('local-module-active');
+  });
+  /* 初始时清掉快照写死在其它模块上的 tab-active / hover 高亮，仅保留当前模块 */
+  document.querySelectorAll('.hzero-main-menu-item').forEach(function(li){
+    var titleEl = li.querySelector('.hzero-main-menu-item-title');
+    var t1 = titleEl ? (titleEl.textContent || '').trim() : '';
+    if (t1 !== curModule) {
+      li.classList.remove('hzero-main-menu-item-tab-active');
+      li.classList.remove('styles_main-menu-item-hover__18bWn');
+    }
+  });
+
+  /* 点击浮层内部不关闭 */
+  pop.addEventListener('click', function(e){ e.stopPropagation(); });
+  pop3.addEventListener('click', function(e){ e.stopPropagation(); });
+  pop.addEventListener('mouseenter', function(){ popHover = true; });
+  pop3.addEventListener('mouseenter', function(){ popHover = true; });
+
+  /* 点击页面其他区域 -> 关闭浮层 */
+  document.addEventListener('click', function(){ closeAll(); });
+
+  /* 顶部标签栏：点击切换页面（与原系统一致） */
+  document.querySelectorAll('.ant-tabs-tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var t = (tab.textContent || '').replace(/[\s\u00a0]/g, '').trim();
+      go(MAP[t]);
+    });
+  });
+})();
+</script>
+
+<script id="local-field-interact">
+/* 本地离线字段交互层：下拉选择 + 日期区间选择。
+   复用 c7n 自带的 class（dropdown-menu-item / calendar-cell / in-range 等）取得
+   与真实系统一致的配色与悬停态；浮层外壳的白底与投影在真实系统里是运行时
+   内联上去的，快照里没有，故由 local-layout-fix 补齐。 */
+(function () {
+  var WEEK = ['日', '一', '二', '三', '四', '五', '六'];
+
+  function shell(cls) {
+    var d = document.createElement('div');
+    d.className = 'local-pop-shell c7n-pro-trigger-popup ' + cls;
+    d.style.display = 'none';
+    d.addEventListener('click', function (e) { e.stopPropagation(); });
+    document.body.appendChild(d);
+    return d;
+  }
+  function place(pop, anchor) {
+    var r = anchor.getBoundingClientRect();
+    pop.style.display = 'block';
+    var h = pop.offsetHeight;
+    var top = (r.bottom + h + 4 > window.innerHeight && r.top - h - 4 > 0) ? r.top - h - 4 : r.bottom + 2;
+    pop.style.left = Math.max(4, Math.min(r.left, window.innerWidth - pop.offsetWidth - 4)) + 'px';
+    pop.style.top = top + 'px';
+  }
+
+  /* ---------------- 下拉选择 ---------------- */
+  var selPop = shell('c7n-pro-select-dropdown');
+  var selOwner = null;
+
+  function closeSel() { selPop.style.display = 'none'; selOwner = null; }
+
+  function setSel(w, val) {
+    w.querySelector('input.c7n-pro-select').value = val;
+    var h = w.querySelector('input[type="hidden"][data-options]');
+    if (h) h.value = val;
+    w.classList.toggle('c7n-pro-select-empty', !val);
+  }
+
+  function openSel(w) {
+    var h = w.querySelector('input[type="hidden"][data-options]');
+    var cur = w.querySelector('input.c7n-pro-select').value;
+    var ul = document.createElement('ul');
+    ul.className = 'c7n-pro-select-dropdown-menu';
+    (h.getAttribute('data-options') || '').split('|').filter(Boolean).forEach(function (o) {
+      var li = document.createElement('li');
+      li.className = 'c7n-pro-select-dropdown-menu-item' +
+        (o === cur ? ' c7n-pro-select-dropdown-menu-item-selected' : '');
+      li.textContent = o;
+      li.addEventListener('click', function (e) {
+        e.stopPropagation(); setSel(w, o); closeSel();
+      });
+      ul.appendChild(li);
+    });
+    selPop.innerHTML = '';
+    selPop.appendChild(ul);
+    selPop.style.minWidth = w.getBoundingClientRect().width + 'px';
+    place(selPop, w);
+    selOwner = w;
+  }
+
+  document.querySelectorAll('.c7n-pro-select-wrapper').forEach(function (w) {
+    if (!w.querySelector('input[type="hidden"][data-options]')) return;
+    w.style.cursor = 'pointer';
+    w.addEventListener('click', function (e) {
+      if (e.target.closest('.c7n-pro-select-clear-button')) {
+        e.stopPropagation(); setSel(w, ''); closeSel(); return;
+      }
+      e.stopPropagation();
+      if (selOwner === w) { closeSel(); } else { closeCal(); openSel(w); }
+    });
+  });
+
+  /* ---------------- 日期区间 ---------------- */
+  var calPop = shell('c7n-pro-calendar-picker-popup c7n-pro-calendar-picker-popup-combo-range');
+  var calOwner = null, viewY, viewM, selStart = null, selEnd = null, picking = 0;
+
+  function closeCal() { calPop.style.display = 'none'; calOwner = null; }
+  function ymd(d) {
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+  function parse(s) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || '');
+    return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+  }
+  function sameDay(a, b) { return a && b && a.getTime() === b.getTime(); }
+
+  function monthView(y, m, withPrev, withNext) {
+    var view = document.createElement('div');
+    view.className = 'c7n-pro-calendar-view c7n-pro-calendar-day-panel';
+
+    var head = document.createElement('div');
+    head.className = 'c7n-pro-calendar-header';
+    function nav(cls, txt, dy, dm) {
+      var a = document.createElement('a');
+      a.className = cls; a.textContent = txt; a.href = 'javascript:void(0)';
+      a.addEventListener('click', function (e) {
+        e.stopPropagation();
+        viewY += dy; viewM += dm;
+        if (viewM < 0) { viewM += 12; viewY--; }
+        if (viewM > 11) { viewM -= 12; viewY++; }
+        renderCal();
+      });
+      return a;
+    }
+    if (withPrev) {
+      head.appendChild(nav('c7n-pro-calendar-prev-year', '«', -1, 0));
+      head.appendChild(nav('c7n-pro-calendar-prev-month', '‹', 0, -1));
+    }
+    if (withNext) {
+      head.appendChild(nav('c7n-pro-calendar-next-year', '»', 1, 0));
+      head.appendChild(nav('c7n-pro-calendar-next-month', '›', 0, 1));
+    }
+    var lab = document.createElement('span');
+    lab.className = 'c7n-pro-calendar-view-select';
+    lab.textContent = y + '年 ' + (m + 1) + '月';
+    head.appendChild(lab);
+    view.appendChild(head);
+
+    var body = document.createElement('div');
+    body.className = 'c7n-pro-calendar-body';
+    var tbl = document.createElement('table');
+    var thead = document.createElement('thead'), trh = document.createElement('tr');
+    WEEK.forEach(function (w) { var th = document.createElement('th'); th.textContent = w; trh.appendChild(th); });
+    thead.appendChild(trh); tbl.appendChild(thead);
+
+    var tb = document.createElement('tbody');
+    var first = new Date(y, m, 1);
+    var cur = new Date(y, m, 1 - first.getDay());
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    for (var r = 0; r < 6; r++) {
+      var tr = document.createElement('tr');
+      for (var c = 0; c < 7; c++) {
+        var d = new Date(cur.getTime());
+        var td = document.createElement('td');
+        var cls = 'c7n-pro-calendar-cell';
+        if (d.getMonth() !== m) cls += d < first ? ' c7n-pro-calendar-old' : ' c7n-pro-calendar-new';
+        if (sameDay(d, today)) cls += ' c7n-pro-calendar-today';
+        if (sameDay(d, selStart) || sameDay(d, selEnd)) cls += ' c7n-pro-calendar-selected';
+        else if (selStart && selEnd && d > selStart && d < selEnd) cls += ' c7n-pro-calendar-in-range';
+        td.className = cls;
+        var inner = document.createElement('div');
+        inner.className = 'c7n-pro-calendar-cell-inner';
+        inner.textContent = d.getDate();
+        td.appendChild(inner);
+        (function (dd) {
+          td.addEventListener('click', function (e) {
+            e.stopPropagation();
+            if (picking === 0) { selStart = dd; selEnd = null; picking = 1; }
+            else {
+              if (dd < selStart) { selEnd = selStart; selStart = dd; } else { selEnd = dd; }
+              picking = 0;
+            }
+            apply();
+            if (picking === 0) closeCal(); else renderCal();
+          });
+        })(d);
+        tr.appendChild(td);
+        cur.setDate(cur.getDate() + 1);
+      }
+      tb.appendChild(tr);
+    }
+    tbl.appendChild(tb); body.appendChild(tbl); view.appendChild(body);
+    return view;
+  }
+
+  function apply() {
+    if (!calOwner) return;
+    var s = calOwner.querySelector('.c7n-pro-calendar-picker-range-start');
+    var e = calOwner.querySelector('.c7n-pro-calendar-picker-range-end');
+    s.value = selStart ? ymd(selStart) : '';
+    e.value = selEnd ? ymd(selEnd) : '';
+    calOwner.classList.toggle('c7n-pro-calendar-picker-empty', !selStart && !selEnd);
+  }
+
+  function renderCal() {
+    var combo = document.createElement('div');
+    combo.className = 'c7n-pro-calendar-view-combo';
+    var y2 = viewY, m2 = viewM + 1;
+    if (m2 > 11) { m2 -= 12; y2++; }
+    combo.appendChild(monthView(viewY, viewM, true, false));
+    combo.appendChild(monthView(y2, m2, false, true));
+
+    var foot = document.createElement('div');
+    foot.className = 'c7n-pro-calendar-footer';
+    var clr = document.createElement('a');
+    clr.href = 'javascript:void(0)';
+    clr.textContent = '清除';
+    clr.addEventListener('click', function (e) {
+      e.stopPropagation();
+      selStart = selEnd = null; picking = 0; apply(); closeCal();
+    });
+    foot.appendChild(clr);
+
+    calPop.innerHTML = '';
+    calPop.appendChild(combo);
+    calPop.appendChild(foot);
+    if (calOwner) place(calPop, calOwner);
+  }
+
+  document.querySelectorAll('.c7n-pro-calendar-picker-range').forEach(function (w) {
+    w.style.cursor = 'pointer';
+    w.addEventListener('click', function (e) {
+      if (e.target.closest('.c7n-pro-calendar-picker-clear-button')) {
+        e.stopPropagation();
+        selStart = selEnd = null; calOwner = w; apply(); closeCal(); return;
+      }
+      e.stopPropagation();
+      if (calOwner === w) { closeCal(); return; }
+      closeSel();
+      calOwner = w;
+      selStart = parse(w.querySelector('.c7n-pro-calendar-picker-range-start').value);
+      selEnd = parse(w.querySelector('.c7n-pro-calendar-picker-range-end').value);
+      picking = 0;
+      var base = selStart || new Date();
+      viewY = base.getFullYear(); viewM = base.getMonth();
+      renderCal();
+    });
+  });
+
+  document.addEventListener('click', function () { closeSel(); closeCal(); });
+})();
+</script>
+
+
+
+<script id="local-ink-bar">
+/* 多页签栏墨条：快照里 transform 是抓取时固化的，页签集变化后需按活动页签重算。 */
+(function () {
+  function fix() {
+    var bar = document.querySelector(".ant-tabs-ink-bar");
+    var act = document.querySelector(".ant-tabs-tab-active");
+    var nav = document.querySelector(".ant-tabs-nav");
+    if (!bar || !act || !nav) return;
+    var p = act.getBoundingClientRect(), n = nav.getBoundingClientRect();
+    bar.style.transform = "translate3d(" + (p.left - n.left) + "px, 0px, 0px)";
+    bar.style.width = p.width + "px";
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fix); else fix();
+  window.addEventListener("resize", fix);
+})();
+</script>
+</body></html>

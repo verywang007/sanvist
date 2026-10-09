@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>吊装规划 - MySANY</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico" />
+  <link rel="stylesheet" href="./app.css" />
+  <link rel="stylesheet" href="./lift-planning.css" />
+</head>
+<body class="lift-page-body">
+  <header class="hd">
+    <div class="hd-logo"><img src="./static/icon-mysanyLogo.svg" alt="My SANY" /></div>
+    <div class="hd-sp"></div>
+    <div class="hd-right">
+      <button class="hd-item lift-hd-button" id="lp-bell" type="button" aria-label="通知">
+        <span class="bell-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <em class="bell-badge">10</em>
+        </span>
+      </button>
+      <button class="hd-item lift-hd-button" id="lp-language" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+        <span>简体中文</span>
+      </button>
+      <button class="hd-item lift-hd-button" id="lp-tenant" type="button">
+        <span>旺是旺旺的旺</span>
+        <svg class="hd-caret" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 16 4 8h16z"/></svg>
+      </button>
+      <button class="hd-item lift-hd-button" id="lp-user" type="button">
+        <span class="hd-avatar">🧑</span><span>旺是旺旺的旺</span>
+        <svg class="hd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <aside class="sider">
+    <nav class="menu" id="menu" aria-label="主导航"></nav>
+    <div class="sider-ft">
+      <div class="deco"></div>
+      <button class="tg lift-icon-button" id="toggle" type="button" title="收起 / 展开" aria-label="收起或展开导航">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 17-5-5 5-5M18 17l-5-5 5-5"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main lift-main">
+    <!-- 顶部模块页签 -->
+    <div class="lift-tabs" id="lift-tabs" role="tablist">
+      <button class="lift-tab on" type="button" role="tab" aria-selected="true">概览</button>
+      <button class="lift-tab" type="button" role="tab" aria-selected="false">工作台</button>
+      <button class="lift-tab" type="button" role="tab" aria-selected="false">起重机</button>
+      <button class="lift-tab" type="button" role="tab" aria-selected="false">导入</button>
+      <button class="lift-tab" type="button" role="tab" aria-selected="false">报告</button>
+      <button class="lift-tab" type="button" role="tab" aria-selected="false">图纸</button>
+      <button class="lift-tab" type="button" role="tab" aria-selected="false">项目设置</button>
+      <button class="lift-tab" type="button" role="tab" aria-selected="false">设置</button>
+      <button class="lift-tab" type="button" role="tab" aria-selected="false">帮助</button>
+    </div>
+
+    <!-- 主体：SMART LIFT 首页 -->
+    <div class="lift-body">
+      <aside class="lift-side">
+        <div class="lift-brand">
+          <div class="lift-brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v4"/><path d="M12 7a4.5 4.5 0 1 0 4.5 4.5V10"/><path d="M9.5 10h5"/><path d="M12 16v5"/>
+            </svg>
+          </div>
+          <div class="lift-brand-sany">SANY</div>
+          <div class="lift-brand-name">SANY SMART LIFT</div>
+        </div>
+
+        <nav class="lift-nav" id="lift-nav">
+          <button class="ln on" type="button" data-ln="welcome">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>欢迎使用</span>
+          </button>
+          <button class="ln" type="button" data-ln="create">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            <span>创建项目</span>
+          </button>
+          <button class="ln" type="button" data-ln="list">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
+            <span>项目列表</span>
+          </button>
+          <button class="ln" type="button" data-ln="force">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>
+            <span>受力计算</span>
+          </button>
+        </nav>
+      </aside>
+
+      <section class="lift-content">
+        <h2 class="lift-title">欢迎使用</h2>
+
+        <div class="lift-carousel">
+          <div class="lift-slides" id="lift-slides"></div>
+          <div class="lift-dots" id="lift-dots"></div>
+        </div>
+
+        <div class="lift-recent-h">
+          <h3>最近项目</h3>
+          <div class="lift-view" id="lift-view" role="group" aria-label="视图切换">
+            <button class="v-btn on" type="button" data-view="grid" title="卡片视图" aria-label="卡片视图">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </button>
+            <button class="v-btn" type="button" data-view="list" title="列表视图" aria-label="列表视图">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="lift-projects grid" id="lift-projects"></div>
+
+        <div class="lift-footer">
+          <span class="lift-footer-arrow">&#8249;</span>
+          <span class="lift-footer-txt">三一改变世界</span>
+          <span class="lift-footer-arrow">&#8250;</span>
+        </div>
+      </section>
+    </div>
+
+    <button class="lift-cancel" id="lift-cancel" type="button">取 消</button>
+  </main>
+
+  <div class="flyout" id="flyout" hidden></div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="./data.js"></script>
+  <script src="./lift-planning.js"></script>
+</body>
+</html>

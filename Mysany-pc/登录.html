@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+  <title>登录 - MySANY</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./cookies.css" />
+</head>
+<body>
+  <div id="login-page">
+    <!-- header: language selector (top-right) -->
+    <div class="login-page__header">
+      <div class="header-left"></div>
+      <div class="header-center">
+        <div class="login-form-language">
+          <div class="ant-space ant-dropdown-trigger" id="lang-trigger" tabindex="0">
+            <div class="ant-space-item">
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 12.8 12.8">
+                <path d="M6.4 0C2.88 0 0 2.88 0 6.4c0 3.52 2.88 6.4 6.4 6.4 3.52 0 6.4-2.88 6.4-6.4C12.8 2.88 9.92 0 6.4 0zm4.64 3.28c.52.8.88 1.72.96 2.72H8.8c0-.76-.08-1.48-.2-2.16.84-.12 1.68-.32 2.44-.56zm-.56-.72c-.64.2-1.36.36-2.08.48C8.24 2.32 8 1.6 7.76.96c1.08.28 2 .84 2.72 1.6zM4.8 6c.04-.72.08-1.4.2-2.08.44.04.92.08 1.36.08.48 0 .92-.04 1.36-.08.12.68.2 1.36.2 2.08H4.8zm3.2.8c-.04.72-.08 1.4-.2 2.08-.48-.04-.92-.08-1.4-.08-.48 0-.92.04-1.36.08-.12-.68-.2-1.36-.2-2.08H8zm-2-6h.8c.36.72.6 1.48.84 2.32-.44.08-.84.08-1.24.08s-.8-.04-1.2-.04c.2-.84.48-1.64.8-2.36zm-.96.16c-.28.64-.48 1.32-.64 2.08-.72-.12-1.4-.28-2.08-.48.72-.76 1.64-1.32 2.72-1.6zM1.76 3.28c.76.24 1.6.44 2.44.56C4.08 4.52 4 5.24 4 6H.8c.08-1 .44-1.96.96-2.72zm0 6.24C1.24 8.72.88 7.8.8 6.8H4c0 .76.08 1.48.2 2.16-.84.12-1.68.32-2.44.56zm.56.72c.64-.2 1.36-.36 2.08-.48.16.72.4 1.44.64 2.08-1.08-.28-2-.84-2.72-1.6zM6.8 12H6c-.36-.72-.6-1.48-.84-2.32.4-.04.8-.04 1.2-.04.4 0 .8.04 1.2.04-.16.8-.44 1.6-.76 2.32zm.96-.16c.28-.64.48-1.32.64-2.08.72.12 1.4.28 2.08.48-.72.76-1.64 1.32-2.72 1.6zm3.28-2.32c-.76-.24-1.6-.44-2.44-.56.12-.68.2-1.4.2-2.16H12c-.08 1-.44 1.96-.96 2.72z"
+                  fill="currentColor" fill-rule="evenodd"></path>
+              </svg>
+            </div>
+            <div class="ant-space-item"><span id="lang-label">English</span></div>
+            <div class="ant-space-item">
+              <span class="anticon anticon-caret-down">
+                <svg viewBox="0 0 1024 1024" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+                  <path d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"></path>
+                </svg>
+              </span>
+            </div>
+          </div>
+          <!-- language dropdown -->
+          <ul class="ant-dropdown-menu hidden" id="lang-menu" role="menu">
+            <li class="ant-dropdown-menu-item" role="menuitem" data-lang="en-US">English</li>
+            <li class="ant-dropdown-menu-item" role="menuitem" data-lang="zh-CN">简体中文</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- background image -->
+    <div class="login_bg base-bg"></div>
+
+    <!-- login card -->
+    <div class="login-page__content">
+      <div class="flex-box">
+        <div class="ant-card login-form__wrapper">
+          <div class="ant-card-body">
+
+            <!-- QR corner + tip -->
+            <div class="login-type-switch" title="Scan qr code login">
+              <img alt="qr login"
+                src="data:image/png;base64,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" />
+            </div>
+            <div class="login-type-switch-tips" data-i18n="scanTip">Scan qr code login more secure</div>
+
+            <div class="login-form">
+              <div class="login-form-header">
+                <div class="login-form-title">
+                  <img src="./static/icon-mysanyLogo.svg" alt="logo" />
+                </div>
+              </div>
+
+              <!-- tabs -->
+              <div class="login-type-wrap">
+                <div class="login-type-item login-type-item-active" data-tab="password">
+                  <span class="login-type-text" data-i18n="tabPassword">Password Login</span>
+                  <div class="login-type-active-bar"></div>
+                </div>
+                <div class="login-type-item" data-tab="otp">
+                  <span class="login-type-text" data-i18n="tabOtp">OTP Login</span>
+                  <div class="login-type-active-bar"></div>
+                </div>
+              </div>
+
+              <form id="basic" autocomplete="off" novalidate>
+                <!-- Password Login fields -->
+                <div class="tab-panel" data-panel="password">
+                  <div class="ant-form-item">
+                    <span class="ant-input-affix-wrapper">
+                      <span class="ant-input-prefix">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20" height="20" viewBox="0 0 20 20"><path d="M11.112 9.762c1.121-.484 1.852-1.624 1.852-2.89 0-1.264-.73-2.404-1.852-2.888a2.94 2.94 0 0 0-2.296 0c-.926.4-1.599 1.254-1.794 2.279a3.215 3.215 0 0 0 .82 2.821 2.912 2.912 0 0 0 3.27.678zm-3.545 1.093C6.151 10.855 5 12.065 5 13.553c0 1.487 1.152 2.697 2.567 2.697h4.866c1.415 0 2.567-1.21 2.567-2.697 0-1.488-1.151-2.698-2.567-2.698H7.567z" fill="#181C26"></path></svg>
+                      </span>
+                      <input id="basic_username" class="ant-input" type="text" placeholder="Please enter" data-i18n-ph="phEnter" autocomplete="off" />
+                    </span>
+                  </div>
+                  <div class="ant-form-item">
+                    <span class="ant-input-affix-wrapper">
+                      <span class="ant-input-prefix">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20" height="20" viewBox="0 0 20 20"><path d="M14.519 4.533a4.159 4.159 0 0 0-6.403 4.605l-4.204 4.205a.554.554 0 0 0-.16.435l.14 1.82a.554.554 0 0 0 .51.51l1.82.14a.554.554 0 0 0 .435-.16l.995-.996-.587-.589-.054-.06a.832.832 0 0 1 .054-1.116l.059-.054a.832.832 0 0 1 1.117.054l.588.589 2.033-2.033a4.159 4.159 0 0 0 3.657-7.35zm-3.768 3.735a1.386 1.386 0 1 1 2.678-.718 1.386 1.386 0 0 1-2.678.718z" fill-rule="evenodd" fill="#181C26"></path></svg>
+                      </span>
+                      <input id="basic_password" class="ant-input" type="password" placeholder="Please enter" data-i18n-ph="phEnter" autocomplete="new-password" />
+                      <span class="ant-input-suffix">
+                        <span class="ant-input-password-icon" id="pwd-toggle" role="img" tabindex="-1"></span>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- OTP Login fields -->
+                <div class="tab-panel hidden" data-panel="otp">
+                  <div class="ant-form-item">
+                    <span class="ant-input-affix-wrapper">
+                      <span class="ant-input-prefix">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20" height="20" viewBox="0 0 20 20"><path d="M11.112 9.762c1.121-.484 1.852-1.624 1.852-2.89 0-1.264-.73-2.404-1.852-2.888a2.94 2.94 0 0 0-2.296 0c-.926.4-1.599 1.254-1.794 2.279a3.215 3.215 0 0 0 .82 2.821 2.912 2.912 0 0 0 3.27.678zm-3.545 1.093C6.151 10.855 5 12.065 5 13.553c0 1.487 1.152 2.697 2.567 2.697h4.866c1.415 0 2.567-1.21 2.567-2.697 0-1.488-1.151-2.698-2.567-2.698H7.567z" fill="#181C26"></path></svg>
+                      </span>
+                      <input id="otp_phone" class="ant-input" type="text" placeholder="Please enter" data-i18n-ph="phEnter" autocomplete="off" />
+                    </span>
+                  </div>
+                  <div class="ant-form-item">
+                    <span class="ant-input-affix-wrapper">
+                      <span class="ant-input-prefix">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20" height="20" viewBox="0 0 20 20"><path d="M14.519 4.533a4.159 4.159 0 0 0-6.403 4.605l-4.204 4.205a.554.554 0 0 0-.16.435l.14 1.82a.554.554 0 0 0 .51.51l1.82.14a.554.554 0 0 0 .435-.16l.995-.996-.587-.589-.054-.06a.832.832 0 0 1 .054-1.116l.059-.054a.832.832 0 0 1 1.117.054l.588.589 2.033-2.033a4.159 4.159 0 0 0 3.657-7.35zm-3.768 3.735a1.386 1.386 0 1 1 2.678-.718 1.386 1.386 0 0 1-2.678.718z" fill-rule="evenodd" fill="#181C26"></path></svg>
+                      </span>
+                      <input id="otp_code" class="ant-input" type="text" placeholder="Please enter" data-i18n-ph="phEnter" autocomplete="off" />
+                      <span class="ant-input-suffix">
+                        <button type="button" class="otp-code-btn" id="otp-get-code" data-i18n="getCode">Get Code</button>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="field-spacer"></div>
+
+                <!-- ============================================================
+                     Agreements — TWO separate lines, each authorized on its own.
+                     (Original page combined both into a single checkbox.)
+                     ============================================================ -->
+                <div class="form-agreements">
+                  <label class="agree-line">
+                    <span class="ant-checkbox">
+                      <input type="checkbox" class="ant-checkbox-input" id="agree-privacy" />
+                      <span class="ant-checkbox-inner"></span>
+                    </span>
+                    <span class="msgs"><span data-i18n="agree">Agree&nbsp;</span><span class="link" data-doc="privacy" data-i18n="privacyPolicy">Privacy Policy</span></span>
+                  </label>
+                  <label class="agree-line">
+                    <span class="ant-checkbox">
+                      <input type="checkbox" class="ant-checkbox-input" id="agree-service" />
+                      <span class="ant-checkbox-inner"></span>
+                    </span>
+                    <span class="msgs"><span data-i18n="agree">Agree&nbsp;</span><span class="link" data-doc="service" data-i18n="serviceAgreement">User Service Agreement</span></span>
+                  </label>
+                </div>
+
+                <!-- Cookies 设置：与「工作台 › 个人中心 › 设置 › Cookies 设置」同一个偏好中心 -->
+                <div class="login-cookie">
+                  <span class="login-cookie__link" id="ck-entry" role="button" tabindex="0">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9 4 4 0 0 1-4.6-4.4A4 4 0 0 1 12 3z"/><circle cx="9.5" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="14.5" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="15.5" r="1" fill="currentColor" stroke="none"/></svg>
+                    <span data-i18n="cookieSettings">Cookies Settings</span>
+                  </span>
+                  <span class="login-cookie__status" id="ck-status"></span>
+                </div>
+
+                <div class="ant-form-item">
+                  <button type="submit" class="ant-btn ant-btn-primary ant-btn-block" id="login-btn" disabled>
+                    <span data-i18n="loginBtn">Login</span>
+                  </button>
+                </div>
+              </form>
+
+              <div class="text-box">
+                <div class="all-center">
+                  <span data-i18n="noAccount">No account yet?</span><span class="register" data-i18n="registerNow">Register now</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts"></div>
+
+  <script src="./data.js"></script>
+  <script src="./cookies.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MySANY 管理平台 · 表单页模板</title>
+<link rel="stylesheet" href="assets/sany-ui.css" />
+<link rel="stylesheet" href="assets/shell/shell-lock.css" />
+</head>
+<body>
+
+<!-- 图标雪碧图（Material 图标名，与线上系统一致；currentColor 着色） -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-menu-fold" viewBox="0 0 24 24"><path d="M3 18h13v-2H3v2zm0-5h10v-2H3v2zm0-7v2h13V6H3zm18 9.59L17.42 12 21 8.41 19.59 7l-5 5 5 5L21 15.59z"/></symbol>
+  <symbol id="i-expand-more" viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></symbol>
+  <symbol id="i-date-range" viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zm0 16H5V9h14v11z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol>
+  <symbol id="i-arrow-back" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></symbol>
+  <symbol id="i-notifications" viewBox="0 0 24 24"><path d="M12 22a2 2 0 002-2h-4a2 2 0 002 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 10-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></symbol>
+  <symbol id="i-apps" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm0 12h-4a3 3 0 01-6 0H5V5h14v10z"/></symbol>
+  <symbol id="i-play-arrow" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+  <symbol id="i-add" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></symbol>
+</defs></svg>
+
+<div class="sany-app" id="app">
+
+  <!-- ============ 锁定外壳：顶栏（仅可替换可见文字） ============ -->
+  <header class="sany-header" data-locked-shell="true">
+    <div class="sany-header-inner">
+      <div class="sany-header-left">
+        <div class="sany-header-logo">
+          <svg class="s-ico sany-header-logo-mark"><use href="#i-apps"/></svg>
+          <h1 class="sany-header-title">MySANY管理平台</h1>
+        </div>
+        <button class="sany-collapse-trigger" id="collapseBtn" aria-label="收起菜单">
+          <svg class="s-ico"><use href="#i-menu-fold"/></svg>
+        </button>
+      </div>
+      <div class="sany-header-right">
+        <div class="sany-header-item"><button class="sany-header-item-btn">新加坡站点 <svg class="s-ico"><use href="#i-expand-more"/></svg></button></div>
+        <span class="sany-header-divider"></span>
+        <div class="sany-header-item"><button class="sany-header-item-btn">简体中文 <svg class="s-ico"><use href="#i-expand-more"/></svg></button></div>
+        <div class="sany-header-item sany-header-notice">
+          <svg class="s-ico"><use href="#i-notifications"/></svg><span class="sany-header-notice-dot"></span>
+        </div>
+        <div class="sany-header-item">
+          <span class="sany-header-avatar">刘</span>
+          <button class="sany-header-item-btn" style="margin-left:8px">liufw <svg class="s-ico"><use href="#i-expand-more"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="sany-body">
+
+    <!-- ============ 锁定外壳：侧栏 ============ -->
+    <nav class="sany-nav" data-locked-shell="true">
+      <div class="sany-nav-search">
+        <svg class="s-ico sany-nav-search-icon"><use href="#i-search"/></svg>
+        <input type="text" placeholder="菜单搜索" />
+      </div>
+      <div class="sany-nav-menu">
+        <ul class="sany-menu">
+          <li class="sany-menu-item"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">活动管理</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+          <li class="sany-menu-item"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">审核检查</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+          <li class="sany-menu-item is-active"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">客户管理</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+          <li class="sany-menu-item"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">数据管理</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+          <li class="sany-menu-item"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">设备管理</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="sany-content">
+
+      <div class="page-container">
+
+        <!-- 页头：返回 + 标题；主操作放在底部操作栏 -->
+        <div class="page-head">
+          <button class="page-head-back" id="backBtn">
+            <svg class="s-ico"><use href="#i-arrow-back"/></svg>
+            <span class="page-head-title">直接创建租户</span>
+          </button>
+          <div class="page-head-operator">
+            <span class="s-tag s-tag-outline">草稿</span>
+          </div>
+        </div>
+
+        <!-- 多分组卡片堆叠：卡片间距 8px -->
+        <form class="page-content-stack" id="form" novalidate>
+
+          <!-- ---------- 分组一：基本信息（一行 2 组） ---------- -->
+          <section class="sany-card">
+            <div class="s-section-title">基本信息</div>
+            <div class="s-form">
+              <table>
+                <colgroup><col style="width:80px" /><col /><col style="width:80px" /><col /></colgroup>
+                <tbody>
+                  <tr>
+                    <td class="s-form-label">租户名称</td>
+                    <td class="s-form-cell">
+                      <input class="s-input is-required" name="tenantName" placeholder="请输入" required />
+                      <div class="s-msg-error s-hidden">请输入租户名称</div>
+                    </td>
+                    <td class="s-form-label">租户类型</td>
+                    <td class="s-form-cell">
+                      <select class="s-select is-required" name="tenantType" required>
+                        <option value="">请选择</option>
+                        <option>集团客户</option><option>经销商</option><option>终端客户</option>
+                      </select>
+                      <div class="s-msg-error s-hidden">请选择租户类型</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="s-form-label">信用代码</td>
+                    <td class="s-form-cell">
+                      <input class="s-input is-required" name="creditCode" placeholder="请输入" required />
+                      <div class="s-msg-error s-hidden">请输入统一社会信用代码</div>
+                    </td>
+                    <td class="s-form-label">客户编码</td>
+                    <td class="s-form-cell"><input class="s-input" name="code" placeholder="请输入" /></td>
+                  </tr>
+                  <tr>
+                    <td class="s-form-label">生效日期</td>
+                    <td class="s-form-cell">
+                      <span class="s-field-affix">
+                        <input class="s-input" name="startDate" placeholder="请选择" readonly />
+                        <svg class="s-ico s-field-affix-icon"><use href="#i-date-range"/></svg>
+                      </span>
+                    </td>
+                    <td class="s-form-label">状态</td>
+                    <td class="s-form-cell"><label class="s-switch"><input type="checkbox" checked /></label></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- ---------- 分组二：联系人（一行 3 组，整行字段用 colspan） ---------- -->
+          <section class="sany-card">
+            <div class="s-section-title">联系人信息</div>
+            <div class="s-form">
+              <table>
+                <colgroup>
+                  <col style="width:80px" /><col /><col style="width:80px" /><col /><col style="width:80px" /><col />
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <td class="s-form-label">联系人</td>
+                    <td class="s-form-cell">
+                      <input class="s-input is-required" name="contact" placeholder="请输入" required />
+                      <div class="s-msg-error s-hidden">请输入联系人姓名</div>
+                    </td>
+                    <td class="s-form-label">手机号</td>
+                    <td class="s-form-cell">
+                      <input class="s-input is-required" name="phone" placeholder="请输入" required />
+                      <div class="s-msg-error s-hidden">请输入 11 位手机号</div>
+                    </td>
+                    <td class="s-form-label">邮箱</td>
+                    <td class="s-form-cell">
+                      <input class="s-input" name="email" placeholder="请输入" />
+                      <div class="s-msg-error s-hidden">请输入正确的邮箱地址</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="s-form-label">通讯地址</td>
+                    <td class="s-form-cell" colspan="5"><input class="s-input" name="address" placeholder="请输入" /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- ---------- 分组三：表格内嵌（可增删行） ---------- -->
+          <section class="sany-card">
+            <div class="s-section-title">授权账号</div>
+            <div class="s-toolbar">
+              <div class="s-toolbar-left">
+                <button type="button" class="s-btn s-btn-primary" id="addRow">
+                  <svg class="s-ico"><use href="#i-add"/></svg> 新增
+                </button>
+              </div>
+            </div>
+            <div class="s-table-wrap">
+              <table class="s-table">
+                <colgroup><col style="width:200px" /><col style="width:200px" /><col /><col style="width:90px" /></colgroup>
+                <thead>
+                  <tr><th>账号</th><th>姓名</th><th>角色</th><th class="s-col-action">操作</th></tr>
+                </thead>
+                <tbody id="rows">
+                  <tr>
+                    <td><input class="s-input" value="liufw" /></td>
+                    <td><input class="s-input" value="刘方伟" /></td>
+                    <td><select class="s-select"><option>管理员</option><option>普通用户</option></select></td>
+                    <td class="s-col-action"><button type="button" class="s-btn s-btn-flat is-danger" data-del>删除</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="s-empty s-hidden" id="rowsEmpty"><span class="s-empty-icon">□</span>暂无数据</div>
+            </div>
+          </section>
+
+          <!-- ---------- 分组四：备注（任何场景下都可选） ---------- -->
+          <section class="sany-card">
+            <div class="s-section-title">其他</div>
+            <div class="s-form">
+              <table>
+                <colgroup><col style="width:80px" /><col /></colgroup>
+                <tbody>
+                  <tr>
+                    <td class="s-form-label">备注</td>
+                    <td class="s-form-cell"><textarea class="s-textarea" name="remark" placeholder="请输入"></textarea></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+        </form>
+
+        <!-- 底部操作栏：48px，右对齐，主按钮最右 -->
+        <div class="s-form-footer">
+          <button type="button" class="s-btn s-btn-default" id="cancelBtn">取消</button>
+          <button type="button" class="s-btn s-btn-default" id="draftBtn">存草稿</button>
+          <button type="button" class="s-btn s-btn-primary" id="submitBtn">提交</button>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 确认弹窗 -->
+<div class="s-mask" id="modalMask" hidden>
+  <div class="s-modal s-modal-sm" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <div class="s-modal-header">
+      <h4 class="s-modal-title" id="mTitle">确认提交</h4>
+      <button class="s-modal-close" data-close aria-label="关闭"><svg class="s-ico"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="s-modal-body">提交后将进入审核流程，确认提交该租户信息？</div>
+    <div class="s-modal-footer">
+      <button class="s-btn s-btn-default" data-close>取消</button>
+      <button class="s-btn s-btn-primary" id="confirmBtn">确定</button>
+    </div>
+  </div>
+</div>
+
+<div class="s-message" id="msgHost"></div>
+
+<script>
+(function(){
+  var $=function(s,c){return (c||document).querySelector(s)};
+  var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+
+  function toast(text,type){
+    var d=document.createElement('div');
+    d.className='s-message-item '+(type||'is-success'); d.textContent=text;
+    $('#msgHost').appendChild(d); setTimeout(function(){d.remove()},2000);
+  }
+
+  // 侧栏折叠
+  $('#collapseBtn').addEventListener('click',function(){ $('#app').classList.toggle('is-collapsed') });
+
+  // 菜单选中
+  $$('.sany-menu-item').forEach(function(el){
+    el.addEventListener('click',function(){
+      $$('.sany-menu-item').forEach(function(x){x.classList.remove('is-active')});
+      el.classList.add('is-active');
+    });
+  });
+
+  // ---- 校验：提交时整体校验；已报错字段失焦后实时复验 ----
+  function msgOf(field){
+    var cell=field.closest('td'); return cell?cell.querySelector('.s-msg-error'):null;
+  }
+  function validate(field){
+    var v=(field.value||'').trim(), ok=true;
+    if(field.hasAttribute('required') && !v) ok=false;
+    if(ok && v && field.name==='email') ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    if(ok && v && field.name==='phone') ok=/^\d{11}$/.test(v);
+    field.classList.toggle('is-invalid',!ok);
+    var m=msgOf(field); if(m) m.classList.toggle('s-hidden',ok);
+    return ok;
+  }
+  // 备注为可选，不纳入校验
+  var fields=$$('#form [name]').filter(function(f){ return f.name!=='remark' });
+  fields.forEach(function(f){
+    f.addEventListener('blur',function(){ if(f.classList.contains('is-invalid')) validate(f) });
+  });
+  function validateAll(){
+    var bad=null;
+    fields.forEach(function(f){ if(!validate(f) && !bad) bad=f });
+    if(bad){ bad.focus(); toast('请检查标黄必填项','is-error') }
+    return !bad;
+  }
+
+  // ---- 内嵌表格增删行 ----
+  function syncEmpty(){
+    $('#rowsEmpty').classList.toggle('s-hidden', $('#rows').children.length>0);
+  }
+  $('#addRow').addEventListener('click',function(){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td><input class="s-input" placeholder="请输入"/></td>'+
+                 '<td><input class="s-input" placeholder="请输入"/></td>'+
+                 '<td><select class="s-select"><option>管理员</option><option>普通用户</option></select></td>'+
+                 '<td class="s-col-action"><button type="button" class="s-btn s-btn-flat is-danger" data-del>删除</button></td>';
+    $('#rows').appendChild(tr); syncEmpty();
+  });
+  $('#rows').addEventListener('click',function(e){
+    var b=e.target.closest('[data-del]'); if(!b) return;
+    if(confirm('确定删除该行？')){ b.closest('tr').remove(); syncEmpty(); toast('已删除') }
+  });
+
+  // ---- 提交 / 草稿 / 取消 ----
+  $('#submitBtn').addEventListener('click',function(){ if(validateAll()) $('#modalMask').hidden=false });
+  $('#draftBtn').addEventListener('click',function(){ toast('草稿已保存') });
+  $('#cancelBtn').addEventListener('click',function(){ if(confirm('放弃当前填写内容？')) toast('已取消') });
+  $('#backBtn').addEventListener('click',function(){ if(confirm('返回将丢失未保存内容，确定？')) toast('已返回') });
+
+  // ---- 弹窗 ----
+  $$('.s-mask').forEach(function(m){
+    m.addEventListener('click',function(e){ if(e.target===m) m.hidden=true });
+    $$('[data-close]',m).forEach(function(b){ b.addEventListener('click',function(){m.hidden=true}) });
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape') $$('.s-mask').forEach(function(m){ m.hidden=true });
+  });
+  $('#confirmBtn').addEventListener('click',function(){
+    $('#modalMask').hidden=true;
+    var b=$('#submitBtn'); b.disabled=true; b.textContent='提交中…';
+    setTimeout(function(){ b.disabled=false; b.textContent='提交'; toast('提交成功') },800);
+  });
+
+  syncEmpty();
+})();
+</script>
+</body>
+</html>

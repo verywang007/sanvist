@@ -1,0 +1,88 @@
+/* ==========================================================================
+   SANY 后台管理平台 — 不可变外壳锁（Shell Lock）
+   顶栏 48px #172742 / 侧栏 220px #1e3255，数值来自线上真实 CSS。
+   仅允许替换可见文字（平台名、菜单名、用户名、站点名）。
+   禁止改动 DOM 层级、类名、尺寸、间距、颜色、圆角、选中态、图标尺寸与位置。
+   本文件必须在所有页面样式之后加载。
+   ========================================================================== */
+
+/* ---- 顶栏 ---- */
+[data-locked-shell="true"].sany-header{
+  height:48px!important;flex:none!important;
+  background:#172742!important;color:#fff!important;font-size:12px!important;
+}
+[data-locked-shell="true"] .sany-header-inner{
+  display:flex!important;height:48px!important;
+  justify-content:space-between!important;align-items:center!important;
+}
+[data-locked-shell="true"] .sany-header-left{
+  display:flex!important;align-items:center!important;flex:none!important;max-width:600px!important;
+}
+[data-locked-shell="true"] .sany-header-logo{
+  display:flex!important;align-items:center!important;gap:8px!important;
+  margin-left:20px!important;min-width:200px!important;color:#fff!important;
+}
+[data-locked-shell="true"] .sany-header-logo-mark{width:20px!important;height:20px!important;flex:none!important}
+[data-locked-shell="true"] .sany-header-title{
+  margin:0!important;font-size:16px!important;font-weight:500!important;
+  color:#fff!important;white-space:nowrap!important;
+}
+[data-locked-shell="true"] .sany-collapse-trigger{
+  margin-left:9px!important;font-size:18px!important;line-height:48px!important;
+  color:#fff!important;background:none!important;border:0!important;padding:0!important;
+  display:flex!important;align-items:center!important;
+}
+[data-locked-shell="true"] .sany-header-right{
+  display:flex!important;align-items:center!important;padding-right:16px!important;
+}
+[data-locked-shell="true"] .sany-header-item{
+  margin-right:12px!important;display:flex!important;align-items:center!important;
+  color:#fff!important;white-space:nowrap!important;
+}
+[data-locked-shell="true"] .sany-header-item:last-child{margin-right:0!important}
+[data-locked-shell="true"] .sany-header-divider{
+  width:1px!important;height:16px!important;background:rgba(255,255,255,.2)!important;margin-right:12px!important;
+}
+[data-locked-shell="true"] .sany-header-avatar{
+  width:24px!important;height:24px!important;border-radius:50%!important;
+  background:#29bece!important;color:#fff!important;font-size:12px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;flex:none!important;
+}
+[data-locked-shell="true"] .sany-header-notice{position:relative!important;font-size:16px!important}
+[data-locked-shell="true"] .sany-header-notice-dot{
+  position:absolute!important;top:-2px!important;right:-2px!important;
+  width:6px!important;height:6px!important;border-radius:50%!important;background:#d50000!important;
+}
+
+/* ---- 侧栏 ---- */
+[data-locked-shell="true"].sany-nav{
+  width:220px!important;flex:none!important;background:#1e3255!important;
+  transition:width .2s linear!important;position:relative!important;
+  display:flex!important;flex-direction:column!important;min-height:0!important;
+}
+.sany-app.is-collapsed [data-locked-shell="true"].sany-nav{width:60px!important}
+[data-locked-shell="true"] .sany-nav-search{flex:none!important;padding:7px 12px!important;position:relative!important}
+[data-locked-shell="true"] .sany-nav-search input{
+  width:100%!important;height:28px!important;padding:1px 10px 1px 28px!important;font-size:12px!important;
+  color:#fff!important;background:#425370!important;
+  border:1px solid transparent!important;border-radius:2px!important;outline:0!important;
+}
+[data-locked-shell="true"] .sany-nav-menu{flex:1!important;overflow-y:auto!important;overflow-x:hidden!important;min-height:0!important}
+[data-locked-shell="true"] .sany-menu{list-style:none!important;margin:0!important;padding:0!important}
+[data-locked-shell="true"] .sany-menu-group-title{
+  padding:8px 20px 4px!important;color:rgba(255,255,255,.35)!important;font-size:12px!important;
+  white-space:nowrap!important;overflow:hidden!important;
+}
+[data-locked-shell="true"] .sany-menu-item{
+  display:flex!important;align-items:center!important;gap:10px!important;
+  height:44px!important;padding:0 20px!important;
+  color:rgba(255,255,255,.75)!important;white-space:nowrap!important;overflow:hidden!important;
+  border-left:5px solid transparent!important;
+}
+[data-locked-shell="true"] .sany-menu-item:hover{background:rgba(255,255,255,.06)!important;color:#fff!important}
+[data-locked-shell="true"] .sany-menu-item.is-active{
+  background:linear-gradient(90deg,#1e3255 0%,#29bece 100%)!important;
+  color:#fff!important;border-left-color:#29bece!important;
+}
+[data-locked-shell="true"] .sany-menu-item-icon{font-size:14px!important;flex:none!important}
+[data-locked-shell="true"] .sany-menu-item-title{flex:1!important;overflow:hidden!important;text-overflow:ellipsis!important}

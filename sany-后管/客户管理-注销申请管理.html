@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注销申请管理 - MySANY管理平台</title>
+  <style>
+    :root{--nav:#071735;--nav2:#0d2147;--nav3:#172d5b;--cyan:#2fc4d9;--blue:#3f86f7;--text:#24324b;--muted:#7b879c;--line:#e8edf5;--bg:#f5f7fb;--orange:#f59d3d;--red:#e35d6a;--green:#27b883;--purple:#8e6be8;}
+    *{box-sizing:border-box}html,body{height:100%;margin:0;font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;color:var(--text);font-size:14px;background:var(--bg)}
+    button,input,select{font:inherit}.app{height:100%;min-width:1180px;display:flex;flex-direction:column;background:var(--bg)}
+    .header{height:56px;background:#09204a;color:#fff;display:flex;align-items:center;justify-content:space-between;flex:none;box-shadow:0 1px 5px #07163255;z-index:20}.brand{height:56px;width:220px;display:flex;align-items:center;padding:0 20px;border-right:1px solid #ffffff12;font-size:17px;font-weight:600;letter-spacing:.2px}.brand-mark{width:27px;height:27px;margin-right:10px;border-radius:5px;background:linear-gradient(135deg,#f36b51,#f9ba50);position:relative}.brand-mark:before,.brand-mark:after{content:"";position:absolute;background:#fff;border-radius:1px}.brand-mark:before{width:13px;height:3px;left:7px;top:8px;transform:rotate(45deg)}.brand-mark:after{width:13px;height:3px;left:7px;top:16px;transform:rotate(-45deg)}.head-right{display:flex;align-items:center;height:100%;gap:24px;padding-right:22px;color:#dfe8ff;font-size:13px}.head-link{height:56px;display:flex;align-items:center;gap:7px}.head-link .chev{font-size:11px;color:#92a8d2}.head-divider{height:20px;width:1px;background:#ffffff24}.avatar{width:28px;height:28px;border-radius:50%;background:#f09b72;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold}.user{display:flex;align-items:center;gap:8px}.user i{font-style:normal;color:#d1dcf3;font-size:12px}
+    .body{display:flex;flex:1;min-height:0}.sidebar{width:220px;flex:none;background:var(--nav);color:#bac8e4;position:relative;z-index:10}.search{height:47px;padding:10px 14px;border-bottom:1px solid #ffffff0b}.search-box{height:28px;border:1px solid #30456c;border-radius:3px;color:#8fa3ca;display:flex;align-items:center;padding:0 10px;font-size:12px}.search-icon{width:13px;height:13px;border:1.5px solid #8195b9;border-radius:50%;margin-right:8px;position:relative}.search-icon:after{content:"";width:5px;height:1.5px;background:#8195b9;position:absolute;right:-4px;bottom:-2px;transform:rotate(45deg)}.menu{padding:7px 0}.menu-group{height:42px;padding:0 18px;display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;position:relative}.menu-group:hover,.menu-group.active{background:#172d5b;color:#fff}.menu-group.active:before{content:"";width:3px;height:100%;position:absolute;left:0;top:0;background:var(--cyan)}.menu-icon{width:17px;height:17px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #8295b7;border-radius:3px;font-size:9px;color:#b4c4e0}.menu-group.active .menu-icon{border-color:var(--cyan);color:var(--cyan)}.menu-arrow{margin-left:auto;color:#7990bb;font-size:12px}.pop{position:fixed;display:none;left:220px;top:100px;width:225px;background:#0a1736;border:1px solid #203866;box-shadow:4px 5px 18px #05112c99;border-radius:0 3px 3px 0;padding:6px 0;z-index:50}.pop-item{padding:11px 18px 11px 23px;color:#c8d3eb;cursor:pointer;border-left:3px solid transparent;font-size:13px}.pop-item:hover,.pop-item.active{background:#1d3163;color:#fff;border-left-color:var(--cyan)}
+    .main{flex:1;min-width:0;display:flex;flex-direction:column}.tabs{height:44px;background:#fff;border-bottom:1px solid #e8ecf3;display:flex;align-items:flex-end;padding-left:14px;overflow:hidden;white-space:nowrap}.tab{height:36px;padding:0 18px;display:flex;align-items:center;gap:12px;color:#78849a;font-size:13px;border-right:1px solid #edf0f5;cursor:pointer}.tab.home{padding-left:10px}.tab.active{color:#24324b;background:#f7f9fc;border-top:2px solid var(--cyan);font-weight:600}.tab .close{font-size:14px;color:#a9b2c1}.work{padding:18px 22px 26px;overflow:auto;position:relative}.page-title{height:34px;display:flex;align-items:center;font-size:18px;font-weight:600;color:#24324b}.crumb{color:#8793a7;font-size:12px;font-weight:400;margin-left:13px}.crumb:before{content:"/";margin-right:13px;color:#b5bdc9}.query-panel{background:#fff;border:1px solid #e7ecf3;border-radius:3px;padding:15px 17px 11px;box-shadow:0 1px 2px #1a326d05}.query-grid{display:grid;grid-template-columns:repeat(4,minmax(190px,1fr));column-gap:22px;row-gap:12px}.field{display:flex;align-items:center;min-width:0}.field label{width:82px;text-align:right;color:#53617a;font-size:13px;flex:none;margin-right:10px}.field input,.field select{height:30px;min-width:0;width:100%;border:1px solid #dce3ef;border-radius:3px;padding:0 9px;color:#526078;background:#fff;outline:none}.field input:focus,.field select:focus{border-color:#4aaec8;box-shadow:0 0 0 2px #4aaec81c}.field input::placeholder{color:#b4becd}.select-wrap{position:relative;flex:1}.select-wrap:after{content:"⌄";position:absolute;right:9px;top:5px;color:#9aa7ba;pointer-events:none}.select-wrap select{appearance:none;padding-right:25px}.query-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:13px}.btn{height:30px;border:1px solid #d5ddea;border-radius:3px;background:#fff;color:#56647d;padding:0 16px;cursor:pointer}.btn:hover{border-color:#53b6cb;color:#2b9cb2}.btn.primary{border-color:var(--cyan);background:var(--cyan);color:#fff}.btn.primary:hover{background:#21adbf}.btn.danger{border-color:#e88891;color:#d85d69}.btn.small{height:26px;padding:0 9px;font-size:12px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}.stat{height:84px;background:#fff;border:1px solid #e7ecf3;border-radius:3px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 2px #1a326d05;cursor:pointer}.stat:hover{box-shadow:0 4px 14px #193c7220;transform:translateY(-1px)}.stat-name{color:#6d7a90;font-size:13px;margin-bottom:8px}.stat-value{font-size:24px;color:#263650;line-height:1}.stat-note{font-size:12px;color:#99a6b9;margin-top:5px}.stat-icon{width:39px;height:39px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}.stat:nth-child(1) .stat-icon{background:#fff2df;color:#ee9a36}.stat:nth-child(2) .stat-icon{background:#e5f0ff;color:#568eea}.stat:nth-child(3) .stat-icon{background:#f7e9fa;color:#9c68c7}.stat:nth-child(4) .stat-icon{background:#e3f8f0;color:#28ad80}
+    .table-panel{background:#fff;border:1px solid #e7ecf3;border-radius:3px;box-shadow:0 1px 2px #1a326d05}.table-toolbar{height:52px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #edf0f5}.toolbar-title{font-weight:600;color:#394761}.toolbar-title span{font-size:12px;color:#99a5b7;font-weight:400;margin-left:8px}.toolbar-right{display:flex;gap:8px}.table-scroll{overflow-x:auto}.data-table{width:100%;min-width:1280px;border-collapse:collapse;table-layout:fixed}.data-table th{height:40px;background:#fafbfd;color:#6b7890;font-size:12px;font-weight:600;text-align:left;border-bottom:1px solid #e8edf4;padding:0 10px;white-space:nowrap}.data-table td{height:54px;border-bottom:1px solid #edf1f6;padding:0 10px;color:#53617a;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.data-table tr:hover td{background:#fbfdff}.data-table td:first-child,.data-table th:first-child{padding-left:16px}.id-link{color:#329fc0;cursor:pointer}.id-link:hover{text-decoration:underline}.user-cell strong{display:block;color:#34415a;font-weight:500;margin-bottom:4px}.user-cell em{font-style:normal;color:#9aa6b7;font-size:11px}.tag{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;font-size:12px}.tag:before{content:"";width:5px;height:5px;border-radius:50%;margin-right:5px}.tag.normal{background:#edf5ef;color:#37a06c}.tag.normal:before{background:#42b780}.tag.pending{background:#fff4e5;color:#e58d24}.tag.pending:before{background:#efa43b}.tag.cooling{background:#e9f2ff;color:#4e84db}.tag.cooling:before{background:#5b91e8}.tag.processing{background:#f1ecff;color:#815fd0}.tag.processing:before{background:#936fe5}.tag.failed{background:#fff0f1;color:#d95360}.tag.failed:before{background:#e46470}.tag.cancelled,.tag.rejected{background:#f1f3f6;color:#7c8797}.tag.cancelled:before,.tag.rejected:before{background:#a7b0bd}.source{color:#62708a}.source.app:before{content:"APP";background:#e4f4fb;color:#268ba9;padding:3px 5px;margin-right:5px;border-radius:3px;font-size:10px}.source.manual:before{content:"代客";background:#f4ebff;color:#8763bd;padding:3px 5px;margin-right:5px;border-radius:3px;font-size:10px}.risk{color:#e48e2b}.risk.ok{color:#35a979}.risk strong{font-weight:500}.date-warn{color:#de6c47}.ops{display:flex;gap:8px;align-items:center}.op{border:0;background:none;padding:0;color:#329fc0;cursor:pointer;font-size:12px}.op:hover{text-decoration:underline}.op.warn{color:#dc7b35}.op.danger{color:#d65b67}.pagination{height:52px;padding:0 16px;display:flex;align-items:center;justify-content:flex-end;gap:8px;color:#8793a6;font-size:12px}.page-btn{border:1px solid #dce3ed;background:#fff;color:#728098;width:27px;height:25px;border-radius:3px;cursor:pointer}.page-btn:disabled{color:#c8d0dc;cursor:default}.page-size{height:26px;border:1px solid #dce3ed;padding:0 7px;color:#64718a;background:#fff;border-radius:3px}
+    .watermark{position:fixed;left:305px;right:0;top:155px;bottom:0;pointer-events:none;z-index:1;opacity:.13;overflow:hidden}.wm{position:absolute;color:#97a0ad;font-size:12px;transform:rotate(-18deg);width:200px;height:60px;text-align:center}.wm:nth-child(1){left:50px;top:70px}.wm:nth-child(2){left:360px;top:70px}.wm:nth-child(3){left:670px;top:70px}.wm:nth-child(4){left:980px;top:70px}.wm:nth-child(5){left:205px;top:270px}.wm:nth-child(6){left:515px;top:270px}.wm:nth-child(7){left:825px;top:270px}.wm:nth-child(8){left:1135px;top:270px}
+    .modal-mask{position:fixed;inset:0;background:#07163280;z-index:100;display:none;align-items:center;justify-content:center}.modal-mask.show{display:flex}.modal{width:930px;max-height:87vh;background:#fff;border-radius:4px;box-shadow:0 12px 40px #05112c55;display:flex;flex-direction:column;overflow:hidden}.modal-head{height:53px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid #e7ecf3;font-size:16px;font-weight:600;color:#2e3b53}.modal-close{border:0;background:none;color:#8895a8;font-size:24px;cursor:pointer;line-height:1}.modal-body{padding:0 22px 18px;overflow:auto}.modal-tabs{height:48px;display:flex;align-items:flex-end;border-bottom:1px solid #e8edf4;margin-bottom:18px}.modal-tab{height:39px;padding:0 17px;display:flex;align-items:center;cursor:pointer;color:#7a879a;font-size:13px;border-bottom:2px solid transparent}.modal-tab.active{color:#2e9eb9;border-bottom-color:#2fbdd0}.modal-content{display:none}.modal-content.active{display:block}.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid #e8edf4;border-bottom:0}.detail-item{min-height:46px;display:flex;align-items:center;border-bottom:1px solid #e8edf4;border-right:1px solid #e8edf4}.detail-item:nth-child(3n){border-right:0}.detail-item label{width:92px;text-align:right;padding-right:12px;color:#8490a3;font-size:12px}.detail-item span{color:#46546d;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.section-title{font-size:13px;font-weight:600;color:#35435c;margin:20px 0 10px}.reason{background:#fafbfd;border:1px solid #edf0f4;color:#5d6b80;border-radius:3px;padding:11px 13px;line-height:1.7;font-size:13px}.check-box{border:1px solid #e7ecf3;border-radius:3px;overflow:hidden}.check-row{min-height:44px;display:flex;align-items:center;padding:0 13px;border-bottom:1px solid #edf1f5}.check-row:last-child{border-bottom:0}.check-dot{width:7px;height:7px;border-radius:50%;margin-right:9px}.check-dot.block{background:#e25e6b}.check-dot.soft{background:#efa13b}.check-dot.pass{background:#32b27e}.check-label{width:82px;color:#69768b}.check-detail{color:#4e5c74}.timeline{position:relative;padding-left:21px}.timeline:before{content:"";position:absolute;left:5px;top:6px;bottom:8px;width:1px;background:#dce5ef}.timeline-item{position:relative;min-height:62px}.timeline-item:before{content:"";position:absolute;left:-20px;top:5px;width:9px;height:9px;border:2px solid #55bdd0;background:#fff;border-radius:50%}.timeline-item.done:before{background:#55bdd0}.timeline-main{display:flex;justify-content:space-between;color:#43526b;font-size:13px}.timeline-time{color:#9aa6b7;font-size:11px}.timeline-sub{color:#98a4b4;font-size:12px;margin-top:5px}.modal-foot{height:62px;background:#fafbfd;border-top:1px solid #e8ecf3;display:flex;align-items:center;justify-content:flex-end;gap:9px;padding:0 22px}.notice{padding:10px 12px;background:#fff8e9;border:1px solid #f7dfae;color:#a77824;border-radius:3px;font-size:12px;line-height:1.7;margin-bottom:14px}.confirm{width:440px}.confirm-body{padding:22px}.confirm-title{font-size:15px;color:#35435c;font-weight:600;margin-bottom:12px}.confirm-text{font-size:13px;line-height:1.8;color:#68758a}.confirm textarea{display:block;width:100%;height:76px;resize:none;border:1px solid #dbe3ee;border-radius:3px;margin-top:12px;padding:9px;outline:none}.toast{position:fixed;left:50%;top:75px;transform:translateX(-50%) translateY(-10px);background:#253b62;color:#fff;border-radius:3px;padding:10px 18px;box-shadow:0 4px 16px #06132d50;z-index:300;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    @media(max-width:1350px){.query-grid{grid-template-columns:repeat(3,minmax(190px,1fr))}.query-grid .wide{grid-column:span 1}.work{padding-left:16px;padding-right:16px}}
+  </style>
+  <style id="account-management-alignment">
+    /* 与「账户管理」保持同一套 HZERO 页面壳、密度和主色 */
+    :root{
+      --nav:#1e3255;
+      --nav2:#172742;
+      --nav3:#253d68;
+      --cyan:#29bece;
+      --blue:#1e3255;
+      --text:#333;
+      --muted:#8b97aa;
+      --line:#dfe4eb;
+      --bg:#f4f5f7;
+    }
+    html,body{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;color:#333;background:var(--bg);font-size:14px}
+    button,input,select,textarea{font-family:inherit}
+    button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid rgba(41,190,206,.28);outline-offset:1px}
+    .app{min-width:1180px;background:var(--bg)}
+
+    /* 顶栏：48px、#172742，尺寸与账户管理一致 */
+    .header{height:48px;background:#172742;box-shadow:none;position:relative;z-index:60}
+    .brand{height:48px;width:220px;padding:0 20px;border:0;font-size:14px;font-weight:400;letter-spacing:0;transition:width .2s linear;white-space:nowrap;overflow:hidden}
+    .brand-logo{display:block;width:20px;height:20px;flex:0 0 20px;margin-right:12px}
+    .brand-title{overflow:hidden;text-overflow:ellipsis}
+    .collapse-trigger{position:absolute;left:220px;top:0;width:36px;height:48px;border:0;background:transparent;color:#fff;font-size:21px;line-height:48px;padding:0;cursor:pointer;transition:left .2s linear;opacity:.92}
+    .collapse-trigger:hover{background:rgba(255,255,255,.06)}
+    .head-right{height:48px;gap:0;padding-right:16px;color:#ccc;font-size:13px}
+    .head-link{height:48px;padding:0 12px;gap:6px;cursor:pointer;position:relative;white-space:nowrap}
+    .head-link:hover,.icon-button:hover,.user:hover{color:#fff;background:rgba(255,255,255,.06)}
+    .head-link .chev{color:#c7ced9;font-size:11px}
+    .head-divider{height:16px;background:#d5dae033;margin:0 2px}
+    .icon-button{width:36px;height:48px;border:0;background:transparent;color:#d8dce5;cursor:pointer;position:relative;padding:0}
+    .bell-icon{display:inline-block;width:14px;height:12px;border-radius:8px 8px 3px 3px;background:#d8dce5;position:relative;top:2px}
+    .bell-icon:before{content:"";position:absolute;left:5px;top:-3px;width:4px;height:4px;border-radius:50%;background:#d8dce5}
+    .bell-icon:after{content:"";position:absolute;left:4px;bottom:-4px;width:6px;height:2px;border-radius:0 0 6px 6px;background:#d8dce5}
+    .theme-icon{display:inline-flex;width:17px;height:17px;align-items:center;justify-content:center;color:#ffe370;font-size:16px;filter:drop-shadow(5px 0 0 #7bb1ff)}
+    .user{height:48px;padding:0 0 0 10px;margin-left:2px;gap:8px;cursor:pointer;white-space:nowrap}
+    .avatar{width:30px;height:30px;background:linear-gradient(145deg,#eaf6ff,#78afea);border:1px solid #fff;color:transparent;position:relative;overflow:hidden}
+    .avatar:before{content:"";position:absolute;width:9px;height:9px;border-radius:50%;background:#fff;left:9px;top:5px}
+    .avatar:after{content:"";position:absolute;width:18px;height:11px;border-radius:10px 10px 4px 4px;background:#fff;left:5px;bottom:3px}
+    .user i{color:#c7ced9}
+
+    /* 侧边栏：复用账户管理的 #1e3255 和渐变选中态 */
+    .body{min-height:0}
+    .sidebar{width:220px;background:#1e3255;color:#eee;overflow:hidden;transition:width .2s linear}
+    .search{height:44px;padding:7px 20px;border:0}
+    .search-box{width:180px;height:28px;border:0;border-radius:2px;background:#425370;color:#ccc;padding:0 10px;font-size:12px;transition:width .2s linear}
+    .search-icon{width:12px;height:12px;border-color:#a5adbb;margin-right:8px}
+    .search-icon:after{background:#a5adbb}
+    .search-box input{width:138px;min-width:0;height:26px;padding:0;border:0;outline:0;background:transparent;color:#fff;font-size:12px}
+    .search-box input::placeholder{color:#ccc}
+    .menu{padding:0;height:calc(100% - 44px);overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+    .menu::-webkit-scrollbar{display:none}
+    .menu-group{width:220px;height:44px;padding:0 14px 0 20px;gap:10px;color:#eee;font-size:14px;border-left:5px solid transparent;transition:background .15s,color .15s}
+    .menu-group:hover,.menu-group.active{background-image:linear-gradient(90deg,#1e3255,#29bece);color:#fff}
+    .menu-group.active:before{display:none}
+    .menu-group.active{border-left-color:#29bece;padding-left:15px}
+    .menu-icon{width:14px;height:14px;flex:0 0 14px;border:1px solid #c5cedc;border-radius:2px;font-size:8px;color:#dce2ec}
+    .menu-group.active .menu-icon{border-color:#fff;color:#fff}
+    .menu-arrow{color:#eee;font-size:13px}
+    .pop{left:220px;width:220px;background:#0a1736;border:1px solid #14264e;border-left:0;box-shadow:4px 0 16px rgba(0,0,0,.35);padding:6px 0;border-radius:0;z-index:120}
+    .pop-item{padding:10px 18px 10px 24px;color:#c3cee8;font-size:13px;border-left:3px solid transparent}
+    .pop-item:hover{background:#16264f;color:#fff}
+    .pop-item.active{background:#1d3163;color:#fff;border-left-color:#35c6e8}
+
+    /* 页签和页头 */
+    .main{background:#f4f5f7}
+    .tabs{height:47px;min-height:47px;background:#fff;border-bottom:1px solid #dfe3e8;align-items:stretch;padding-left:0}
+    .tab{height:47px;padding:0 16px;gap:12px;color:#65748d;font-size:14px;border-right:1px solid #e4e7eb;border-top:2px solid transparent;background:#f1f1f1}
+    .tab.home{padding-left:24px;background:#fff;color:#65748d}
+    .tab.home:before{content:"\2302";font-size:14px;color:#65748d;margin-right:-6px}
+    .tab.active{color:#333;background:#fff;border-top-color:#29bece;font-weight:600}
+    .tab:hover{color:#29aebf}
+    .tab .close{color:#96a1b3;font-weight:400}
+    .page-head{height:38px;background:#fff;border-bottom:1px solid #e5e8ed;display:flex;align-items:center;padding:0 16px;flex:none}
+    .page-head .page-title{height:auto;font-size:16px;font-weight:400;color:#222}
+    .page-head .crumb{display:none}
+    .work{padding:8px 16px 22px;overflow:auto;background:#f4f5f7}
+
+    /* 筛选区：帐户管理同款紧凑表单和深蓝查询按钮 */
+    .query-panel{border:0;border-radius:0;padding:16px 16px 12px;box-shadow:none;background:#fff}
+    .query-grid{grid-template-columns:repeat(4,minmax(190px,1fr));column-gap:24px;row-gap:12px}
+    .field label{width:86px;margin-right:8px;color:#394b6a;font-size:13px}
+    .field input,.field select{height:30px;border:1px solid #d3dce9;border-radius:3px;color:#455775;padding:0 10px}
+    .field input:hover,.field select:hover{border-color:#97a8bf}
+    .field input:focus,.field select:focus{border-color:#29bece;box-shadow:0 0 0 2px rgba(41,190,206,.1)}
+    .field input::placeholder{color:#b2bdcc}
+    .query-actions{margin-top:12px;gap:8px}
+    .btn{height:30px;border:1px solid #cdd6e3;border-radius:2px;color:#455775;padding:0 16px;transition:.15s;background:#fff}
+    .btn:hover{border-color:#1e3255;color:#1e3255;background:#f6f8fb}
+    .btn.primary{border-color:#1e3255;background:#1e3255;color:#fff;min-width:110px}
+    .btn.primary:hover{border-color:#294776;background:#294776;color:#fff}
+    .btn.danger{border-color:#ff6b78;color:#e05261;background:#fff}
+    .btn.small{height:28px;padding:0 10px;font-size:12px;min-width:0}
+
+    /* 概览卡和表格：去除过重阴影，保留注销业务信息 */
+    .cards{gap:14px;margin:16px 0}
+    .stat{height:84px;border:1px solid #dfe4eb;border-radius:2px;box-shadow:none;padding:14px 18px;transition:box-shadow .15s,border-color .15s,transform .15s}
+    .stat:hover,.stat.active{border-color:#9bdde5;box-shadow:0 3px 10px rgba(30,50,85,.08);transform:translateY(-1px)}
+    .stat.active{box-shadow:inset 0 2px 0 #29bece}
+    .stat-name{color:#63728b;margin-bottom:6px}
+    .stat-value{font-size:25px;color:#243652}
+    .stat-note{color:#98a5b8}
+    .table-panel{border:1px solid #dfe4eb;border-radius:2px;box-shadow:none}
+    .table-toolbar{height:52px;border-bottom:1px solid #e2e6ec}
+    .toolbar-title{color:#273a59}
+    .toolbar-title span{color:#8d9aaf}
+    .data-table th{height:40px;background:#f5f6f8;color:#536581;border-bottom:1px solid #dfe4eb;font-weight:600}
+    .data-table td{height:54px;border-bottom:1px solid #e6eaf0;color:#405373}
+    .data-table{min-width:1325px}
+    .data-table col:nth-child(1){width:112px!important}.data-table col:nth-child(2){width:150px!important}.data-table col:nth-child(3){width:122px!important}.data-table col:nth-child(4){width:132px!important}.data-table col:nth-child(5){width:90px!important}.data-table col:nth-child(6){width:105px!important}.data-table col:nth-child(7){width:108px!important}.data-table col:nth-child(8){width:130px!important}.data-table col:nth-child(9){width:110px!important}.data-table col:nth-child(10){width:108px!important}.data-table col:nth-child(11){width:140px!important}.data-table col:nth-child(12){width:150px!important}
+    .data-table tr:hover td{background:#f7fbfc}
+    .id-link,.op{color:#159bbb}
+    .pagination{height:52px;color:#7e8ca2}
+    .page-btn,.page-size{border-color:#d4dce7;color:#536581}
+    .empty-row td{text-align:center!important;color:#9aa6b8!important;height:96px!important}
+
+    /* 弹窗也统一主色与视觉密度 */
+    .modal-mask{background:rgba(23,39,66,.55)}
+    .modal{border-radius:3px;box-shadow:0 12px 36px rgba(23,39,66,.28)}
+    .modal-tab.active{color:#159fb5;border-bottom-color:#29bece}
+    .check-label{width:132px;flex:none}
+    .timeline-item:before{border-color:#29bece}.timeline-item.done:before{background:#29bece}
+    .toast{top:64px;background:#1e3255}
+    .tag.revoked{background:#f1f3f6;color:#7c8797}.tag.revoked:before{background:#a7b0bd}
+
+    /* 折叠交互 */
+    .app.sidebar-collapsed .brand{width:80px;padding-left:30px;padding-right:30px}
+    .app.sidebar-collapsed .brand-logo{margin:0}
+    .app.sidebar-collapsed .brand-title{display:none}
+    .app.sidebar-collapsed .collapse-trigger{left:80px}
+    .app.sidebar-collapsed .sidebar{width:80px}
+    .app.sidebar-collapsed .search{padding:7px 24px}
+    .app.sidebar-collapsed .search-box{width:32px;padding:0 10px;font-size:0}
+    .app.sidebar-collapsed .search-icon{margin:0}
+    .app.sidebar-collapsed .search-box input{display:none}
+    .app.sidebar-collapsed .menu-group{width:80px;padding:0 28px;border-left-width:0;font-size:0;gap:0}
+    .app.sidebar-collapsed .menu-group.active{padding-left:28px;border-left:5px solid #29bece;padding-right:23px}
+    .app.sidebar-collapsed .menu-arrow{display:none}
+    .app.sidebar-collapsed .pop{left:80px}
+
+    @media(max-width:1350px){
+      .query-grid{grid-template-columns:repeat(3,minmax(190px,1fr))}
+      .work{padding-left:12px;padding-right:12px}
+      .head-right{padding-right:8px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="header"><div class="brand"><span class="brand-logo" aria-hidden="true"></span><span class="brand-title">MySANY管理平台</span></div><button class="collapse-trigger" id="collapseBtn" type="button" aria-label="收起侧边栏" aria-expanded="true">≡</button><div class="head-right"><div class="head-link" role="button" tabindex="0">新加坡站点 <span class="chev">⌄</span></div><span class="head-divider"></span><div class="head-link" role="button" tabindex="0">三一集团 <span class="chev">⌄</span></div><div class="head-link" role="button" tabindex="0">简体中文 <span class="chev">⌄</span></div><button class="icon-button" type="button" aria-label="通知"><span class="bell-icon"></span></button><button class="icon-button" type="button" aria-label="主题设置"><span class="theme-icon">♦</span></button><div class="user"><span class="avatar" aria-hidden="true"></span><span>产品顾问-刘伏旺</span><i>⌄</i></div></div></header>
+    <div class="body">
+      <aside class="sidebar"><div class="search"><div class="search-box"><span class="search-icon"></span><input id="menuSearch" type="search" aria-label="菜单搜索" placeholder="菜单搜索"></div></div><nav class="menu">
+        <div class="menu-group"><span class="menu-icon">▦</span><span>活动管理模块</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">▦</span><span>活动管理</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">▦</span><span>广告管理</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">✓</span><span>审核检查</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">▥</span><span>客户分析</span><span class="menu-arrow">›</span></div><div class="menu-group active" id="customerMenu"><span class="menu-icon">▤</span><span>客户管理</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">▥</span><span>数据管理</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">▦</span><span>设备管理</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">▰</span><span>反馈管理</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">◉</span><span>圈子管理</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">⚙</span><span>通用配置</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">▦</span><span>积分商城管理</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">▦</span><span>保养台账管理</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">▦</span><span>运营活动管理</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">⚙</span><span>系统设置</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">▦</span><span>开发管理</span><span class="menu-arrow">›</span></div><div class="menu-group"><span class="menu-icon">▦</span><span>消息管理</span><span class="menu-arrow">›</span></div>
+      </nav></aside>
+      <div class="pop" id="customerPop"><div class="pop-item">账户管理</div><div class="pop-item active">注销申请管理</div><div class="pop-item">隐私授权记录</div><div class="pop-item">客户分析</div><div class="pop-item">异常申诉</div><div class="pop-item">租户审核</div><div class="pop-item">设备管理员配置</div><div class="pop-item">组织管理</div><div class="pop-item">直接创建租户</div><div class="pop-item">客户认证使用</div></div>
+      <main class="main"><div class="tabs"><div class="tab home">工作台</div><div class="tab">账户管理 <span class="close">×</span></div><div class="tab active">注销申请管理 <span class="close">×</span></div><div class="tab">隐私授权记录 <span class="close">×</span></div><div class="tab">异常申诉 <span class="close">×</span></div></div><div class="page-head"><div class="page-title">注销申请管理 <span class="crumb">客户管理</span></div></div>
+        <section class="work">
+          <div class="query-panel"><div class="query-grid">
+            <div class="field"><label>申请单号</label><input id="qNo" placeholder="请输入申请单号"></div><div class="field"><label>登录用户名</label><input id="qLogin" placeholder="请输入登录用户名"></div><div class="field"><label>联系电话</label><input id="qPhone" placeholder="请输入联系电话"></div><div class="field"><label>注销状态</label><div class="select-wrap"><select id="qStatus"><option value="">全部状态</option><option value="PENDING">待审核</option><option value="COOLING">冷静期</option><option value="PROCESSING">注销中</option><option value="FAILED">注销失败</option><option value="CANCELLED">已注销</option><option value="REJECTED">已驳回</option><option value="REVOKED">已撤销</option></select></div></div>
+            <div class="field"><label>国家/地区</label><div class="select-wrap"><select id="qCountry"><option value="">全部国家/地区</option><option>新加坡</option><option>印度尼西亚</option><option>马来西亚</option><option>中国</option></select></div></div><div class="field"><label>申请时间</label><input id="qApplyDate" placeholder="开始日期 - 结束日期"></div><div class="field"><label>完成时间</label><input id="qFinishDate" placeholder="开始日期 - 结束日期"></div><div class="field"><label>当前处理人</label><input id="qHandler" placeholder="请输入处理人"></div>
+          </div><div class="query-actions"><button class="btn" id="resetBtn">重置</button><button class="btn primary" id="queryBtn">查询</button></div></div>
+          <div class="table-panel"><div class="table-toolbar"><div class="toolbar-title">注销申请列表 <span id="recordCount">共 49 条记录</span></div><div class="toolbar-right"><button class="btn small" id="exportBtn">⇩ 导出</button><button class="btn small" id="refreshBtn">↻ 刷新</button></div></div><div class="table-scroll"><table class="data-table"><colgroup><col style="width:118px"><col style="width:165px"><col style="width:130px"><col style="width:132px"><col style="width:94px"><col style="width:110px"><col style="width:110px"><col style="width:150px"><col style="width:112px"><col style="width:110px"><col style="width:155px"><col style="width:178px"></colgroup><thead><tr><th>申请单号</th><th>用户信息</th><th>联系电话</th><th>用户类型</th><th>国家/地区</th><th>注销原因</th><th>校验结果</th><th>注销状态</th><th>申请时间</th><th>冷静期截止</th><th>完成时间</th><th>操作</th></tr></thead><tbody id="dataBody"></tbody></table></div><div class="pagination"><span>每页行数：</span><select class="page-size" id="pageSize"><option>20</option><option>50</option><option>100</option></select><span id="pageInfo">1 - 7 / 49</span><button class="page-btn" id="firstPage" type="button" aria-label="首页" disabled>«</button><button class="page-btn" id="prevPage" type="button" aria-label="上一页" disabled>‹</button><button class="page-btn" id="nextPage" type="button" aria-label="下一页">›</button><button class="page-btn" id="lastPage" type="button" aria-label="尾页">»</button></div></div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <div class="watermark"><div class="wm">产品顾问-刘伏旺</div><div class="wm">产品顾问-刘伏旺</div><div class="wm">产品顾问-刘伏旺</div><div class="wm">产品顾问-刘伏旺</div><div class="wm">产品顾问-刘伏旺</div><div class="wm">产品顾问-刘伏旺</div><div class="wm">产品顾问-刘伏旺</div><div class="wm">产品顾问-刘伏旺</div></div>
+  <div class="modal-mask" id="detailMask"><div class="modal"><div class="modal-head"><span id="detailTitle">注销申请详情</span><button class="modal-close" data-close="detailMask">×</button></div><div class="modal-body"><div class="modal-tabs"><div class="modal-tab active" data-tab="apply">申请信息</div><div class="modal-tab" data-tab="check">校验结果</div><div class="modal-tab" data-tab="progress">执行进度</div><div class="modal-tab" data-tab="log">操作日志</div></div><div class="modal-content active" data-content="apply"><div class="notice">注销执行后将自动完成解绑、锁定和个人信息匿名化处理，冷静期结束后不可恢复。当前申请来源和用户快照仅用于合规回溯。</div><div class="detail-grid"><div class="detail-item"><label>申请单号</label><span id="dNo">CAN-20261006-0018</span></div><div class="detail-item"><label>用户ID</label><span id="dUser">10008642</span></div><div class="detail-item"><label>当前状态</label><span id="dStatus"><span class="tag pending">待审核</span></span></div><div class="detail-item"><label>昵称</label><span id="dAlias">Rajesh Kumar</span></div><div class="detail-item"><label>登录用户名</label><span id="dLogin">rajesh.kumar</span></div><div class="detail-item"><label>联系电话</label><span id="dPhone">+65 8123 0987</span></div><div class="detail-item"><label>国家/地区</label><span id="dCountry">新加坡</span></div><div class="detail-item"><label>申请来源</label><span id="dSource">App自助</span></div><div class="detail-item"><label>申请时间</label><span id="dDate">2026-10-06 15:28:42</span></div></div><div class="section-title">注销原因</div><div class="reason" id="dReason">不再使用 MySANY 服务，希望注销账户并删除个人信息。</div><div class="section-title">用户凭证</div><div class="reason"><span style="color:#329fc0">📎 注销申请确认记录_CAN-20261006-0018.pdf</span><span style="color:#9ba6b7;margin-left:12px">128 KB</span></div></div><div class="modal-content" data-content="check"><div class="section-title" style="margin-top:3px">前置校验结果</div><div class="check-box"><div class="check-row"><span class="check-dot pass"></span><span class="check-label">校验通过</span><span class="check-detail">账号当前无锁定记录，未发现进行中的注销流程</span></div><div class="check-row"><span class="check-dot soft"></span><span class="check-label">积分</span><span class="check-detail">账户仍有 120 积分，注销后将清零</span></div><div class="check-row"><span class="check-dot soft"></span><span class="check-label">已关联企业子账户</span><span class="check-detail">已关联 1 个企业子账户，注销后将解除关联</span></div><div class="check-row"><span class="check-dot soft"></span><span class="check-label">已关联设备</span><span class="check-detail">已关联 3 台设备，注销后将解除设备关系</span></div><div class="check-row"><span class="check-dot soft"></span><span class="check-label">已产生维护记录</span><span class="check-detail">已产生 6 条维护记录，将匿名化后保留</span></div></div><div class="section-title">处理建议</div><div class="reason">建议确认用户已知晓积分清零、企业子账户及设备关联解除后，审核通过并进入 15 天冷静期。</div></div><div class="modal-content" data-content="progress"><div class="section-title" style="margin-top:3px">注销执行进度</div><div class="timeline"><div class="timeline-item done"><div class="timeline-main"><span>提交注销申请</span><span class="timeline-time">2026-10-06 15:28:42</span></div><div class="timeline-sub">申请来源：App自助 · 系统校验完成</div></div><div class="timeline-item"><div class="timeline-main"><span>审核通过，进入冷静期</span><span class="timeline-time">待处理</span></div><div class="timeline-sub">冷静期默认 15 天，期间用户可主动撤销申请</div></div><div class="timeline-item"><div class="timeline-main"><span>注销任务执行</span><span class="timeline-time">待触发</span></div><div class="timeline-sub">账号匿名化、认证信息删除、资产清零、绑定解除</div></div><div class="timeline-item"><div class="timeline-main"><span>注销完成</span><span class="timeline-time">待完成</span></div><div class="timeline-sub">保留审计与隐私授权记录，停止账号登录</div></div></div></div><div class="modal-content" data-content="log"><div class="section-title" style="margin-top:3px">操作日志</div><div class="timeline"><div class="timeline-item done"><div class="timeline-main"><span>用户提交注销申请</span><span class="timeline-time">2026-10-06 15:28:42</span></div><div class="timeline-sub">来源：App自助 · IP：103.28.45.16</span></div><div class="timeline-item done"><div class="timeline-main"><span>系统完成前置校验</span><span class="timeline-time">2026-10-06 15:28:43</span></div><div class="timeline-sub">硬拦截 0 条 · 软提醒 4 条</div></div><div class="timeline-item"><div class="timeline-main"><span>运营处理</span><span class="timeline-time">待处理</span></div><div class="timeline-sub">等待客服专员或运营主管处理</div></div></div></div></div><div class="modal-foot"><button class="btn" data-close="detailMask">关闭</button><button class="btn danger" id="rejectBtn">驳回</button><button class="btn primary" id="approveBtn">审核通过</button></div></div></div>
+  <div class="modal-mask" id="confirmMask"><div class="modal confirm"><div class="modal-head"><span id="confirmTitle">确认操作</span><button class="modal-close" data-close="confirmMask">×</button></div><div class="confirm-body"><div class="confirm-title" id="confirmHeading">确认审核通过？</div><div class="confirm-text" id="confirmText">通过后，该申请将进入 15 天冷静期。冷静期内用户可主动撤销，期满后系统将自动执行注销。</div><textarea id="confirmNote" placeholder="请输入处理备注（驳回时必填）"></textarea></div><div class="modal-foot"><button class="btn" data-close="confirmMask">取消</button><button class="btn primary" id="confirmAction">确认</button></div></div></div>
+  <div class="toast" id="toast"></div>
+  <script>
+    (function(){
+      var prototypeStoreKey='mysany.cancelPrototype.v1';
+      var statusTextMap={PENDING:'待审核',COOLING:'冷静期',PROCESSING:'注销中',FAILED:'注销失败',CANCELLED:'已注销',REJECTED:'已驳回',REVOKED:'已撤销'};
+      var userTypeMap={'INDIVIDUAL':'个体户','INDIVIDUAL_TENANT':'个体户/企业租户','INDIVIDUAL_TENANT_AGENT':'个体户/企业租户/代理商','INDIVIDUAL_AGENT':'个体户/代理商'};
+      function formatTime(value){if(!value)return'—';var d=new Date(value);if(isNaN(d.getTime()))return value;function p(n){return String(n).padStart(2,'0')}return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())}
+      function readPrototypeApply(){
+        try{
+          var record=JSON.parse(localStorage.getItem(prototypeStoreKey));
+          if(!record||!record.no||!statusTextMap[record.status])return null;
+          var userTypeCode=record.userType||(record.tenantType==='enterprise'?'INDIVIDUAL_TENANT':'INDIVIDUAL');
+          var autoApproved=false;
+          if(userTypeCode==='INDIVIDUAL'&&record.status==='PENDING'){
+            autoApproved=true;
+            record.status='COOLING';
+            record.auditTime=new Date().toISOString();
+            record.auditOpinion='个体户申请，系统自动审核通过，直接进入冷静期';
+            record.coolingEnd=new Date(new Date(record.applyTime||record.updatedTime||Date.now()).getTime()+15*24*60*60*1000).toISOString();
+            try{localStorage.setItem(prototypeStoreKey,JSON.stringify(record))}catch(e){}
+          }
+          return{no:record.no,user:'旺是旺旺的旺',id:'10009928',login:'mysany.wang',phone:'+86 133 6621 2180',userType:userTypeMap[userTypeCode]||userTypeMap.INDIVIDUAL,handler:record.status==='PENDING'?'待分配':'系统',country:'中国',source:'APP',reason:record.reason||'不再使用 MySANY',risk:'软提醒 4 条',status:record.status,statusText:statusTextMap[record.status],apply:formatTime(record.applyTime),cool:['COOLING','PROCESSING','FAILED','CANCELLED'].indexOf(record.status)>=0?formatTime(record.coolingEnd):'—',finish:record.finishTime?formatTime(record.finishTime):'—',prototype:true,autoApproved:autoApproved,auditOpinion:record.auditOpinion||''};
+        }catch(e){return null}
+      }
+      function persistPrototypeApply(row,note,type){
+        if(!row||!row.prototype)return;
+        try{
+          var record=JSON.parse(localStorage.getItem(prototypeStoreKey))||{};
+          record.status=row.status;
+          record.updatedTime=new Date().toISOString();
+          if(type==='approve'){
+            record.auditTime=record.updatedTime;
+            record.auditOpinion=note||'审核通过';
+            record.coolingEnd=new Date(Date.now()+15*24*60*60*1000).toISOString();
+            row.cool=formatTime(record.coolingEnd);
+          }
+          if(type==='reject'){
+            record.auditTime=record.updatedTime;
+            record.auditOpinion=note;
+            row.auditOpinion=note;
+          }
+          if(type==='retry')record.processingTime=record.updatedTime;
+          if(type==='revoke')record.revokeTime=record.updatedTime;
+          localStorage.setItem(prototypeStoreKey,JSON.stringify(record));
+        }catch(e){}
+      }
+      var rows=[
+        {no:'CAN-20261006-0018',user:'Rajesh Kumar',id:'10008642',login:'rajesh.kumar',phone:'+65 8123 0987',userType:userTypeMap.INDIVIDUAL,handler:'系统',country:'新加坡',source:'APP',reason:'不再使用服务',risk:'软提醒 4 条',status:'COOLING',statusText:'冷静期',apply:'2026-10-06 15:28',cool:'2026-10-21',finish:'—'},
+        {no:'CAN-20261005-0009',user:'林志远',id:'10007421',login:'lin.zhiyuan',phone:'+86 138 6677 4210',userType:userTypeMap.INDIVIDUAL_TENANT,handler:'张敏',country:'中国',source:'MANUAL',reason:'个人原因',risk:'校验通过',status:'COOLING',statusText:'冷静期',apply:'2026-10-05 09:16',cool:'2026-10-20',finish:'—'},
+        {no:'CAN-20261004-0031',user:'Siti Nurhaliza',id:'10006832',login:'siti.n',phone:'+62 812 3344 1098',userType:userTypeMap.INDIVIDUAL_TENANT_AGENT,handler:'系统',country:'印度尼西亚',source:'APP',reason:'更换服务平台',risk:'软提醒 1 条',status:'PROCESSING',statusText:'注销中',apply:'2026-10-04 16:44',cool:'2026-10-07',finish:'—'},
+        {no:'CAN-20261003-0012',user:'Andi Pratama',id:'10005991',login:'andi.pratama',phone:'+62 811 2066 778',userType:userTypeMap.INDIVIDUAL_AGENT,handler:'刘伏旺',country:'印度尼西亚',source:'MANUAL',reason:'不再使用服务',risk:'硬拦截 1 条',status:'REJECTED',statusText:'已驳回',apply:'2026-10-03 11:02',cool:'—',finish:'—'},
+        {no:'CAN-20261001-0066',user:'Mohan Singh',id:'10004576',login:'mohan.singh',phone:'+65 9012 5764',userType:userTypeMap.INDIVIDUAL,handler:'系统',country:'新加坡',source:'APP',reason:'隐私原因',risk:'校验通过',status:'FAILED',statusText:'注销失败',apply:'2026-10-01 18:23',cool:'2026-10-16',finish:'2026-10-16 02:10'},
+        {no:'CAN-20260926-0024',user:'陈晓东',id:'10003108',login:'chen.xd',phone:'+86 139 1020 3108',userType:userTypeMap.INDIVIDUAL_TENANT,handler:'系统',country:'中国',source:'APP',reason:'不再使用服务',risk:'校验通过',status:'CANCELLED',statusText:'已注销',apply:'2026-09-10 10:12',cool:'2026-09-25',finish:'2026-09-26 03:02'},
+        {no:'CAN-20260922-0047',user:'Nur Aisyah',id:'10002881',login:'nur.aisyah',phone:'+60 12 886 2881',userType:userTypeMap.INDIVIDUAL_TENANT_AGENT,handler:'待分配',country:'马来西亚',source:'MANUAL',reason:'其他',risk:'软提醒 2 条',status:'PENDING',statusText:'待审核',apply:'2026-09-22 14:08',cool:'—',finish:'—'}
+      ];
+      var prototypeApply=readPrototypeApply();
+      if(prototypeApply){var sameIndex=rows.findIndex(function(x){return x.no===prototypeApply.no});if(sameIndex>=0)rows[sameIndex]=prototypeApply;else rows.unshift(prototypeApply)}
+      function syncPrototypeApply(){var latest=readPrototypeApply();if(!latest)return null;var index=rows.findIndex(function(x){return x.no===latest.no||x.prototype});if(index>=0)rows[index]=latest;else rows.unshift(latest);return latest}
+      var body=document.getElementById('dataBody'), current=null, actionType='', currentList=rows.slice(), page=1, pageSize=20;
+      function statusTag(r){return '<span class="tag '+r.status.toLowerCase()+'">'+r.statusText+'</span>';}
+      function render(list,resetPage){
+        currentList=list||currentList;
+        if(resetPage)page=1;
+        pageSize=Number(document.getElementById('pageSize').value)||20;
+        var pages=Math.max(1,Math.ceil(currentList.length/pageSize));
+        page=Math.min(Math.max(1,page),pages);
+        var start=(page-1)*pageSize,end=Math.min(start+pageSize,currentList.length),visible=currentList.slice(start,end);
+        body.innerHTML=visible.map(function(r){var ops='<button class="op" data-action="detail" data-no="'+r.no+'">查看详情</button>';if(r.status==='PENDING')ops+='<button class="op" data-action="approve" data-no="'+r.no+'">通过</button><button class="op danger" data-action="reject" data-no="'+r.no+'">驳回</button>';if(r.status==='FAILED')ops+='<button class="op warn" data-action="retry" data-no="'+r.no+'">重试</button>';if(r.status==='COOLING')ops+='<button class="op danger" data-action="revoke" data-no="'+r.no+'">强制撤销</button>';return '<tr><td><span class="id-link" data-action="detail" data-no="'+r.no+'">'+r.no+'</span></td><td><div class="user-cell"><strong>'+r.user+'</strong><em>ID：'+r.id+'</em></div></td><td>'+r.phone+'</td><td>'+(r.userType||'—')+'</td><td>'+r.country+'</td><td>'+r.reason+'</td><td class="'+(r.risk.indexOf('通过')>=0?'risk ok':'risk')+'">'+r.risk+'</td><td>'+statusTag(r)+'</td><td>'+r.apply+'</td><td class="'+(r.status==='COOLING'?'date-warn':'')+'">'+r.cool+'</td><td>'+r.finish+'</td><td><div class="ops">'+ops+'</div></td></tr>';}).join('');
+        if(!visible.length)body.innerHTML='<tr class="empty-row"><td colspan="12">暂无符合条件的注销申请</td></tr>';
+        document.getElementById('recordCount').textContent='共 '+currentList.length+' 条记录';
+        document.getElementById('pageInfo').textContent=currentList.length?(start+1)+' - '+end+' / '+currentList.length:'0 - 0 / 0';
+        document.getElementById('firstPage').disabled=document.getElementById('prevPage').disabled=page<=1;
+        document.getElementById('nextPage').disabled=document.getElementById('lastPage').disabled=page>=pages;
+      }
+      function toast(t){var el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(function(){el.classList.remove('show')},2200)}
+      function openDetail(r){current=r;document.getElementById('dNo').textContent=r.no;document.getElementById('dUser').textContent=r.id;document.getElementById('dAlias').textContent=r.user;document.getElementById('dLogin').textContent=r.login;document.getElementById('dPhone').textContent=r.phone;document.getElementById('dCountry').textContent=r.country;document.getElementById('dSource').textContent=r.source==='APP'?'App自助':'后管代客';document.getElementById('dDate').textContent=r.apply;document.getElementById('dReason').textContent=r.reason==='其他'?'用户提出账户注销申请，具体原因详见客服工单。':r.reason+'，希望注销账户并删除个人信息。';document.getElementById('dStatus').innerHTML=statusTag(r);document.getElementById('detailTitle').textContent='注销申请详情 · '+r.no;document.querySelectorAll('.modal-tab').forEach(function(x){x.classList.toggle('active',x.dataset.tab==='apply')});document.querySelectorAll('.modal-content').forEach(function(x){x.classList.toggle('active',x.dataset.content==='apply')});document.getElementById('detailMask').classList.add('show');document.getElementById('approveBtn').style.display=r.status==='PENDING'?'inline-block':'none';document.getElementById('rejectBtn').style.display=r.status==='PENDING'?'inline-block':'none';document.querySelector('#detailMask .modal-close').focus();}
+      function openConfirm(type,r){current=r;actionType=type;var title={approve:'确认审核通过？',reject:'确认驳回该注销申请？',retry:'确认重试注销任务？',revoke:'确认强制撤销该申请？'}[type];var text={approve:'通过后，该申请将进入 15 天冷静期。冷静期内用户可主动撤销，期满后系统将自动执行注销。',reject:'驳回后申请回到正常状态，用户可在 App 查看驳回结果。请填写驳回原因。',retry:'系统将只重试本申请中失败的子任务，不会重复处理已成功的步骤。',revoke:'强制撤销后该申请将终止，账号恢复为正常状态。该操作会写入审计日志。'}[type];document.getElementById('confirmTitle').textContent='操作确认';document.getElementById('confirmHeading').textContent=title;document.getElementById('confirmText').textContent=text;document.getElementById('confirmNote').value='';document.getElementById('confirmNote').placeholder=type==='reject'?'请输入驳回原因（必填）':'请输入处理备注（选填）';document.getElementById('confirmMask').classList.add('show');setTimeout(function(){document.getElementById('confirmNote').focus()},0);}
+      render(rows);
+      body.addEventListener('click',function(e){var b=e.target.closest('[data-action]');if(!b)return;var r=rows.find(function(x){return x.no===b.dataset.no});if(!r)return;if(b.dataset.action==='detail')openDetail(r);else openConfirm(b.dataset.action,r);});
+      document.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',function(){document.getElementById(b.dataset.close).classList.remove('show')})});
+      document.querySelectorAll('.modal-mask').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('show')})});
+      document.querySelectorAll('.modal-tab').forEach(function(t){t.addEventListener('click',function(){document.querySelectorAll('.modal-tab').forEach(function(x){x.classList.remove('active')});document.querySelectorAll('.modal-content').forEach(function(x){x.classList.remove('active')});t.classList.add('active');document.querySelector('[data-content="'+t.dataset.tab+'"]').classList.add('active')})});
+      document.getElementById('approveBtn').addEventListener('click',function(){if(current)openConfirm('approve',current)});document.getElementById('rejectBtn').addEventListener('click',function(){if(current)openConfirm('reject',current)});
+      document.getElementById('confirmAction').addEventListener('click',function(){var note=document.getElementById('confirmNote').value.trim();if(actionType==='reject'&&!note){toast('驳回原因不能为空');document.getElementById('confirmNote').focus();return}if(actionType==='approve')current.status='COOLING',current.statusText='冷静期';if(actionType==='reject')current.status='REJECTED',current.statusText='已驳回';if(actionType==='retry')current.status='PROCESSING',current.statusText='注销中';if(actionType==='revoke')current.status='REVOKED',current.statusText='已撤销';persistPrototypeApply(current,note,actionType);document.getElementById('confirmMask').classList.remove('show');document.getElementById('detailMask').classList.remove('show');query(false);toast(current.prototype?'操作成功，已同步至 App 注销状态':'操作成功，已记录操作日志');});
+      function text(id){return document.getElementById(id).value.trim().toLowerCase()}
+      function inRange(value,input){if(!input)return true;var date=value.slice(0,10),parts=input.split(/\s+-\s+/);if(parts.length===2)return(!parts[0]||date>=parts[0])&&(!parts[1]||date<=parts[1]);return value.toLowerCase().indexOf(input.toLowerCase())>=0}
+      function query(showToast){
+        var s=document.getElementById('qStatus').value,c=document.getElementById('qCountry').value;
+        var no=text('qNo'),login=text('qLogin'),phone=text('qPhone'),handler=text('qHandler'),apply=text('qApplyDate'),finish=text('qFinishDate');
+        var list=rows.filter(function(r){return(!s||r.status===s)&&(!c||r.country===c)&&(!no||r.no.toLowerCase().indexOf(no)>=0)&&(!login||r.login.toLowerCase().indexOf(login)>=0)&&(!phone||r.phone.toLowerCase().indexOf(phone)>=0)&&(!handler||r.handler.toLowerCase().indexOf(handler)>=0)&&inRange(r.apply,apply)&&(!finish||r.finish!=='—'&&inRange(r.finish,finish))});
+        render(list,true);
+        document.querySelectorAll('.stat[data-filter]').forEach(function(card){card.classList.toggle('active',card.dataset.filter===s)});
+        if(showToast!==false)toast('查询完成，共 '+list.length+' 条记录');
+      }
+      document.getElementById('queryBtn').addEventListener('click',function(){query(true)});
+      document.querySelector('.query-panel').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();query(true)}});
+      document.getElementById('resetBtn').addEventListener('click',function(){document.querySelectorAll('.query-panel input').forEach(function(x){x.value='' });document.querySelectorAll('.query-panel select').forEach(function(x){x.value=''});document.querySelectorAll('.stat').forEach(function(x){x.classList.remove('active')});render(rows,true);toast('筛选条件已重置')});
+      document.getElementById('refreshBtn').addEventListener('click',function(){var latest=syncPrototypeApply();query(false);toast(latest&&latest.autoApproved?'已同步 App 申请：个体户免人工审核，系统自动审核通过并进入冷静期':'列表已刷新，已同步 App 申请')});
+      document.getElementById('exportBtn').addEventListener('click',function(){var head=['申请单号','用户ID','昵称','联系电话','用户类型','国家/地区','注销原因','校验结果','注销状态','申请时间','完成时间'];var csv=[head].concat(currentList.map(function(r){return[r.no,r.id,r.user,r.phone,r.userType,r.country,r.reason,r.risk,r.statusText,r.apply,r.finish]})).map(function(line){return line.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"'}).join(',')}).join('\n');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='注销申请列表.csv';a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},0);toast('已导出当前 '+currentList.length+' 条记录')});
+      document.querySelectorAll('.stat[data-filter]').forEach(function(card){function filter(){document.getElementById('qStatus').value=card.dataset.filter;query(true)}card.addEventListener('click',filter);card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();filter()}})});
+      document.getElementById('pageSize').addEventListener('change',function(){page=1;render(currentList)});document.getElementById('firstPage').addEventListener('click',function(){page=1;render(currentList)});document.getElementById('prevPage').addEventListener('click',function(){page--;render(currentList)});document.getElementById('nextPage').addEventListener('click',function(){page++;render(currentList)});document.getElementById('lastPage').addEventListener('click',function(){page=Math.max(1,Math.ceil(currentList.length/pageSize));render(currentList)});
+      document.getElementById('menuSearch').addEventListener('input',function(){var key=this.value.trim().toLowerCase();document.querySelectorAll('.menu-group').forEach(function(item){item.style.display=!key||item.textContent.toLowerCase().indexOf(key)>=0?'flex':'none'})});
+      document.getElementById('collapseBtn').addEventListener('click',function(){var app=document.querySelector('.app'),collapsed=app.classList.toggle('sidebar-collapsed');this.setAttribute('aria-expanded',String(!collapsed));this.setAttribute('aria-label',collapsed?'展开侧边栏':'收起侧边栏');pop.style.display='none'});
+      document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(document.getElementById('confirmMask').classList.contains('show'))document.getElementById('confirmMask').classList.remove('show');else document.getElementById('detailMask').classList.remove('show')}});
+      var menu=document.getElementById('customerMenu'),pop=document.getElementById('customerPop');function showCustomerMenu(){var r=menu.getBoundingClientRect();pop.style.left=r.right+'px';pop.style.top=r.top+'px';pop.style.display='block'}menu.addEventListener('mouseenter',showCustomerMenu);menu.addEventListener('click',showCustomerMenu);menu.addEventListener('mouseleave',function(){setTimeout(function(){if(!pop.matches(':hover'))pop.style.display='none'},150)});pop.addEventListener('mouseleave',function(){pop.style.display='none'});pop.querySelectorAll('.pop-item').forEach(function(i){i.addEventListener('click',function(){var map={'账户管理':'客户管理-账户管理.html','注销申请管理':'客户管理-注销申请管理.html','隐私授权记录':'客户管理-隐私授权记录.html','客户分析':'客户管理-客户分析.html','异常申诉':'客户管理-异常申诉.html','租户审核':'客户管理-租户审核.html','设备管理员配置':'客户管理-设备管理员配置.html','组织管理':'客户管理-组织管理.html','直接创建租户':'客户管理-直接创建租户.html','客户认证使用':'客户管理-客户认证使用.html'};if(map[i.textContent]&&map[i.textContent]!==decodeURIComponent(location.pathname.split('/').pop()))location.href=map[i.textContent]})});
+      document.querySelectorAll('.tabs .tab:not(.active):not(.home)').forEach(function(t){t.addEventListener('click',function(e){if(e.target.classList.contains('close'))return;var n=t.textContent.replace('×','').trim();var map={'账户管理':'客户管理-账户管理.html','隐私授权记录':'客户管理-隐私授权记录.html','异常申诉':'客户管理-异常申诉.html'};if(map[n])location.href=map[n]})});
+      document.querySelectorAll('.tab .close').forEach(function(close){close.addEventListener('click',function(e){e.stopPropagation();var tab=close.parentElement;if(tab.classList.contains('active'))location.href='客户管理-账户管理.html';else tab.remove()})});
+      window.addEventListener('storage',function(e){if(e.key!==prototypeStoreKey)return;var latest=syncPrototypeApply();query(false);toast(latest&&latest.autoApproved?'收到新的 App 申请：个体户已自动审核通过，进入冷静期':'收到新的 App 注销状态')});
+    })();
+  </script>
+</body>
+</html>

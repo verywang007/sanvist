@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E2231A">
+<title>MySANY · Cookie 授权</title>
+<style>
+:root{
+  --red:#E2231A;
+  --red-dark:#C91913;
+  --ink:#17171C;
+  --sub:#73757D;
+  --muted:#A4A6AD;
+  --line:#ECEDEF;
+  --page:#F2F3F5;
+  --card:#FFFFFF;
+}
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+[hidden]{ display:none !important; }
+html,body{ margin:0; padding:0; }
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro SC","SF Pro Text","PingFang SC",
+              "Helvetica Neue","Microsoft YaHei",sans-serif;
+  color:var(--ink); background:#E9EAEE; -webkit-font-smoothing:antialiased;
+}
+button,a{ font:inherit; }
+button{ appearance:none; border:0; margin:0; padding:0; background:none; color:inherit; }
+button:focus-visible,a:focus-visible{ outline:3px solid rgba(32,120,255,.5); outline-offset:2px; }
+.stage{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:28px 16px; }
+.device{
+  position:relative; width:414px; height:896px; overflow:hidden; border-radius:44px;
+  background:var(--page); box-shadow:0 24px 70px rgba(18,20,28,.26),0 2px 8px rgba(18,20,28,.1);
+  display:flex; flex-direction:column;
+}
+.home-frame{ position:absolute; inset:0; width:100%; height:100%; border:0; background:var(--page); }
+
+/* 被授权弹层覆盖的首页，用于展示真实进入 APP 的场景 */
+.app-top{ flex:none; color:#fff; background:linear-gradient(165deg,#F12520 0%,#D91D1A 48%,#A31316 100%); }
+.statusbar{ height:50px; padding:0 21px 0 25px; display:flex; align-items:center; justify-content:space-between; }
+.clock{ font-size:16px; font-weight:600; }
+.status-icons{ display:flex; align-items:center; gap:6px; font-size:13px; font-weight:600; }
+.signal{ display:flex; align-items:flex-end; gap:2px; height:11px; }
+.signal i{ display:block; width:2.5px; border-radius:2px; background:#fff; }
+.signal i:nth-child(1){ height:4px; }.signal i:nth-child(2){ height:6px; }
+.signal i:nth-child(3){ height:8px; }.signal i:nth-child(4){ height:11px; }
+.battery{ width:26px; height:13px; border:1.4px solid rgba(255,255,255,.85); border-radius:4px; padding:2px; position:relative; }
+.battery::after{ content:""; position:absolute; right:-3px; top:3px; width:2px; height:5px; border-radius:0 2px 2px 0; background:rgba(255,255,255,.7); }
+.battery i{ display:block; width:62%; height:100%; border-radius:1px; background:#fff; }
+.app-nav{ height:57px; padding:0 15px; display:flex; align-items:center; gap:10px; }
+.brand{ font-size:23px; font-weight:800; font-style:italic; letter-spacing:.4px; }
+.search{ flex:1; min-width:0; height:34px; padding:0 12px; border-radius:18px; background:rgba(0,0,0,.18); display:flex; align-items:center; gap:8px; color:rgba(255,255,255,.82); font-size:14px; }
+.search-dot{ width:14px; height:14px; border:1.7px solid currentColor; border-radius:50%; position:relative; }
+.search-dot::after{ content:""; position:absolute; width:6px; height:1.7px; background:currentColor; right:-5px; bottom:-2px; transform:rotate(45deg); border-radius:2px; }
+.bell{ width:24px; height:24px; position:relative; }
+.bell::before{ content:""; position:absolute; left:5px; top:3px; width:12px; height:14px; border:1.7px solid #fff; border-radius:7px 7px 4px 4px; }
+.bell::after{ content:"4"; position:absolute; right:-3px; top:-4px; min-width:15px; height:15px; border-radius:8px; background:#FF3B30; color:#fff; font-size:9px; line-height:15px; text-align:center; }
+
+.app-content{ flex:1; min-height:0; overflow:hidden; padding:14px 12px 18px; }
+.hello{ margin:2px 4px 12px; display:flex; align-items:flex-end; justify-content:space-between; }
+.hello h1{ margin:0; font-size:21px; font-weight:700; }.hello span{ color:var(--sub); font-size:13px; }
+.hero{ padding:17px; border-radius:14px; color:#fff; background:linear-gradient(135deg,#F3583E,#E2231A 64%,#B41418); box-shadow:0 8px 20px rgba(226,35,26,.2); }
+.hero small{ opacity:.82; font-size:12px; }.hero strong{ display:block; margin-top:5px; font-size:25px; font-weight:600; }.hero p{ margin:8px 0 0; opacity:.86; font-size:12px; }
+.quick{ margin-top:12px; padding:16px 8px 13px; background:#fff; border-radius:14px; display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+.quick-item{ text-align:center; font-size:12px; color:#383940; }
+.quick-icon{ width:40px; height:40px; margin:0 auto 8px; border-radius:11px; display:flex; align-items:center; justify-content:center; background:#FFF0E8; color:#EA6A1A; font-weight:700; font-size:18px; }
+.section-title{ margin:18px 4px 10px; font-size:17px; font-weight:700; }
+.equipment{ padding:15px; background:#fff; border-radius:14px; display:flex; align-items:center; gap:12px; }
+.machine{ flex:none; width:72px; height:54px; border-radius:8px; background:linear-gradient(145deg,#FFE6CA,#F6A33A); position:relative; }
+.machine::before{ content:""; position:absolute; width:42px; height:17px; left:13px; top:17px; border-radius:4px 8px 3px 3px; background:#E67816; }
+.machine::after{ content:""; position:absolute; width:48px; height:8px; left:10px; bottom:8px; border-radius:5px; background:#494A50; }
+.equipment-copy{ flex:1; min-width:0; }.equipment-copy b{ display:block; font-size:14px; }.equipment-copy span{ display:block; margin-top:5px; font-size:12px; color:var(--sub); }.online{ color:#1FA866 !important; }
+.consent-result{ margin-top:12px; padding:13px 15px; border-radius:12px; background:#fff; color:var(--sub); font-size:13px; line-height:1.55; }
+.consent-result b{ color:var(--ink); font-weight:600; }
+.tabbar{ flex:none; height:75px; padding-top:8px; display:flex; background:#fff; border-top:1px solid var(--line); }
+.tab{ flex:1; text-align:center; color:#8B8C93; font-size:11px; }
+.tab i{ display:block; width:23px; height:23px; margin:0 auto 4px; border:1.7px solid currentColor; border-radius:7px; }
+.tab.is-on{ color:var(--red); }.tab.is-on i{ background:var(--red); border-color:var(--red); }
+
+/* Cookie 弹层 */
+.scrim{ position:absolute; inset:0; z-index:30; background:rgba(11,12,16,.52); opacity:1; transition:opacity .25s ease; }
+.scrim.is-closing{ opacity:0; }
+.sheet{
+  position:absolute; left:0; right:0; bottom:0; z-index:31; max-height:82%; overflow:hidden;
+  display:flex; flex-direction:column; background:#fff; border-radius:22px 22px 0 0;
+  box-shadow:0 -10px 36px rgba(15,16,22,.16); animation:sheet-in .32s cubic-bezier(.32,.72,0,1) both;
+}
+.sheet.is-closing{ animation:sheet-out .28s cubic-bezier(.32,.72,0,1) both; }
+@keyframes sheet-in{ from{ transform:translateY(100%); } to{ transform:none; } }
+@keyframes sheet-out{ to{ transform:translateY(100%); } }
+.grabber{ flex:none; width:36px; height:4px; margin:9px auto 0; border-radius:3px; background:#DBDCE1; }
+.sheet-panel{ display:flex; flex-direction:column; min-height:0; }
+.intro{ padding:16px 20px 10px; }
+.cookie-mark{ width:44px; height:44px; border-radius:13px; background:#FFF0EE; color:var(--red); display:flex; align-items:center; justify-content:center; font-size:23px; }
+.intro h2{ margin:13px 0 0; font-size:21px; line-height:1.3; font-weight:700; }
+.intro p{ margin:9px 0 0; color:#5F6169; font-size:14px; line-height:1.65; }
+.intro-links{ margin-top:10px; display:flex; flex-wrap:wrap; gap:8px 18px; }
+.text-link{ border:0; background:none; color:#285EA8; font-size:13px; text-decoration:underline; text-underline-offset:3px; }
+.required-note{ margin:5px 20px 0; padding:10px 12px; border-radius:10px; background:#F5F6F8; color:#73757D; font-size:12.5px; line-height:1.5; }
+.actions{ flex:none; padding:14px 20px calc(18px + env(safe-area-inset-bottom)); background:#fff; }
+.decision-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.btn{ min-height:46px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:15.5px; font-weight:600; }
+.btn:active{ transform:scale(.99); }
+.btn-reject{ border:1.5px solid var(--red); color:var(--red); background:#fff; }
+.btn-accept,.btn-save{ border:1.5px solid var(--red); color:#fff; background:var(--red); }
+.btn-save{ width:100%; }
+.btn-manage{ width:100%; margin-top:10px; border:1px solid #DFE0E4; background:#F7F7F8; color:#292A30; }
+.decision-row .btn-manage{ margin-top:0; }
+
+.sheet-head{ flex:none; height:52px; padding:0 18px; display:flex; align-items:center; border-bottom:1px solid var(--line); }
+.back{ width:55px; text-align:left; color:#34353C; font-size:15px; }
+.sheet-title{ flex:1; text-align:center; font-size:17px; font-weight:600; }.head-spacer{ width:55px; }
+.preference-scroll,.policy-scroll{ min-height:0; overflow-y:auto; padding:12px 16px 4px; scrollbar-width:none; }
+.preference-scroll::-webkit-scrollbar,.policy-scroll::-webkit-scrollbar{ display:none; }
+.pref-lead{ margin:0 2px 11px; color:var(--sub); font-size:13px; line-height:1.6; }
+.pref-card{ margin-bottom:10px; padding:14px; border-radius:13px; background:#F5F6F8; }
+.pref-line{ display:flex; align-items:center; gap:12px; }
+.pref-copy{ flex:1; min-width:0; }.pref-copy strong{ display:block; font-size:15px; font-weight:600; }.pref-copy p{ margin:5px 0 0; color:#777981; font-size:12.5px; line-height:1.55; }
+.always{ flex:none; color:#70727A; font-size:12px; }
+.switch{ flex:none; width:44px; height:26px; border-radius:14px; background:#D6D7DC; position:relative; transition:background .2s ease; }
+.switch::after{ content:""; position:absolute; left:3px; top:3px; width:20px; height:20px; border-radius:50%; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,.2); transition:transform .2s cubic-bezier(.32,.72,0,1); }
+.switch[aria-checked="true"]{ background:var(--red); }.switch[aria-checked="true"]::after{ transform:translateX(18px); }
+.vendor{ margin-top:8px; color:#8A8C93; font-size:11.5px; }
+.detail-link{ display:flex; align-items:center; width:100%; min-height:34px; margin-top:7px; padding-top:7px; border-top:1px solid #E3E4E8; color:#3F64A5; font-size:12.5px; text-align:left; }
+.detail-link::after{ content:"›"; margin-left:auto; color:#999BA2; font-size:19px; line-height:1; }
+.preference-actions{ flex:none; padding:10px 16px calc(16px + env(safe-area-inset-bottom)); border-top:1px solid var(--line); background:#fff; }
+.quick-actions{ margin-top:9px; display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+.btn-small{ min-height:42px; border:1px solid #E0E1E5; background:#F7F7F8; color:#42434A; border-radius:10px; font-size:14px; }
+.policy-scroll h3{ margin:12px 0 5px; font-size:15px; }.policy-scroll h3:first-child{ margin-top:2px; }
+.policy-scroll p,.policy-scroll li{ color:#5F6169; font-size:13px; line-height:1.7; }.policy-scroll p{ margin:0 0 8px; }.policy-scroll ul{ margin:4px 0 12px; padding-left:20px; }
+.detail-note{ margin:0 0 10px !important; padding:11px 12px; border-radius:10px; background:#FFF3F1; color:#6C6E76 !important; }
+.cookie-record{ margin-bottom:9px; padding:12px 13px; border-radius:11px; background:#F4F5F7; }
+.cookie-record-head{ display:flex; align-items:flex-start; gap:10px; }
+.cookie-record code{ flex:1; min-width:0; overflow-wrap:anywhere; font-family:"SFMono-Regular",Consolas,monospace; font-size:12.5px; font-weight:600; color:#1B1B21; }
+.cookie-record-head span{ flex:none; color:#878991; font-size:11px; }
+.cookie-record dl{ margin:8px 0 0; }
+.cookie-record dl div{ display:flex; gap:9px; margin-top:5px; font-size:12px; line-height:1.5; }
+.cookie-record dt{ flex:none; width:42px; color:#9A9CA3; }.cookie-record dd{ margin:0; color:#5F6169; }
+.policy-foot{ flex:none; padding:10px 16px calc(16px + env(safe-area-inset-bottom)); border-top:1px solid var(--line); }
+
+.toast{ position:absolute; z-index:60; left:50%; top:46%; transform:translate(-50%,-50%) scale(.94); max-width:280px; padding:11px 17px; border-radius:12px; background:rgba(20,20,26,.88); color:#fff; font-size:14px; line-height:1.5; text-align:center; opacity:0; pointer-events:none; transition:opacity .2s ease,transform .2s ease; white-space:pre-line; }
+.toast.is-open{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+.devbar{ position:absolute; left:50%; top:calc(50% + 468px); transform:translateX(-50%); display:flex; gap:8px; white-space:nowrap; }
+.devbar button{ padding:8px 12px; border-radius:8px; background:#fff; border:1px solid #D9DADE; color:#4B4C53; font-size:12px; box-shadow:0 2px 8px rgba(20,20,30,.06); }
+@media (max-width:459px), (max-height:930px) and (pointer:coarse){
+  .stage{ padding:0; min-height:100dvh; }.device{ width:100%; height:100dvh; border-radius:0; box-shadow:none; }.devbar{ display:none; }
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="device">
+    <iframe class="home-frame" src="home.html?embed=1" title="MySANY 首页背景" aria-hidden="true" tabindex="-1"></iframe>
+
+    <div class="scrim" id="scrim"></div>
+    <section class="sheet" id="cookieSheet" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+      <div class="grabber" aria-hidden="true"></div>
+
+      <div class="sheet-panel" id="mainPanel">
+        <div class="intro">
+          <div class="cookie-mark" aria-hidden="true">◔</div>
+          <h2 id="dialogTitle">您的隐私，由您决定</h2>
+          <p>我们使用必要技术保障登录、安全和核心功能。经您允许，我们还会使用功能、分析和营销技术来改善体验。拒绝非必要 Cookie 不影响 APP 的核心功能。</p>
+          <div class="intro-links">
+            <button class="text-link" type="button" id="manageLink">Cookies 管理</button>
+          </div>
+        </div>
+        <div class="required-note">严格必要 Cookie 始终启用；其他类别默认关闭，只有在您主动同意后才会运行。</div>
+        <div class="actions">
+          <div class="decision-row">
+            <button class="btn btn-manage" id="rejectAll" type="button">全部拒绝</button>
+            <button class="btn btn-manage" id="acceptAll" type="button">全部接受</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sheet-panel" id="preferencePanel" hidden>
+        <div class="sheet-head">
+          <button class="back" id="prefBack" type="button">返回</button>
+          <span class="sheet-title">Cookies 管理</span><span class="head-spacer"></span>
+        </div>
+        <div class="preference-scroll">
+          <p class="pref-lead">您可以按用途控制非必要技术。选择会保存在本设备，并可随时在“我—设置—Cookie 设置”中修改。</p>
+          <article class="pref-card">
+            <div class="pref-line"><div class="pref-copy"><strong>严格必要</strong><p>用于登录会话、安全认证、网络负载及保存隐私选择。</p></div><span class="always">始终启用</span></div>
+            <div class="vendor">保存期限：会话期至 12 个月 · 不用于广告</div>
+            <button class="detail-link" type="button" data-detail="necessary">查看 Cookie 详情</button>
+          </article>
+          <article class="pref-card">
+            <div class="pref-line"><div class="pref-copy"><strong>功能体验</strong><p>记住语言、地区和界面偏好，并提供地图等增强功能。</p></div><button class="switch" type="button" role="switch" aria-checked="false" aria-label="功能体验" data-key="functional"></button></div>
+            <div class="vendor">示例：语言偏好、地图服务 · 2 个合作方</div>
+            <button class="detail-link" type="button" data-detail="functional">查看 Cookie 详情</button>
+          </article>
+          <article class="pref-card">
+            <div class="pref-line"><div class="pref-copy"><strong>分析统计</strong><p>帮助了解功能使用情况、崩溃和性能问题，以改进产品。</p></div><button class="switch" type="button" role="switch" aria-checked="false" aria-label="分析统计" data-key="analytics"></button></div>
+            <div class="vendor">示例：使用分析、崩溃分析 · 2 个合作方</div>
+            <button class="detail-link" type="button" data-detail="analytics">查看 Cookie 详情</button>
+          </article>
+          <article class="pref-card">
+            <div class="pref-line"><div class="pref-copy"><strong>广告营销</strong><p>用于营销归因、个性化广告及广告效果衡量。</p></div><button class="switch" type="button" role="switch" aria-checked="false" aria-label="广告营销" data-key="marketing"></button></div>
+            <div class="vendor">示例：广告 ID、营销归因 · 2 个合作方</div>
+            <button class="detail-link" type="button" data-detail="marketing">查看 Cookie 详情</button>
+          </article>
+        </div>
+        <div class="preference-actions">
+          <button class="btn btn-save" id="savePreferences" type="button">保存我的选择</button>
+          <div class="quick-actions"><button class="btn btn-small" id="prefReject" type="button">全部拒绝</button><button class="btn btn-small" id="prefAccept" type="button">全部接受</button></div>
+        </div>
+      </div>
+
+      <div class="sheet-panel" id="policyPanel" hidden>
+        <div class="sheet-head">
+          <button class="back" id="policyBack" type="button">返回</button>
+          <span class="sheet-title" id="policyTitle">Cookie 详情</span><span class="head-spacer"></span>
+        </div>
+        <div class="policy-scroll" id="policyBody"></div>
+        <div class="policy-foot"><button class="btn btn-manage" id="policyDone" type="button">完成</button></div>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+  <div class="devbar" aria-label="原型演示控制">
+    <button type="button" id="replayBtn">重放授权弹窗</button>
+    <button type="button" id="openPreferencesBtn">打开 Cookies 管理</button>
+    <button type="button" id="clearBtn">清除本机记录</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var STORE_KEY = 'mysany.cookieConsent.v1';
+  var SCHEMA_VERSION = '1.0';
+  var query = new URLSearchParams(location.search);
+  var LOGIN_FLOW = query.get('flow') === 'login';
+  var INITIAL_PANEL = query.get('panel') === 'preferences' ? 'preferences' : 'main';
+  var choices = { necessary:true, functional:false, analytics:false, marketing:false };
+  var lastPanel = 'main';
+  var toastTimer;
+
+  function $(s){ return document.querySelector(s); }
+  function $$(s){ return Array.prototype.slice.call(document.querySelectorAll(s)); }
+
+  function readRecord(){
+    try { var v=JSON.parse(localStorage.getItem(STORE_KEY)); return v && v.choices ? v : null; }
+    catch(e){ return null; }
+  }
+  function writeRecord(action){
+    var record={
+      schemaVersion:SCHEMA_VERSION,
+      policyVersion:'2026.09',
+      vendorListVersion:'1.0',
+      region:'EEA',
+      action:action,
+      choices:Object.assign({},choices),
+      timestamp:new Date().toISOString()
+    };
+    try { localStorage.setItem(STORE_KEY,JSON.stringify(record)); } catch(e){}
+    return record;
+  }
+  function toast(msg,ms){
+    $('#toast').textContent=msg; $('#toast').classList.add('is-open'); clearTimeout(toastTimer);
+    toastTimer=setTimeout(function(){ $('#toast').classList.remove('is-open'); },ms||1800);
+  }
+  function syncSwitches(){
+    $$('.switch[data-key]').forEach(function(el){ el.setAttribute('aria-checked',choices[el.dataset.key]?'true':'false'); });
+  }
+  function showPanel(name, moveFocus){
+    $('#mainPanel').hidden=name!=='main'; $('#preferencePanel').hidden=name!=='preferences'; $('#policyPanel').hidden=name!=='policy';
+    if(name!=='policy') lastPanel=name;
+    if(moveFocus !== false) $('#cookieSheet').querySelector(name==='main'?'#rejectAll':name==='preferences'?'#prefBack':'#policyBack').focus();
+  }
+  function openSheet(panel, moveFocus){
+    $('#scrim').hidden=false; $('#cookieSheet').hidden=false;
+    $('#scrim').classList.remove('is-closing'); $('#cookieSheet').classList.remove('is-closing');
+    if(panel==='preferences') { var old=readRecord(); if(old) choices=Object.assign({},choices,old.choices); syncSwitches(); }
+    showPanel(panel||'main', moveFocus);
+  }
+  function closeSheet(){
+    $('#scrim').classList.add('is-closing'); $('#cookieSheet').classList.add('is-closing');
+    setTimeout(function(){ $('#scrim').hidden=true; $('#cookieSheet').hidden=true; },280);
+  }
+  function summary(){
+    var count=['functional','analytics','marketing'].filter(function(k){return choices[k];}).length;
+    return count===0?'已拒绝全部非必要 Cookie':count===3?'已接受全部 Cookie':'已允许 '+count+' 类非必要 Cookie';
+  }
+  function finish(action){
+    writeRecord(action);
+    closeSheet(); toast(summary()+'\n核心功能可正常使用',2200);
+    if(LOGIN_FLOW) setTimeout(function(){ location.href='home.html?from=login'; },900);
+  }
+  function setAll(value){ choices.functional=value; choices.analytics=value; choices.marketing=value; syncSwitches(); }
+
+  $('#rejectAll').addEventListener('click',function(){ setAll(false); finish('reject_all'); });
+  $('#acceptAll').addEventListener('click',function(){ setAll(true); finish('accept_all'); });
+  $('#manageLink').addEventListener('click',function(){ syncSwitches(); showPanel('preferences'); });
+  $('#prefBack').addEventListener('click',function(){ showPanel('main'); });
+  $$('.switch[data-key]').forEach(function(el){ el.addEventListener('click',function(){ choices[el.dataset.key]=!choices[el.dataset.key]; syncSwitches(); }); });
+  $('#savePreferences').addEventListener('click',function(){ finish('save_preferences'); });
+  $('#prefReject').addEventListener('click',function(){ setAll(false); finish('reject_all'); });
+  $('#prefAccept').addEventListener('click',function(){ setAll(true); finish('accept_all'); });
+
+  var CATALOG={
+    necessary:{ title:'严格必要 Cookie', note:'用于提供登录、安全和隐私选择等核心功能，无法关闭。', items:[
+      ['mysany_session','MySANY','HTTP Cookie','会话期间','维持登录状态，并将页面请求关联到当前会话。'],
+      ['mysany_csrf','MySANY','HTTP Cookie','会话期间','防止跨站请求伪造，保护账号和操作安全。'],
+      ['mysany_consent','MySANY','本地存储','12 个月','保存 Cookie 分类选择及对应政策版本。'],
+      ['route_hint','MySANY','HTTP Cookie','会话期间','将请求分配至稳定的服务节点。']
+    ]},
+    functional:{ title:'功能体验 Cookie', note:'用于记住您的选择并启用地图等增强功能。', items:[
+      ['mysany_locale','MySANY','本地存储','12 个月','记住语言和地区设置。'],
+      ['map_provider_pref','地图服务商','本地存储','6 个月','记住地图图层、缩放级别和地图服务偏好。'],
+      ['recently_viewed','MySANY','本地存储','30 天','展示最近查看的设备和服务入口。'],
+      ['ui_density','MySANY','本地存储','12 个月','保存字体大小与界面密度偏好。']
+    ]},
+    analytics:{ title:'分析统计 Cookie', note:'用于了解产品使用、崩溃和性能情况。', items:[
+      ['analytics_instance_id','产品分析服务商','SDK 标识','13 个月','区分匿名应用实例并统计功能使用情况。'],
+      ['analytics_session','产品分析服务商','HTTP Cookie','30 分钟','将连续访问归入同一次匿名使用会话。'],
+      ['crash_instance_id','崩溃分析服务商','SDK 标识','90 天','关联崩溃日志，定位稳定性问题。'],
+      ['performance_sample','MySANY','本地存储','24 小时','控制性能抽样频率，避免重复采集。']
+    ]},
+    marketing:{ title:'广告营销 Cookie', note:'用于营销归因、个性化广告及广告效果衡量。', items:[
+      ['marketing_attribution_id','营销归因服务商','SDK 标识','90 天','判断安装或活动参与来自哪个推广渠道。'],
+      ['ad_personalization','广告服务商','本地存储','6 个月','保存个性化广告偏好及授权状态。'],
+      ['campaign_source','MySANY','HTTP Cookie','30 天','记录推广活动来源并衡量活动效果。'],
+      ['ad_frequency','广告服务商','HTTP Cookie','7 天','限制同一广告的展示频率。']
+    ]}
+  };
+  function renderDetail(key){
+    var group=CATALOG[key];
+    $('#policyTitle').textContent=group.title;
+    $('#policyBody').innerHTML='<p class="detail-note">'+group.note+' 共 '+group.items.length+' 项。</p>'+group.items.map(function(item){
+      return '<article class="cookie-record"><div class="cookie-record-head"><code>'+item[0]+'</code><span>'+item[3]+'</span></div><dl>'+(
+        '<div><dt>提供方</dt><dd>'+item[1]+'</dd></div><div><dt>类型</dt><dd>'+item[2]+'</dd></div><div><dt>作用</dt><dd>'+item[4]+'</dd></div>'
+      )+'</dl></article>';
+    }).join('')+'<p>本页为原型示例，正式上线前应替换为实际 Cookie、SDK 标识和供应商信息。</p>';
+    showPanel('policy');
+  }
+  $$('[data-detail]').forEach(function(btn){ btn.addEventListener('click',function(){ renderDetail(btn.dataset.detail); }); });
+  $('#policyBack').addEventListener('click',function(){ showPanel(lastPanel); });
+  $('#policyDone').addEventListener('click',function(){ showPanel(lastPanel); });
+  $('#scrim').addEventListener('click',function(){ toast('请选择“全部接受”“全部拒绝”或 Cookies 管理'); });
+  document.addEventListener('keydown',function(e){ if(e.key!=='Escape'||$('#cookieSheet').hidden) return; e.preventDefault(); if(!$('#policyPanel').hidden) showPanel(lastPanel); else if(!$('#preferencePanel').hidden) showPanel('main'); else toast('请选择“全部接受”“全部拒绝”或 Cookies 管理'); });
+
+  $('#replayBtn').addEventListener('click',function(){ choices={necessary:true,functional:false,analytics:false,marketing:false}; syncSwitches(); openSheet('main'); });
+  $('#openPreferencesBtn').addEventListener('click',function(){ openSheet('preferences'); });
+  $('#clearBtn').addEventListener('click',function(){ try{localStorage.removeItem(STORE_KEY);}catch(e){} choices={necessary:true,functional:false,analytics:false,marketing:false}; openSheet('main'); toast('已清除本机授权记录'); });
+
+  var saved=readRecord(); if(saved) choices=Object.assign({},choices,saved.choices);
+  syncSwitches(); openSheet(INITIAL_PANEL, false);
+})();
+</script>
+</body>
+</html>

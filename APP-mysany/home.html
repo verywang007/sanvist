@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E2231A">
+<title>MySANY · 首页</title>
+<script>
+if (new URLSearchParams(location.search).get('embed') === '1') {
+  document.documentElement.classList.add('is-embedded');
+}
+</script>
+<style>
+/* =========================================================
+   MySANY APP · 首页（按真机截图还原）
+   基准设备 414 × 896，沿用登录页的设计变量与设备外框
+   ========================================================= */
+:root{
+  --red:      #E2231A;
+  --orange:   #EF7C22;
+  --amber:    #F7A64B;
+  --ink:      #17171C;
+  --sub:      #6A6A72;
+  --muted:    #9A9AA2;
+  --line:     #F0F0F3;
+  --page:     #F2F3F5;
+}
+
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+[hidden]{ display:none !important; }
+html,body{ margin:0; padding:0; }
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro SC","SF Pro Text","PingFang SC",
+              "Helvetica Neue","Microsoft YaHei",sans-serif;
+  background:#E9EAEE;
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+
+.stage{
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  padding:28px 16px;
+}
+
+.device{
+  position:relative;
+  width:414px; height:896px;
+  background:var(--page);
+  border-radius:44px;
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  box-shadow:0 24px 70px rgba(18,20,28,.26), 0 2px 8px rgba(18,20,28,.10);
+}
+
+/* =========================================================
+   顶部：状态栏 + 导航（红色渐变，滚动时固定）
+   ========================================================= */
+.topbar{
+  flex:none; position:relative; z-index:5;
+  background:linear-gradient(174deg,#F0231F 0%,#D9171A 34%,#A81114 68%,#6E0D10 100%);
+  color:#fff;
+}
+
+.statusbar{
+  position:relative;
+  height:50px; padding:0 20px 0 24px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.sb-time{ font-size:16px; font-weight:600; letter-spacing:-.2px; }
+.sb-right{ display:flex; align-items:center; gap:6px; }
+.sb-signal{ width:17px; height:11px; fill:#fff; }
+.sb-5g{ font-size:14px; font-weight:500; letter-spacing:-.1px; }
+.sb-battery{ width:27px; height:13px; }
+
+/* 灵动岛 */
+.island{
+  position:absolute; left:50%; top:9px; transform:translateX(-50%);
+  width:118px; height:33px; border-radius:17px;
+  background:#000;
+  display:flex; align-items:center; padding-left:7px;
+}
+.island .live{
+  width:19px; height:19px; border-radius:6px; background:#25C45A;
+  display:flex; align-items:center; justify-content:center;
+}
+.island .live svg{ width:11px; height:11px; fill:#fff; }
+
+/* 导航条 */
+.navbar{
+  height:56px; padding:0 14px;
+  display:flex; align-items:center; gap:10px;
+}
+.brand{
+  font-size:23px; font-weight:800; letter-spacing:.5px;
+  font-style:italic; line-height:1;
+  transform:skewX(-2deg);
+}
+.search{
+  flex:1; min-width:0; height:34px; padding:0 11px;
+  display:flex; align-items:center; gap:7px;
+  background:rgba(0,0,0,.20); border-radius:17px;
+  color:rgba(255,255,255,.82); font-size:14px;
+}
+.search .s-ico{ width:15px; height:15px; flex:none; }
+.search .s-txt{ flex:1; }
+.search .s-scan{ width:17px; height:17px; flex:none; opacity:.9; }
+
+.nav-btn{
+  position:relative; flex:none;
+  width:26px; height:26px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.nav-btn svg{ width:22px; height:22px; }
+.badge{
+  position:absolute; top:-3px; right:-5px;
+  min-width:16px; height:16px; padding:0 4px;
+  border-radius:8px; background:#FF3B30; border:1.5px solid #E0201C;
+  font-size:10px; font-weight:600; line-height:13px; text-align:center; color:#fff;
+}
+
+/* =========================================================
+   内容区（可滚动）
+   ========================================================= */
+.content{
+  flex:1; min-height:0;
+  overflow-y:auto; overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  background:var(--page);
+}
+.content::-webkit-scrollbar{ width:0; }
+
+/* ── 应用宫格（左右分页） ───────────────────────────── */
+.apps{
+  background:#fff;
+  border-radius:14px 14px 0 0;
+  padding:14px 0 0;
+}
+.apps-viewport{ overflow:hidden; }
+.apps-track{
+  display:flex;
+  height:92px;
+  transition:transform .32s cubic-bezier(.32,.72,0,1), height .32s cubic-bezier(.32,.72,0,1);
+}
+.apps-track.page-2{ height:186px; }
+
+.apps-page{ flex:none; width:414px; overflow:hidden; }
+
+/* 第 1 页：单行大图标，第 5 个露出一半 */
+.apps-page.p1{
+  display:flex; gap:11px; padding:0 16px;
+}
+.apps-page.p1 .tile{ flex:none; width:77px; }
+
+/* 第 2 页：5 列 2 行 */
+.apps-page.p2{
+  display:grid; grid-template-columns:repeat(5,1fr);
+  gap:10px 8px; padding:0 12px;
+}
+
+.tile{
+  height:76px; border-radius:10px;
+  background:#fff; border:1px solid #F1F1F4;
+  box-shadow:0 1px 3px rgba(20,20,30,.04);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px;
+  cursor:pointer;
+  transition:transform .14s ease, background .14s ease;
+}
+.tile:active{ transform:scale(.96); background:#FAFAFC; }
+.tile svg{ width:30px; height:30px; flex:none; }
+.tile span{
+  font-size:12px; color:#2E2E36; line-height:1;
+  width:100%; padding:0 3px; text-align:center;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+
+.dots{
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  padding:11px 0 14px;
+}
+.dots i{
+  display:block; width:17px; height:5px; border-radius:3px;
+  background:#D9DADF;
+  transition:width .24s ease, background .24s ease;
+  cursor:pointer;
+}
+.dots i.on{ width:6px; height:6px; border-radius:50%; background:#3A3A42; }
+
+/* ── 通用区块标题 ───────────────────────────────────── */
+.sec-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 16px 12px;
+}
+.sec-title{ font-size:17px; font-weight:700; color:#1A1A20; }
+.sec-more{
+  display:flex; align-items:center; gap:3px;
+  font-size:14px; color:#4A4A52; cursor:pointer;
+}
+.sec-more svg{ width:7px; height:12px; }
+.chev{ fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+
+/* ── 最近查看 ───────────────────────────────────────── */
+.recent{
+  display:flex; gap:12px; padding:0 16px;
+}
+.r-card{
+  flex:1; min-width:0;
+  background:#fff; border-radius:12px; padding:14px;
+  box-shadow:0 1px 4px rgba(20,20,30,.05);
+  cursor:pointer;
+}
+.r-thumb{
+  height:96px; border-radius:6px; background:#F4F4F6;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:12px;
+}
+.r-thumb b{
+  font-size:22px; font-weight:800; font-style:italic; letter-spacing:.5px;
+  color:var(--red); transform:skewX(-2deg);
+}
+.r-name{ font-size:15px; font-weight:600; color:#1A1A20; }
+.r-code{ margin-top:6px; font-size:13px; color:var(--muted); }
+
+/* ── 设备开机动态 ───────────────────────────────────── */
+.panel{
+  margin:0 16px; background:#fff; border-radius:12px;
+  box-shadow:0 1px 4px rgba(20,20,30,.05);
+  overflow:hidden;
+}
+
+.chart{ padding:16px 12px 8px; }
+.chart-grid{
+  position:relative; height:112px;
+  padding-left:22px;
+}
+.chart-grid .gl{
+  position:absolute; left:22px; right:0;
+  border-top:1px dashed #E6E7EB;
+}
+.chart-grid .gl span{
+  position:absolute; left:-22px; top:-8px;
+  font-size:11px; color:var(--muted);
+}
+.bars{
+  position:absolute; left:22px; right:0; bottom:0; top:0;
+  display:flex; align-items:flex-end; gap:2px;
+}
+.bars i{
+  flex:1; display:block; border-radius:1px;
+  background:linear-gradient(180deg,#F79A3C,#F08023);
+}
+.x-axis{
+  display:flex; padding-left:22px; margin-top:7px;
+}
+.x-axis span{ flex:1; text-align:center; font-size:11px; color:var(--muted); }
+
+/* 设备行 */
+.dev-row{
+  display:flex; align-items:center; gap:10px;
+  padding:6px 14px 0; cursor:pointer;
+}
+.dev-logo{
+  width:38px; height:28px; border-radius:4px; background:#F4F4F6;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:800; font-style:italic; color:var(--red);
+}
+.dev-row .d-code{ flex:1; font-size:16px; font-weight:600; color:#1A1A20; }
+.dev-row svg{ width:8px; height:14px; color:#B4B4BC; }
+
+.stats{
+  display:flex; padding:10px 14px 14px;
+}
+.stat{ flex:1; }
+.stat.right{ text-align:right; }
+.stat b{ font-size:27px; font-weight:600; letter-spacing:-.5px; color:#141418; }
+.stat i{ display:block; margin-top:4px; font-style:normal; font-size:12px; color:var(--muted); }
+
+.tl-axis{ display:flex; padding:0 14px; }
+.tl-axis span{ flex:1; font-size:11px; color:var(--muted); text-align:left; }
+.tl-axis span:last-child{ flex:0 0 22px; text-align:right; }
+.tl-bar{
+  display:flex; height:9px; margin:7px 14px 0;
+  border-radius:3px; overflow:hidden; background:#DDDEE4;
+}
+.tl-bar i{ display:block; height:100%; }
+
+.loc{
+  padding:14px 14px 16px;
+  position:relative;
+}
+.loc-line{
+  display:flex; align-items:flex-start; gap:7px;
+  font-size:13px; color:#43434B; line-height:18px;
+}
+.loc-line + .loc-line{ margin-top:8px; }
+.loc-line svg{ width:14px; height:14px; flex:none; margin-top:2px; color:#6A6A72; }
+.loc-line .txt{
+  flex:1; min-width:0;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  padding-right:54px;
+}
+.nav-go{
+  position:absolute; right:14px; top:50%; transform:translateY(-50%);
+  width:44px; height:44px; border-radius:50%;
+  background:#fff; border:1px solid #E7E8EC;
+  box-shadow:0 2px 8px rgba(20,20,30,.08);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.nav-go svg{ width:20px; height:20px; fill:#2E8CF0; }
+
+/* ── 审核事件 ───────────────────────────────────────── */
+.filter{
+  display:flex; align-items:center; gap:4px;
+  font-size:15px; color:#3A3A42; cursor:pointer;
+}
+.filter svg{ width:11px; height:7px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+.audit{ padding:2px 16px 0; }
+.audit-card{
+  background:#fff; border-radius:12px; padding:0 16px;
+  box-shadow:0 1px 4px rgba(20,20,30,.05);
+}
+.a-row{
+  display:flex; align-items:center; gap:9px;
+  padding:17px 0; cursor:pointer;
+  border-bottom:1px solid var(--line);
+}
+.a-row:last-child{ border-bottom:0; }
+.a-main{ flex:1; min-width:0; }
+.a-top{ display:flex; align-items:center; gap:9px; }
+.a-name{ font-size:17px; font-weight:600; color:#1A1A20; }
+.chip{
+  height:20px; padding:0 8px; border-radius:10px;
+  background:#E6F6EC; color:#1FA85A;
+  font-size:12px; line-height:20px;
+}
+.a-sub{
+  display:flex; align-items:center; gap:6px;
+  margin-top:9px; font-size:13px; color:#5A5A62;
+}
+.a-sub .dot{ width:7px; height:7px; border-radius:50%; flex:none; }
+.a-sub .dot.red{ background:#F03B36; }
+.a-sub .dot.amber{ background:#F7A64B; }
+.a-sub .sep{ color:#D6D7DC; }
+.count{
+  min-width:44px; height:28px; padding:0 12px;
+  border-radius:14px; background:#FDE9E8;
+  color:#E2231A; font-size:16px; font-weight:600; line-height:28px; text-align:center;
+}
+.a-row > svg{ width:8px; height:14px; color:#B4B4BC; flex:none; }
+
+/* ── 社区 ───────────────────────────────────────────── */
+.com-tabs{
+  display:flex; align-items:center; gap:26px;
+  padding:20px 16px 0;
+  overflow-x:auto;
+}
+.com-tabs::-webkit-scrollbar{ height:0; }
+.com-tab{
+  position:relative; flex:none;
+  font-size:16px; color:#4A4A52; padding-bottom:9px;
+  cursor:pointer; white-space:nowrap;
+}
+.com-tab.on{ font-size:17px; font-weight:700; color:var(--red); }
+.com-tab.on::after{
+  content:""; position:absolute; left:50%; bottom:0; transform:translateX(-50%);
+  width:26px; height:3px; border-radius:2px; background:var(--red);
+}
+.com-tab .rd{
+  position:absolute; top:-2px; right:-7px;
+  width:6px; height:6px; border-radius:50%; background:var(--red);
+}
+
+.feed{
+  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  padding:12px 16px 24px;
+}
+.post{
+  background:#fff; border-radius:10px; overflow:hidden;
+  box-shadow:0 1px 4px rgba(20,20,30,.05);
+  cursor:pointer;
+}
+.p-img{ position:relative; height:200px; }
+.p-img.a{ background:linear-gradient(170deg,#7FB8E4 0%,#BFD3D0 46%,#D7BE8F 100%); }
+.p-img.b{ background:linear-gradient(170deg,#9AA3A8 0%,#6E7276 48%,#4C4E51 100%); }
+.p-img::before{
+  content:""; position:absolute; left:14%; right:12%; bottom:22%;
+  height:34%; border-radius:6px 10px 4px 4px;
+  background:linear-gradient(180deg,#2F7FC4,#1F5E96);
+  box-shadow:0 4px 10px rgba(0,0,0,.22);
+}
+.p-img::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:16%;
+  background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.22));
+}
+.views{
+  position:absolute; left:8px; bottom:8px; z-index:2;
+  display:flex; align-items:center; gap:4px;
+  height:22px; padding:0 8px; border-radius:11px;
+  background:rgba(0,0,0,.42);
+  color:#fff; font-size:12px;
+}
+.views svg{ width:13px; height:13px; fill:none; stroke:#fff; stroke-width:1.6; }
+
+.p-body{ padding:9px 10px 0; }
+.p-emoji{ font-size:17px; line-height:1; }
+.p-user{
+  display:flex; align-items:center; gap:6px;
+  margin-top:9px;
+}
+.p-avatar{
+  width:19px; height:19px; border-radius:50%; flex:none;
+  background:#E3E4E9; color:#8A8A92;
+  font-size:10px; line-height:19px; text-align:center;
+}
+.p-name{
+  flex:1; min-width:0; font-size:13px; color:#3A3A42;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.p-foot{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:9px; padding:8px 0 10px;
+  border-top:1px solid var(--line);
+  font-size:12px; color:var(--muted);
+}
+.p-like{ display:flex; align-items:center; gap:4px; }
+.p-like svg{ width:13px; height:13px; fill:none; stroke:var(--muted); stroke-width:1.6; }
+
+/* =========================================================
+   底部 Tab
+   ========================================================= */
+.tabbar{
+  flex:none; height:76px;
+  background:#fff; border-top:1px solid var(--line);
+  display:flex; padding-top:8px;
+}
+.tab{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
+  font-size:11px; color:#8A8A92; cursor:pointer;
+}
+.tab svg{ width:23px; height:23px; }
+.tab.on{ color:var(--red); }
+
+/* ── Toast ──────────────────────────────────────────── */
+.toast{
+  position:absolute; z-index:60;
+  left:50%; top:50%;
+  transform:translate(-50%,-50%) scale(.94);
+  max-width:260px; padding:11px 17px; border-radius:12px;
+  background:rgba(20,20,26,.86);
+  color:#fff; font-size:14px; line-height:1.5; text-align:center;
+  opacity:0; pointer-events:none;
+  transition:opacity .2s ease, transform .2s ease;
+}
+.toast.is-open{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+
+/* ── 重新登录后的注销状态提示 ───────────────────────── */
+.cancel-login-mask{
+  position:absolute; inset:0; z-index:80;
+  display:flex; align-items:center; justify-content:center;
+  padding:20px; background:rgba(12,13,18,.34);
+  animation:cancel-mask-in .2s ease both;
+}
+@keyframes cancel-mask-in{ from{opacity:0} to{opacity:1} }
+.cancel-login-dialog{
+  width:304px; padding:22px 18px 16px;
+  border-radius:26px; background:rgba(253,253,254,.98);
+  -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px);
+  text-align:center; box-shadow:0 22px 60px rgba(10,12,20,.25);
+  animation:cancel-dialog-in .24s cubic-bezier(.34,1.3,.64,1) both;
+}
+@keyframes cancel-dialog-in{ from{opacity:0;transform:scale(1.12)} to{opacity:1;transform:none} }
+.cancel-login-icon{
+  display:flex; align-items:center; justify-content:center;
+  width:52px; height:52px; margin:0 auto;
+  border-radius:50%; background:#FFF4E2; color:#C47A0B;
+}
+.cancel-login-icon svg{ width:25px; height:25px; }
+.cancel-login-dialog.cooling .cancel-login-icon{ background:#EAF3FF; color:#3976BC; }
+.cancel-login-dialog.rejected .cancel-login-icon,
+.cancel-login-dialog.failed .cancel-login-icon{ background:#FFF0EF; color:#C3423B; }
+.cancel-login-dialog.revoked .cancel-login-icon,
+.cancel-login-dialog.cancelled .cancel-login-icon{ background:#EFF0F2; color:#71747C; }
+.cancel-login-dialog.processing .cancel-login-icon{ background:#F2ECFF; color:#7353B4; }
+.cancel-login-status{
+  display:inline-flex; align-items:center; gap:5px;
+  min-height:22px; margin-top:12px; padding:0 8px;
+  border-radius:11px; background:#F4F5F7; color:#777982;
+  font-size:11px; font-weight:600;
+}
+.cancel-login-status::before{ content:""; width:6px; height:6px; border-radius:50%; background:currentColor; }
+.cancel-login-title{ margin-top:8px; color:#111218; font-size:19px; font-weight:700; line-height:1.35; }
+.cancel-login-message{ margin:8px 1px 0; color:#666870; font-size:13px; line-height:1.65; white-space:pre-line; }
+.cancel-login-no{ margin-top:9px; color:#A0A2A9; font-size:10.5px; }
+.cancel-login-actions{ display:flex; gap:9px; margin-top:18px; }
+.cancel-login-actions button{
+  flex:1; min-width:0; height:44px; border:0; border-radius:15px;
+  background:#E9E9ED; color:#222329; font:inherit; font-size:14.5px;
+}
+.cancel-login-actions button:active{ background:#DEDFE4; }
+.cancel-login-actions .primary{ background:#1C1C22; color:#fff; font-weight:600; }
+.cancel-login-actions .primary.danger{ background:var(--red); }
+.cancel-login-actions.is-single .primary{ flex:none; width:100%; }
+
+/* ── 真机全屏 ───────────────────────────────────────── */
+@media (max-width:459px), (max-height:930px) and (pointer:coarse){
+  .stage{ padding:0; min-height:100dvh; }
+  .device{ width:100%; height:100dvh; border-radius:0; box-shadow:none; }
+  .apps-page{ width:100vw; }
+}
+html.is-embedded,html.is-embedded body{ width:100%; height:100%; overflow:hidden; background:var(--page); }
+html.is-embedded .stage{ width:100%; height:100%; min-height:0; padding:0; }
+html.is-embedded .device{ width:100%; height:100%; border-radius:0; box-shadow:none; }
+html.is-embedded .apps-page{ width:100%; }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="device">
+
+    <!-- ══ 顶部 ═══════════════════════════════════════ -->
+    <header class="topbar">
+      <div class="statusbar">
+        <span class="sb-time" id="clock">17:35</span>
+
+        <span class="island" aria-hidden="true">
+          <span class="live">
+            <svg viewBox="0 0 24 24"><path d="M4 7h10a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V9a2 2 0 012-2zm14 3l4-2.5v9L18 14z"/></svg>
+          </span>
+        </span>
+
+        <span class="sb-right">
+          <svg class="sb-signal" viewBox="0 0 17 11" aria-hidden="true">
+            <circle cx="1.5" cy="9.5" r="1.5"/>
+            <circle cx="5.5" cy="9.5" r="1.5"/><circle cx="5.5" cy="5.8" r="1.5"/>
+            <circle cx="9.5" cy="9.5" r="1.5"/><circle cx="9.5" cy="5.8" r="1.5"/><circle cx="9.5" cy="2.1" r="1.5"/>
+            <rect x="12" y="0" width="3" height="11" rx="1.5"/>
+          </svg>
+          <span class="sb-5g">5G</span>
+          <svg class="sb-battery" viewBox="0 0 27 13" aria-hidden="true">
+            <clipPath id="batClip"><rect x="0" y="0" width="25" height="13" rx="4.2"/></clipPath>
+            <rect x="0" y="0" width="25" height="13" rx="4.2" fill="rgba(255,255,255,.45)"/>
+            <rect x="0" y="0" width="7.3" height="13" fill="#fff" clip-path="url(#batClip)"/>
+            <path d="M25.9 4.3c.9.3 1.1 1 1.1 2.2s-.2 1.9-1.1 2.2z" fill="rgba(255,255,255,.45)"/>
+            <text x="12.5" y="9.9" text-anchor="middle" font-size="9.2" font-weight="700" fill="#fff">29</text>
+          </svg>
+        </span>
+      </div>
+
+      <div class="navbar">
+        <div class="brand">SANY</div>
+
+        <div class="search" data-toast="搜索（原型暂未实现）">
+          <svg class="s-ico" viewBox="0 0 16 16" aria-hidden="true">
+            <circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M10.9 10.9L14.2 14.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          <span class="s-txt">搜索</span>
+          <svg class="s-scan" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M2.6 6.6V4.2a1.6 1.6 0 011.6-1.6h2.4M13.4 2.6h2.4a1.6 1.6 0 011.6 1.6v2.4M17.4 13.4v2.4a1.6 1.6 0 01-1.6 1.6h-2.4M6.6 17.4H4.2a1.6 1.6 0 01-1.6-1.6v-2.4"/>
+            <path d="M2.6 10h14.8"/>
+          </svg>
+        </div>
+
+        <div class="nav-btn" data-toast="消息中心（原型暂未实现）">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18.5 15.5V10a6.5 6.5 0 10-13 0v5.5L4 17.8h16z"/>
+            <path d="M9.8 20.4a2.4 2.4 0 004.4 0"/>
+          </svg>
+          <span class="badge">4</span>
+        </div>
+
+        <div class="nav-btn" data-toast="快捷发布（原型暂未实现）">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9.2"/><path d="M12 7.6v8.8M7.6 12h8.8"/>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- ══ 内容 ═══════════════════════════════════════ -->
+    <main class="content" id="content">
+
+      <!-- 应用宫格 -->
+      <section class="apps">
+        <div class="apps-viewport" id="appsViewport">
+          <div class="apps-track" id="appsTrack">
+            <div class="apps-page p1" id="page1"></div>
+            <div class="apps-page p2" id="page2"></div>
+          </div>
+        </div>
+        <div class="dots" id="dots">
+          <i class="on" data-i="0"></i><i data-i="1"></i>
+        </div>
+      </section>
+
+      <!-- 最近查看 -->
+      <div class="sec-head">
+        <span class="sec-title">最近查看</span>
+        <span class="sec-more" data-toast="查看全部最近设备">详情
+          <svg class="chev" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5"/></svg>
+        </span>
+      </div>
+      <div class="recent">
+        <div class="r-card" data-toast="纯电动牵引车 EV4256CF0040">
+          <div class="r-thumb"><b>SANY</b></div>
+          <div class="r-name">纯电动牵引车</div>
+          <div class="r-code">EV4256CF0040</div>
+        </div>
+        <div class="r-card" data-toast="电动装载机 SW956E9CFB678">
+          <div class="r-thumb"><b>SANY</b></div>
+          <div class="r-name">电动装载机</div>
+          <div class="r-code">SW956E9CFB678</div>
+        </div>
+      </div>
+
+      <!-- 设备开机动态 -->
+      <div class="sec-head">
+        <span class="sec-title">设备开机动态</span>
+        <span class="sec-more" data-toast="开机曲线（原型暂未实现）">开机曲线
+          <svg class="chev" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5"/></svg>
+        </span>
+      </div>
+
+      <section class="panel">
+        <div class="chart">
+          <div class="chart-grid">
+            <div class="gl" style="top:0"><span>10</span></div>
+            <div class="gl" style="top:50%"><span>5</span></div>
+            <div class="gl" style="top:100%"><span>0</span></div>
+            <div class="bars" id="bars"></div>
+          </div>
+          <div class="x-axis" id="xAxis"></div>
+        </div>
+
+        <div class="dev-row" data-toast="EV4256CF0041 设备详情">
+          <span class="dev-logo">SANY</span>
+          <span class="d-code">EV4256CF0041</span>
+          <svg class="chev" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5"/></svg>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><b>12.52h</b><i>当日总工时</i></div>
+          <div class="stat right"><b>106kWh</b><i>当日总电耗</i></div>
+        </div>
+
+        <div class="tl-axis" id="tlAxis"></div>
+        <div class="tl-bar" id="tlBar"></div>
+
+        <div class="loc">
+          <div class="loc-line">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M8 14.5s5-4.3 5-8a5 5 0 10-10 0c0 3.7 5 8 5 8z"/><circle cx="8" cy="6.4" r="1.9"/>
+            </svg>
+            <span class="txt">01, Đường Cảng Phước An, Đồng Nai, Đồng Nai, 越…</span>
+          </div>
+          <div class="loc-line">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="8" cy="8" r="6.3"/><path d="M8 4.4V8l2.6 1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="txt">2026-09-22 04:02:32 UTC+7</span>
+          </div>
+          <div class="nav-go" data-toast="导航到设备位置">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M17.6 2.4L2.6 8.5c-.8.3-.7 1.4.1 1.6l6 1.7 1.7 6c.2.8 1.3.9 1.6.1l6.1-15c.3-.6-.3-1.2-.9-.9z"/></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- 审核事件 -->
+      <div class="sec-head">
+        <span class="sec-title">审核事件</span>
+        <span class="filter" data-toast="切换统计周期">过去30天
+          <svg viewBox="0 0 11 7"><path d="M1 1l4.5 4.5L10 1"/></svg>
+        </span>
+      </div>
+
+      <section class="audit">
+        <div class="audit-card">
+          <div class="a-row" data-toast="设备异常 · 13 条">
+            <div class="a-main">
+              <div class="a-top">
+                <span class="a-name">设备异常</span>
+                <span class="chip">11 未读</span>
+              </div>
+            </div>
+            <span class="count">13</span>
+            <svg class="chev" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5"/></svg>
+          </div>
+
+          <div class="a-row" data-toast="维保事项 · 60 条">
+            <div class="a-main">
+              <div class="a-top">
+                <span class="a-name">维保事项</span>
+                <span class="chip">59 未读</span>
+              </div>
+              <div class="a-sub">
+                <span class="dot red"></span>已超时：60
+                <span class="sep">|</span>
+                <span class="dot amber"></span>临期：0
+              </div>
+            </div>
+            <span class="count">60</span>
+            <svg class="chev" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5"/></svg>
+          </div>
+
+          <div class="a-row" data-toast="燃油异常">
+            <div class="a-main"><div class="a-top"><span class="a-name">燃油异常</span></div></div>
+            <svg class="chev" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5"/></svg>
+          </div>
+
+          <div class="a-row" data-toast="位置预警">
+            <div class="a-main"><div class="a-top"><span class="a-name">位置预警</span></div></div>
+            <svg class="chev" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5"/></svg>
+          </div>
+
+          <div class="a-row" data-toast="检查异常">
+            <div class="a-main"><div class="a-top"><span class="a-name">检查异常</span></div></div>
+            <svg class="chev" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5"/></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- 社区 -->
+      <div class="com-tabs" id="comTabs">
+        <span class="com-tab">故障求助</span>
+        <span class="com-tab on">经验分享</span>
+        <span class="com-tab">话题</span>
+        <span class="com-tab">关注</span>
+        <span class="com-tab">我的<i class="rd"></i></span>
+      </div>
+
+      <div class="feed">
+        <article class="post" data-toast="打开经验分享详情">
+          <div class="p-img a">
+            <span class="views">
+              <svg viewBox="0 0 16 16"><path d="M1.3 8S3.8 3.6 8 3.6 14.7 8 14.7 8 12.2 12.4 8 12.4 1.3 8 1.3 8z"/><circle cx="8" cy="8" r="2"/></svg>
+              59
+            </span>
+          </div>
+          <div class="p-body">
+            <div class="p-emoji">🙂</div>
+            <div class="p-user">
+              <span class="p-avatar">s</span>
+              <span class="p-name">sany1420821</span>
+            </div>
+            <div class="p-foot">
+              <span>2026-09-16</span>
+              <span class="p-like">
+                <svg viewBox="0 0 16 16"><path d="M8 13.8S2 10.2 2 6.4a3.2 3.2 0 016-1.5 3.2 3.2 0 016 1.5c0 3.8-6 7.4-6 7.4z"/></svg>
+                5
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="post" data-toast="打开经验分享详情">
+          <div class="p-img b">
+            <span class="views">
+              <svg viewBox="0 0 16 16"><path d="M1.3 8S3.8 3.6 8 3.6 14.7 8 14.7 8 12.2 12.4 8 12.4 1.3 8 1.3 8z"/><circle cx="8" cy="8" r="2"/></svg>
+              45
+            </span>
+          </div>
+          <div class="p-body">
+            <div class="p-emoji">🙂</div>
+            <div class="p-user">
+              <span class="p-avatar">s</span>
+              <span class="p-name">sany1420821</span>
+            </div>
+            <div class="p-foot">
+              <span>2026-09-16</span>
+              <span class="p-like">
+                <svg viewBox="0 0 16 16"><path d="M8 13.8S2 10.2 2 6.4a3.2 3.2 0 016-1.5 3.2 3.2 0 016 1.5c0 3.8-6 7.4-6 7.4z"/></svg>
+                5
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <!-- ══ 底部 Tab ═══════════════════════════════════ -->
+    <nav class="tabbar">
+      <div class="tab on">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3.1l8.4 7.1c.3.3.1.8-.3.8H19v8.4c0 .8-.6 1.4-1.4 1.4h-3.1v-5.2h-5V20.8H6.4c-.8 0-1.4-.6-1.4-1.4V11H3.9c-.4 0-.6-.5-.3-.8L12 3.1z"/></svg>
+        首页
+      </div>
+      <div class="tab" data-toast="设备（原型暂未实现）">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 2.8l8 4.6v9.2l-8 4.6-8-4.6V7.4z"/><path d="M8.4 8.6L12 11.6l3.6-3M12 11.6v4.6" stroke-linecap="round"/>
+        </svg>
+        设备
+      </div>
+      <div class="tab" data-toast="审核（原型暂未实现）">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="6.8" r="3.2"/><path d="M6.6 20.2v-2.6c0-2 2.4-3.6 5.4-3.6s5.4 1.6 5.4 3.6v2.6z" stroke-linecap="round"/>
+        </svg>
+        审核
+      </div>
+      <div class="tab" data-href="mine.html" role="button" tabindex="0" aria-label="进入我的页面">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <circle cx="12" cy="7.4" r="3.6"/><path d="M4.6 20.4c0-3.6 3.3-6 7.4-6s7.4 2.4 7.4 6" stroke-linecap="round"/>
+        </svg>
+        我
+      </div>
+    </nav>
+
+    <div class="cancel-login-mask" id="cancelLoginMask" hidden>
+      <section class="cancel-login-dialog" id="cancelLoginDialog" role="dialog" aria-modal="true" aria-labelledby="cancelLoginTitle">
+        <span class="cancel-login-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.2v5.2l3.4 2"/></svg>
+        </span>
+        <span class="cancel-login-status" id="cancelLoginStatus">待审核</span>
+        <div class="cancel-login-title" id="cancelLoginTitle">注销申请状态</div>
+        <p class="cancel-login-message" id="cancelLoginMessage"></p>
+        <div class="cancel-login-no" id="cancelLoginNo"></div>
+        <div class="cancel-login-actions" id="cancelLoginActions">
+          <button type="button" id="cancelLoginSecondary">继续使用</button>
+          <button type="button" class="primary" id="cancelLoginPrimary">查看进度</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var $  = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+
+  /* ── Toast ──────────────────────────────────────── */
+  var toastEl = $('#toast'), toastTimer;
+  function toast(msg, ms) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('is-open');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('is-open'); }, ms || 1600);
+  }
+
+  /* ── 重新登录：按注销状态提示 ───────────────────── */
+  var cancelStoreKey = 'mysany.cancelPrototype.v1';
+  var cancelMask = $('#cancelLoginMask');
+  var cancelDialog = $('#cancelLoginDialog');
+  var cancelStatus = $('#cancelLoginStatus');
+  var cancelTitle = $('#cancelLoginTitle');
+  var cancelMessage = $('#cancelLoginMessage');
+  var cancelNo = $('#cancelLoginNo');
+  var cancelActions = $('#cancelLoginActions');
+  var cancelSecondary = $('#cancelLoginSecondary');
+  var cancelPrimary = $('#cancelLoginPrimary');
+  var cancelSecondaryAction = null;
+  var cancelPrimaryAction = null;
+  var cancelRecord = null;
+
+  function cancelFormatTime(value) {
+    if (!value) return '—';
+    var d = new Date(value);
+    if (isNaN(d.getTime())) return value;
+    function p(n) { return String(n).padStart(2, '0'); }
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+  }
+
+  function readCancelRecord() {
+    try { return JSON.parse(localStorage.getItem(cancelStoreKey)); }
+    catch (e) { return null; }
+  }
+
+  function closeCancelPrompt() {
+    cancelMask.hidden = true;
+    if (history.replaceState) history.replaceState(null, '', 'home.html');
+  }
+
+  function cancelPromptConfig(record) {
+    var applyTime = cancelFormatTime(record.applyTime);
+    var coolingEnd = cancelFormatTime(record.coolingEnd);
+    var opinion = record.auditOpinion || '请进入申请详情查看处理说明。';
+    return {
+      PENDING: {
+        tag: '待审核', title: '注销申请正在审核',
+        message: '您于 ' + applyTime + ' 提交了注销申请。审核期间账号仍可正常使用，您也可以在申请详情中主动撤销。',
+        secondary: '继续使用', primary: '查看进度', secondaryAction: 'close', primaryAction: 'detail'
+      },
+      COOLING: {
+        tag: '冷静期', title: '注销申请冷静期中',
+        message: '申请已通过审核，将于 ' + coolingEnd + ' 后开始注销。重新登录不会自动撤销，请确认是否继续保留申请。',
+        secondary: '继续保留申请', primary: '撤销申请', secondaryAction: 'close', primaryAction: 'withdraw', danger: true
+      },
+      REJECTED: {
+        tag: '已驳回', title: '注销申请未通过',
+        message: '本次申请未通过。\n原因：' + opinion,
+        secondary: '知道了', primary: '查看原因', secondaryAction: 'close', primaryAction: 'detail'
+      },
+      REVOKED: {
+        tag: '已撤销', title: '注销申请已撤销',
+        message: '本次注销流程已经终止，您的账号可以继续正常使用。如仍需注销，可重新提交申请。',
+        secondary: '知道了', primary: '查看记录', secondaryAction: 'close', primaryAction: 'detail'
+      },
+      PROCESSING: {
+        tag: '注销中', title: '账号正在注销',
+        message: '注销处理已经开始，当前账号暂时无法使用且不可撤销。完成后将通过绑定联系方式通知您。',
+        secondary: '返回登录', primary: '联系客服', secondaryAction: 'login', primaryAction: 'service'
+      },
+      FAILED: {
+        tag: '处理异常', title: '注销处理暂未完成',
+        message: '平台正在处理本次注销异常，当前账号暂时无法登录。请勿重复提交申请。',
+        secondary: '返回登录', primary: '联系客服', secondaryAction: 'login', primaryAction: 'service'
+      },
+      CANCELLED: {
+        tag: '已注销', title: '账号已完成注销',
+        message: '该账号已停止登录，个人信息已按适用规则删除或匿名化。如需再次使用，请重新注册账号。',
+        secondary: '', primary: '返回登录', secondaryAction: null, primaryAction: 'login'
+      }
+    }[record.status];
+  }
+
+  function renderCancelPrompt(record) {
+    var config = cancelPromptConfig(record);
+    if (!config) return;
+    cancelRecord = record;
+    cancelDialog.className = 'cancel-login-dialog ' + record.status.toLowerCase();
+    cancelStatus.textContent = config.tag;
+    cancelTitle.textContent = config.title;
+    cancelMessage.textContent = config.message;
+    cancelNo.textContent = record.no ? '申请单号 ' + record.no : '';
+    cancelSecondary.textContent = config.secondary || '';
+    cancelSecondary.hidden = !config.secondary;
+    cancelPrimary.textContent = config.primary;
+    cancelPrimary.className = 'primary' + (config.danger ? ' danger' : '');
+    cancelActions.classList.toggle('is-single', !config.secondary);
+    cancelSecondaryAction = config.secondaryAction;
+    cancelPrimaryAction = config.primaryAction;
+    cancelMask.hidden = false;
+  }
+
+  function confirmCancelWithdrawal() {
+    cancelDialog.className = 'cancel-login-dialog cooling';
+    cancelStatus.textContent = '操作确认';
+    cancelTitle.textContent = '确认撤销注销申请？';
+    cancelMessage.textContent = '撤销后本次注销流程将立即终止，账号继续正常使用。如仍需注销，需要重新提交申请。';
+    cancelSecondary.hidden = false;
+    cancelSecondary.textContent = '返回';
+    cancelPrimary.textContent = '确认撤销';
+    cancelPrimary.className = 'primary danger';
+    cancelActions.classList.remove('is-single');
+    cancelSecondaryAction = 'restore';
+    cancelPrimaryAction = 'confirmWithdraw';
+  }
+
+  function runCancelAction(action) {
+    if (action === 'close') { closeCancelPrompt(); return; }
+    if (action === 'detail') { location.href = 'account-cancellation.html'; return; }
+    if (action === 'withdraw') { confirmCancelWithdrawal(); return; }
+    if (action === 'restore') { renderCancelPrompt(cancelRecord); return; }
+    if (action === 'login') { location.href = 'index.html'; return; }
+    if (action === 'service') { toast('拨打 0086-4006098318', 2200); return; }
+    if (action === 'confirmWithdraw') {
+      cancelRecord.status = 'REVOKED';
+      cancelRecord.revokeTime = new Date().toISOString();
+      cancelRecord.updatedTime = cancelRecord.revokeTime;
+      try { localStorage.setItem(cancelStoreKey, JSON.stringify(cancelRecord)); } catch (e) {}
+      closeCancelPrompt();
+      toast('注销申请已撤销', 2200);
+    }
+  }
+
+  cancelSecondary.addEventListener('click', function () { runCancelAction(cancelSecondaryAction); });
+  cancelPrimary.addEventListener('click', function () { runCancelAction(cancelPrimaryAction); });
+
+  var loginQuery = new URLSearchParams(location.search);
+  var cancelPreviewStatus = String(loginQuery.get('cancelState') || '').toUpperCase();
+  if (loginQuery.get('from') === 'login' || cancelPreviewStatus) {
+    var loginCancelRecord = readCancelRecord() || {
+      no: 'CAN-20261008-0018', applyTime: new Date().toISOString(),
+      coolingEnd: new Date(Date.now() + 15 * 86400000).toISOString(),
+      auditOpinion: '您仍是设备管理员，请先完成权限移交后重新提交。'
+    };
+    if (cancelPreviewStatus) loginCancelRecord.status = cancelPreviewStatus;
+    renderCancelPrompt(loginCancelRecord);
+  }
+
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('[data-href]');
+    if (link) { location.href = link.dataset.href; return; }
+    var el = e.target.closest('[data-toast]');
+    if (el) toast(el.dataset.toast);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var link = e.target.closest('[data-href]');
+    if (!link) return;
+    e.preventDefault(); location.href = link.dataset.href;
+  });
+
+  /* ── 状态栏时钟 ─────────────────────────────────── */
+  function tickClock() {
+    var d = new Date();
+    $('#clock').textContent = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+  }
+  tickClock();
+  setInterval(tickClock, 15000);
+
+  /* ── 应用图标 ───────────────────────────────────── */
+  var O = '#EF7C22', A = '#F7A64B';
+  var ICON = {
+    call:  '<path d="M4 25h24" stroke="'+A+'" stroke-width="2" stroke-linecap="round"/><rect x="6" y="14" width="5" height="8" rx="1" fill="'+A+'"/><rect x="13" y="8" width="5" height="14" rx="1" fill="'+O+'"/><rect x="20" y="17" width="5" height="5" rx="1" fill="'+A+'"/>',
+    part:  '<rect x="6" y="4" width="15" height="21" rx="2.4" fill="none" stroke="'+A+'" stroke-width="2"/><path d="M10 10h7M10 14h7M10 18h4" stroke="'+A+'" stroke-width="2" stroke-linecap="round"/><path d="M21.6 16.8a3.4 3.4 0 014.6 4.4l2.4 2.4-2 2-2.4-2.4a3.4 3.4 0 01-4.4-4.6l1.8 1.8 1.6-1.6z" fill="'+O+'"/>',
+    care:  '<rect x="4" y="6" width="19" height="19" rx="2.4" fill="none" stroke="'+A+'" stroke-width="2"/><path d="M4 11h19" stroke="'+A+'" stroke-width="2"/><path d="M9 3.5v4M18 3.5v4" stroke="'+O+'" stroke-width="2" stroke-linecap="round"/><path d="M19 16h8v10l-4-2.4L19 26z" fill="'+O+'"/>',
+    prod:  '<circle cx="9.5" cy="9.5" r="4.6" fill="none" stroke="'+A+'" stroke-width="2"/><rect x="17" y="5" width="9.5" height="9.5" rx="1.6" fill="none" stroke="'+A+'" stroke-width="2"/><circle cx="9.5" cy="22.5" r="4.6" fill="none" stroke="'+A+'" stroke-width="2"/><rect x="21.3" y="15.8" width="2.4" height="3" fill="'+O+'"/><rect x="21.3" y="26.2" width="2.4" height="3" fill="'+O+'"/><rect x="15.8" y="21.3" width="3" height="2.4" fill="'+O+'"/><rect x="26.2" y="21.3" width="3" height="2.4" fill="'+O+'"/><circle cx="22.5" cy="22.5" r="5" fill="'+O+'"/><circle cx="22.5" cy="22.5" r="1.9" fill="#fff"/>',
+    chart: '<path d="M4 24h24" stroke="'+A+'" stroke-width="2" stroke-linecap="round"/><path d="M5 19l6-9 5 6 4-7 6 10z" fill="'+O+'"/><path d="M5 9v14" stroke="'+A+'" stroke-width="2" stroke-linecap="round"/>',
+    check: '<rect x="5" y="3" width="17" height="22" rx="2.4" fill="none" stroke="'+A+'" stroke-width="2"/><path d="M9 9h9M9 13h6" stroke="'+A+'" stroke-width="2" stroke-linecap="round"/><circle cx="19" cy="19.5" r="5" fill="none" stroke="'+O+'" stroke-width="2.4"/><path d="M22.8 23.4l4 4" stroke="'+O+'" stroke-width="2.6" stroke-linecap="round"/>',
+    truck: '<rect x="3" y="9" width="15" height="11" rx="1.6" fill="none" stroke="'+O+'" stroke-width="2"/><path d="M18 12.5h5l4 4V20h-9z" fill="none" stroke="'+O+'" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="23" r="2.6" fill="none" stroke="'+A+'" stroke-width="2"/><circle cx="22" cy="23" r="2.6" fill="none" stroke="'+A+'" stroke-width="2"/>',
+    serve: '<path d="M5 19v-4a11 11 0 0122 0v4" fill="none" stroke="'+A+'" stroke-width="2" stroke-linecap="round"/><rect x="3" y="16" width="5" height="8" rx="2.4" fill="'+O+'"/><rect x="24" y="16" width="5" height="8" rx="2.4" fill="'+O+'"/><path d="M24 24v1.6a3 3 0 01-3 3h-4" fill="none" stroke="'+A+'" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="12" r="4.2" fill="'+A+'"/>',
+    phone: '<rect x="8" y="2.5" width="16" height="27" rx="3" fill="none" stroke="'+A+'" stroke-width="2"/><rect x="11" y="6.5" width="10" height="14" rx="1.4" fill="'+O+'"/><path d="M13.6 28h4.8" stroke="'+A+'" stroke-width="2" stroke-linecap="round"/>',
+    news:  '<rect x="4" y="5" width="19" height="22" rx="2.4" fill="none" stroke="'+A+'" stroke-width="2"/><path d="M23 10h4v14.5a2.5 2.5 0 01-2.5 2.5H23z" fill="none" stroke="'+A+'" stroke-width="2"/><rect x="8" y="10" width="6" height="5" rx="1" fill="'+O+'"/><path d="M16.5 11h3M16.5 14.5h3M8 19.5h11M8 23h8" stroke="'+O+'" stroke-width="2" stroke-linecap="round"/>',
+    quiz:  '<path d="M6 4.5h13l7 7v16a2 2 0 01-2 2H6a2 2 0 01-2-2v-21a2 2 0 012-2z" fill="none" stroke="'+A+'" stroke-width="2" stroke-linejoin="round"/><path d="M19 4.5v7h7" fill="none" stroke="'+A+'" stroke-width="2" stroke-linejoin="round"/><path d="M12 14.6a3.2 3.2 0 114.4 3c-.8.4-1.2 1-1.2 1.9v.6" fill="none" stroke="'+O+'" stroke-width="2.2" stroke-linecap="round"/><circle cx="15.2" cy="24" r="1.4" fill="'+O+'"/>',
+    all:   '<path d="M16 3l13 6-13 6-13-6z" fill="'+A+'"/><path d="M3 16l13 6 13-6" fill="none" stroke="'+O+'" stroke-width="2.4" stroke-linejoin="round"/><path d="M3 22.5l13 6 13-6" fill="none" stroke="'+O+'" stroke-width="2.4" stroke-linejoin="round"/>'
+  };
+
+  function tile(name, icon) {
+    return '<div class="tile" data-toast="' + name + '（原型暂未实现）">' +
+             '<svg viewBox="0 0 32 32" aria-hidden="true">' + ICON[icon] + '</svg>' +
+             '<span>' + name + '</span>' +
+           '</div>';
+  }
+
+  var PAGE1 = [['我要召请','call'],['我要配件','part'],['设备保养','care'],['产品中心','prod'],['机群报表','chart']];
+  var PAGE2 = [
+    ['机群报表','chart'],['机群报表','chart'],['检查','check'],['重卡车队运营','truck'],['服务中心','serve'],
+    ['三一认证二维码','phone'],['三一新闻','news'],['三一新闻','news'],['调研问卷','quiz'],['全部应用','all']
+  ];
+  function fill(el, list) {
+    el.innerHTML = list.map(function (a) { return tile(a[0], a[1]); }).join('');
+  }
+  fill($('#page1'), PAGE1);
+  fill($('#page2'), PAGE2);
+
+  /* ── 宫格分页：点点 + 左右滑动 ──────────────────── */
+  var track = $('#appsTrack');
+  var viewport = $('#appsViewport');
+  var dots = $$('#dots i');
+  var page = 0;
+
+  function goPage(i) {
+    page = Math.max(0, Math.min(1, i));
+    track.style.transform = 'translateX(' + (-page * 100) + '%)';
+    track.classList.toggle('page-2', page === 1);
+    dots.forEach(function (d, n) { d.classList.toggle('on', n === page); });
+  }
+  dots.forEach(function (d) {
+    d.addEventListener('click', function () { goPage(+d.dataset.i); });
+  });
+
+  // 触摸 / 鼠标横向拖拽切页
+  var startX = null, startY = null, locked = null;
+  function down(x, y) { startX = x; startY = y; locked = null; }
+  function move(x, y, e) {
+    if (startX === null) return;
+    var dx = x - startX, dy = y - startY;
+    if (locked === null && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+      locked = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+    }
+    if (locked === 'x' && e.cancelable) e.preventDefault();
+  }
+  function up(x) {
+    if (startX === null) return;
+    var dx = x - startX;
+    if (locked === 'x' && Math.abs(dx) > 40) goPage(page + (dx < 0 ? 1 : -1));
+    startX = startY = null; locked = null;
+  }
+  viewport.addEventListener('touchstart', function (e) { down(e.touches[0].clientX, e.touches[0].clientY); }, { passive:true });
+  viewport.addEventListener('touchmove',  function (e) { move(e.touches[0].clientX, e.touches[0].clientY, e); }, { passive:false });
+  viewport.addEventListener('touchend',   function (e) { up(e.changedTouches[0].clientX); });
+  viewport.addEventListener('mousedown',  function (e) { down(e.clientX, e.clientY); });
+  window.addEventListener('mousemove',    function (e) { move(e.clientX, e.clientY, e); });
+  window.addEventListener('mouseup',      function (e) { up(e.clientX); });
+
+  /* ── 开机柱状图 ─────────────────────────────────── */
+  var BARS = [7,6.2,6.1,5.1,6.1,6.2,5.1,5.1,4.3,5.1,3.3,3.3,3.3,3.3,3.3,3.3,3.3,3.3,
+              4.1,3.4,4.1,3.4,5.0,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,3.4,4.0,4.1,3.4,4.0,4.0];
+  $('#bars').innerHTML = BARS.map(function (v) {
+    return '<i style="height:' + (v / 10 * 100).toFixed(1) + '%"></i>';
+  }).join('');
+
+  $('#xAxis').innerHTML = ['17','19','21','23','1','3','5','7','9','11','13','15']
+    .map(function (d) { return '<span>' + d + '</span>'; }).join('');
+
+  /* ── 当日工况时间轴 ─────────────────────────────── */
+  $('#tlAxis').innerHTML =
+    [0,2,4,6,8,10,12,14,16,18,20,22].map(function (h) { return '<span>' + h + '</span>'; }).join('') +
+    '<span>(h)</span>';
+
+  // 伪随机（固定种子）：0–1.8h 与 13.6–24h 空闲，中间为作业段
+  var seed = 20260922;
+  function rnd() { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }
+  var SLICES = 140, tl = '';
+  for (var i = 0; i < SLICES; i++) {
+    var h = i / SLICES * 24, color;
+    if (h < 1.8 || h > 13.6) color = '#DDDEE4';
+    else color = rnd() < 0.24 ? '#F5B33C' : '#1FBF6B';
+    tl += '<i style="width:' + (100 / SLICES) + '%;background:' + color + '"></i>';
+  }
+  $('#tlBar').innerHTML = tl;
+
+  /* ── 社区 Tab ───────────────────────────────────── */
+  $$('#comTabs .com-tab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      $$('#comTabs .com-tab').forEach(function (o) { o.classList.remove('on'); });
+      t.classList.add('on');
+    });
+  });
+})();
+</script>
+</body>
+</html>

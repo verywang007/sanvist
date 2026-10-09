@@ -1,0 +1,153 @@
+/* ==========================================================================
+   Cookies 偏好中心 —— 登录页与工作台共用样式
+   这些规则原先写在 app.css 里，抽出来让「登录页」和「工作台 › 设置」
+   渲染出完全一致的抽屉。两个页面都要引入本文件。
+   ========================================================================== */
+
+:root {
+  --theme: #c6000b;
+  --ink-1: #1d2129;
+  --ink-2: #4e5969;
+  --ink-3: #86909c;
+  --ink-4: #a9b0ba;
+  --line: #eef0f3;
+  --line-2: #e5e8ed;
+  --bg-card: #f7f8fa;
+  --blue: #2a78d6;
+  --shadow-pop: 0 6px 16px rgba(0, 0, 0, .12);
+  --r: 6px;
+}
+
+/* 抽屉与浮层自带字体/字号，不受宿主页面（登录页用思源黑体）影响，
+   保证两处观感一致 */
+.dw-mask, .toasts {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei",
+               "PingFang SC", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-1);
+}
+
+/* ---------- 通用按钮 ---------- */
+.btn {
+  width: 100%; height: 36px; border-radius: 4px; cursor: pointer;
+  border: 1px solid var(--line-2); background: #fff; color: var(--ink-1);
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  transition: all .18s; font-size: 14px;
+}
+.btn:hover { color: var(--theme); border-color: var(--theme); }
+.btn svg { width: 14px; height: 14px; }
+.btn-p { background: var(--theme); border-color: var(--theme); color: #fff; font-weight: 500; margin-bottom: 10px; }
+.btn-p:hover { background: #ab0009; border-color: #ab0009; color: #fff; }
+
+/* ---------- 开关 ---------- */
+.sw {
+  display: inline-block;              /* span 默认 inline，宽高不生效 */
+  width: 40px; height: 22px; border-radius: 11px; background: #d5d9e0;
+  position: relative; cursor: pointer; transition: background .2s; flex: 0 0 auto;
+  vertical-align: middle;
+}
+.sw::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 18px; height: 18px; border-radius: 50%; background: #fff;
+  transition: transform .2s; box-shadow: 0 1px 3px rgba(0, 0, 0, .22);
+}
+.sw.on { background: var(--theme); }
+.sw.on::after { transform: translateX(18px); }
+.sw.lock { opacity: .5; cursor: not-allowed; }
+
+/* ---------- Cookies 偏好抽屉（右侧滑出） ---------- */
+.dw-mask {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, .45);
+  z-index: 420; display: flex; justify-content: flex-end;
+}
+.drawer {
+  width: 480px; max-width: 100vw; height: 100%; background: #fff;
+  display: flex; flex-direction: column; animation: dwin .26s ease;
+}
+@keyframes dwin { from { transform: translateX(100%); } to { transform: none; } }
+.dw-hd { display: flex; align-items: center; padding: 16px 22px 8px; flex: 0 0 auto; }
+.dw-hd img { height: 20px; }
+.dw-x {
+  margin-left: auto; width: 36px; height: 36px; cursor: pointer;
+  border: 1px solid var(--line-2); border-radius: 4px;
+  display: flex; align-items: center; justify-content: center; color: var(--ink-2);
+}
+.dw-x:hover { border-color: var(--theme); color: var(--theme); }
+.dw-x svg { width: 15px; height: 15px; }
+.dw-bd { flex: 1 1 auto; overflow-y: auto; padding: 4px 22px 18px; }
+.dw-bd::-webkit-scrollbar { width: 6px; }
+.dw-bd::-webkit-scrollbar-thumb { background: #dfe3e8; border-radius: 3px; }
+.dw-h2 { font-size: 16px; font-weight: 700; margin: 8px 0 10px; }
+.dw-p { font-size: 13px; line-height: 1.85; color: var(--ink-2); margin: 0 0 12px; }
+.dw-h3 { font-size: 13px; font-weight: 700; margin: 16px 0 4px; }
+.dw-sec { display: flex; align-items: center; gap: 12px; margin: 20px 0 12px; }
+.dw-sec h3 { margin: 0; font-size: 15px; font-weight: 700; }
+.dw-sec .btn { margin-left: auto; width: auto; padding: 0 16px; height: 32px; font-size: 13px; }
+
+.ct { border: 1px solid var(--line-2); border-radius: 4px; margin-bottom: 10px; }
+.ct-hd { display: flex; align-items: center; gap: 12px; padding: 14px; cursor: pointer; }
+.ct-hd:hover .ct-name { color: var(--theme); }
+.ct-plus {
+  width: 16px; height: 16px; flex: 0 0 auto; color: var(--ink-2);
+  display: flex; align-items: center; justify-content: center;
+}
+.ct-plus svg { width: 14px; height: 14px; }
+.ct-name { flex: 1 1 auto; font-size: 14px; font-weight: 600; }
+.ct-always { font-size: 13px; color: var(--blue); white-space: nowrap; }
+.ct-bd { max-height: 0; overflow: hidden; transition: max-height .26s ease; }
+.ct.open .ct-bd { max-height: 620px; }
+.ct-bd p { margin: 0; padding: 0 14px 10px; font-size: 13px; line-height: 1.85; color: var(--ink-2); }
+.ct-more { padding: 0 14px 14px; }
+.ct-more span {
+  color: var(--blue); font-size: 13px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.ct-more span:hover { text-decoration: underline; }
+.ct-more svg { width: 11px; height: 11px; }
+
+/* ---------- Cookie 列表（详细信息） ---------- */
+.ck-back { display: flex; align-items: center; gap: 10px; margin: 8px 0 6px; }
+.ck-back .b { cursor: pointer; display: flex; color: var(--ink-2); }
+.ck-back .b:hover { color: var(--theme); }
+.ck-back .b svg { width: 17px; height: 17px; }
+.ck-back h3 { margin: 0; font-size: 16px; font-weight: 700; }
+.ck-cat {
+  font-size: 12px; color: var(--ink-3); margin: 0 0 10px 27px;
+}
+.hg { border-top: 1px solid var(--line); }
+.hg:last-of-type { border-bottom: 1px solid var(--line); }
+.hg-hd { display: flex; align-items: center; gap: 12px; padding: 15px 2px; cursor: pointer; }
+.hg-hd:hover .hg-n { color: var(--theme); }
+.hg-p { width: 16px; height: 16px; flex: 0 0 auto; color: #d4901f; display: flex; align-items: center; justify-content: center; }
+.hg-p svg { width: 14px; height: 14px; }
+.hg-n { font-size: 14px; word-break: break-all; }
+.hg-bd { max-height: 0; overflow: hidden; transition: max-height .26s ease; }
+.hg.open .hg-bd { max-height: 3000px; }
+.ck-card { background: var(--bg-card); border-radius: 4px; padding: 14px 16px; margin: 0 0 12px; }
+.ck-f { display: flex; gap: 14px; padding: 5px 0; font-size: 13px; }
+.ck-f .k { flex: 0 0 62px; font-weight: 600; color: var(--ink-1); }
+.ck-f .v { flex: 1 1 auto; color: var(--ink-2); line-height: 1.75; word-break: break-word; }
+
+.dw-ft {
+  flex: 0 0 auto; display: flex; gap: 12px;
+  padding: 14px 22px; border-top: 1px solid var(--line);
+}
+.dw-ft .btn { flex: 1 1 0; width: auto; margin: 0; height: 40px; }
+
+/* ---------- 轻提示 ---------- */
+.toasts {
+  position: fixed; top: 64px; left: 50%; transform: translateX(-50%);
+  z-index: 500; display: flex; flex-direction: column; gap: 8px; align-items: center;
+  pointer-events: none;
+}
+.toast {
+  background: #fff; box-shadow: var(--shadow-pop); border-radius: var(--r);
+  padding: 9px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px;
+  animation: ti .2s ease;
+}
+.toast svg { width: 15px; height: 15px; flex: 0 0 auto; }
+.toast.ok svg { color: #2a9d4e; }
+.toast.info svg { color: var(--blue); }
+.toast.err svg { color: #f5222d; }
+@keyframes ti { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }

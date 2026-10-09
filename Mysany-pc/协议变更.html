@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>协议更新提示 - MySANY</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico" />
+  <link rel="stylesheet" href="./cookies.css" />
+  <link rel="stylesheet" href="./app.css" />
+  <link rel="stylesheet" href="./policy-update.css" />
+</head>
+<body>
+
+  <!-- ================= 顶栏 ================= -->
+  <header class="hd">
+    <div class="hd-logo"><img src="./static/icon-mysanyLogo.svg" alt="My SANY" /></div>
+    <div class="hd-sp"></div>
+
+    <div class="hd-right">
+      <!-- 消息 -->
+      <div class="hd-item" id="t-bell">
+        <span class="bell-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.7 21a2 2 0 0 1-3.4 0" />
+          </svg>
+          <em class="bell-badge" id="bell-n">10</em>
+        </span>
+      </div>
+
+      <!-- 语言 -->
+      <div class="hd-item" id="t-lang">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+        <span id="lang-txt">简体中文</span>
+      </div>
+
+      <!-- 租户 -->
+      <div class="hd-item" id="t-tenant">
+        <span id="tenant-txt">旺是旺旺的旺</span>
+        <svg class="hd-caret" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16 4 8h16z"/></svg>
+      </div>
+
+      <!-- 用户 -->
+      <div class="hd-item" id="t-user">
+        <span class="hd-avatar">🧑</span>
+        <span id="user-txt">旺是旺旺的旺</span>
+        <svg class="hd-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= 左侧菜单 ================= -->
+  <aside class="sider">
+    <nav class="menu" id="menu"></nav>
+    <div class="sider-ft">
+      <div class="deco"></div>
+      <div class="tg" id="toggle" title="收起 / 展开">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m11 17-5-5 5-5M18 17l-5-5 5-5"/>
+        </svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= 主体 ================= -->
+  <main class="main">
+
+    <!-- ---------- 工作台 ---------- -->
+    <section id="v-workbench">
+      <div class="wb">
+        <div class="wb-top">
+          <div class="wb-hi">
+            <h1 id="greet">下午好，旺是旺旺的旺</h1>
+            <p>统一掌握资产与运营全局，快速推动关键事项落地。</p>
+          </div>
+          <div class="wb-tools">
+            <div class="search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input id="wb-search" placeholder="搜索设备" />
+            </div>
+            <span class="gear" id="wb-gear" title="设置">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.1 14.9a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5v.2a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1h.2a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- 计划保养 -->
+        <div class="sec">
+          <div class="sec-h">
+            <i class="bar"></i><h2>计划保养</h2>
+            <span class="more" data-go="maintain">查看全部
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg>
+            </span>
+          </div>
+          <div class="grid g4" id="mt-grid"></div>
+        </div>
+
+        <!-- 审核概览 -->
+        <div class="sec">
+          <div class="sec-h">
+            <i class="bar"></i><h2>审核概览</h2>
+            <span class="more" data-go="audit-event">进入审核
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg>
+            </span>
+          </div>
+          <div class="grid g5" id="au-grid"></div>
+
+          <div class="ev-bar">
+            <span class="ev-sort" id="ev-sort">发生时间
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 16 4 8h16z"/></svg>
+            </span>
+          </div>
+          <div id="ev-list"></div>
+        </div>
+
+        <!-- 快速链接 -->
+        <div class="sec">
+          <div class="sec-h"><i class="bar"></i><h2>快速链接</h2></div>
+          <div class="grid g4" id="qk-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- 个人中心 ---------- -->
+    <section id="v-personal" hidden>
+      <div class="pc">
+        <div class="pc-nav" id="pc-nav"></div>
+        <div class="pc-body">
+
+          <!-- 个人信息 -->
+          <div class="pc-pane" data-pane="info">
+            <h2 class="pc-h">个人信息</h2>
+            <div class="info-card">
+              <div><div class="f-l">用户姓名</div><div class="f-v"><span id="u-name"></span>
+                <span class="edit" data-edit="name" title="修改">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+                </span></div></div>
+              <div><div class="f-l">手机号</div><div class="f-v"><span id="u-phone"></span><span class="lnk" data-rebind="phone">换绑</span></div></div>
+              <div><div class="f-l">邮箱</div><div class="f-v"><span id="u-mail"></span><span class="lnk" data-rebind="email">换绑</span></div></div>
+              <div><div class="f-l">业务职责</div><div class="f-v"><span id="u-role"></span>
+                <span class="edit" data-edit="role" title="修改">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+                </span></div></div>
+              <div><div class="f-l">账号创建时间</div><div class="f-v" id="u-created"></div></div>
+              <div><div class="f-l">最后登录时间</div><div class="f-v" id="u-last"></div></div>
+            </div>
+
+            <h2 class="pc-h">租户信息</h2>
+            <div class="tn-wrap" id="tn-wrap"></div>
+          </div>
+
+          <!-- 修改密码 -->
+          <div class="pc-pane" data-pane="pwd" hidden>
+            <div class="pw-hd">
+              <h2 class="pc-h" style="margin-bottom:6px;">修改密码</h2>
+              <p class="pc-sub" style="margin:0;">为了您的账号安全，请定期修改密码</p>
+            </div>
+            <form class="pw" id="pw-form" autocomplete="off">
+              <div class="fld">
+                <label><i class="req">*</i>验证方式</label>
+                <div class="rads" id="pw-rads">
+                  <span class="rad on" data-m="old">旧密码验证</span>
+                  <span class="rad" data-m="sms">短信验证码</span>
+                  <span class="rad" data-m="mail">邮箱验证码</span>
+                </div>
+              </div>
+
+              <div class="fld" id="fld-verify">
+                <label><i class="req">*</i><span id="lb-verify">原密码</span></label>
+                <div class="ipt-wrap">
+                  <input class="ipt" id="pw-old" type="password" placeholder="请输入" />
+                  <svg class="eye" data-eye="pw-old" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="m3 3 18 18"/></svg>
+                </div>
+                <div class="err" id="er-old"></div>
+              </div>
+
+              <div class="fld">
+                <label><i class="req">*</i>新密码</label>
+                <div class="ipt-wrap">
+                  <input class="ipt" id="pw-new" type="password" placeholder="请输入" />
+                  <svg class="eye" data-eye="pw-new" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="m3 3 18 18"/></svg>
+                </div>
+                <div class="err" id="er-new"></div>
+              </div>
+
+              <div class="fld">
+                <label><i class="req">*</i>确认密码</label>
+                <div class="ipt-wrap">
+                  <input class="ipt" id="pw-re" type="password" placeholder="请输入" />
+                  <svg class="eye" data-eye="pw-re" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="m3 3 18 18"/></svg>
+                </div>
+                <div class="err" id="er-re"></div>
+              </div>
+
+              <button type="submit" class="btn btn-p">确认修改</button>
+              <button type="button" class="btn" id="pw-reset">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg>
+                重置
+              </button>
+            </form>
+          </div>
+
+          <!-- 通知邀请 -->
+          <div class="pc-pane" data-pane="invite" hidden>
+            <div class="iv-tabs" id="iv-tabs">
+              <span class="iv-tab on" data-f="all">全部(0)</span>
+              <span class="iv-tab" data-f="done">已处理(0)</span>
+              <span class="iv-tab" data-f="todo">待处理(0)</span>
+              <span class="iv-rule" id="iv-rule">查看规则说明</span>
+            </div>
+            <div id="iv-body"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- 占位页 ---------- -->
+    <section id="v-ph" hidden>
+      <div class="ph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+        </svg>
+        <h3 id="ph-t">模块</h3>
+        <p>本模块为本地占位页。左侧菜单、工作台与个人中心的交互均已完整实现。</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="flyout" id="flyout" hidden></div>
+  <div class="toasts" id="toasts"></div>
+  <div id="modal-root"></div>
+
+  <script src="./data.js"></script>
+  <script src="./cookies.js"></script>
+  <script src="./wb.js"></script>
+  <!-- 进入页面默认弹出「隐私协议 / 用户服务协议变更」重新同意弹窗 -->
+  <script src="./policy-update.js"></script>
+</body>
+</html>

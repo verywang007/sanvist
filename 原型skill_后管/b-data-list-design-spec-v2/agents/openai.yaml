@@ -1,0 +1,4 @@
+interface:
+  display_name: "MySANY 后台列表页设计规范"
+  short_description: "按三一 MySANY 后台（HZERO）真实视觉规范生成、还原与审查列表页，深色导航 Shell 锁定"
+  default_prompt: "使用 $b-data-list-design-spec-v2 生成一个符合 MySANY 管理平台设计规范的列表页，保持深色导航 Shell 不变。"

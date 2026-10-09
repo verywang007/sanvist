@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F1F2F4">
+<title>MySANY · 我的</title>
+<link rel="stylesheet" href="assets/mine.css">
+</head>
+<body>
+
+<div id="root"></div>
+
+<!-- React 18 + Babel 7 已内置在 assets/vendor，双击本文件即可离线运行 -->
+<script src="assets/vendor/react.production.min.js"></script>
+<script src="assets/vendor/react-dom.production.min.js"></script>
+<script src="assets/vendor/babel.min.js"></script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* =========================================================
+   1. 图标（全部按原图形态手绘，统一 24 栅格）
+   ========================================================= */
+const Ico = {
+  headset: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 14v-2a8 8 0 0116 0v2"/>
+      <rect x="2.2" y="13.4" width="4" height="6.2" rx="1.6" fill="currentColor" stroke="none"/>
+      <rect x="17.8" y="13.4" width="4" height="6.2" rx="1.6" fill="currentColor" stroke="none"/>
+      <path d="M20 19.6v.6a2.4 2.4 0 01-2.4 2.4H13"/>
+    </svg>
+  ),
+  gear: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round">
+      <path d="M10.6 2.6h2.8l.5 2.3 1.9 1.1 2.2-.8 1.4 2.4-1.7 1.6v2.2l1.7 1.6-1.4 2.4-2.2-.8-1.9 1.1-.5 2.3h-2.8l-.5-2.3-1.9-1.1-2.2.8-1.4-2.4 1.7-1.6V9.2L4.6 7.6 6 5.2l2.2.8 1.9-1.1z"/>
+      <circle cx="12" cy="11.8" r="2.9"/>
+    </svg>
+  ),
+  swap: () => (
+    <svg viewBox="0 0 24 20" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 7h16M15.5 3.2L19.4 7l-3.9 3.8"/>
+      <path d="M21 14H5M8.5 10.2L4.6 14l3.9 3.8"/>
+    </svg>
+  ),
+  chev: () => (
+    <svg viewBox="0 0 12 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 2l8 8-8 8"/>
+    </svg>
+  ),
+  back: () => (
+    <svg viewBox="0 0 12 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10 2L2 10l8 8"/>
+    </svg>
+  ),
+  check: () => (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 10.6l4 4 8-9"/>
+    </svg>
+  ),
+  /* —— 三宫格 —— */
+  link: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="#2C7BE8" strokeWidth="2" strokeLinecap="round">
+      <path d="M10 14.2a3.6 3.6 0 005.4.4l2.8-2.8a3.6 3.6 0 00-5.1-5.1l-1.3 1.3"/>
+      <path d="M14 9.8a3.6 3.6 0 00-5.4-.4l-2.8 2.8a3.6 3.6 0 005.1 5.1l1.3-1.3"/>
+    </svg>
+  ),
+  beacon: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="#F08019" strokeWidth="1.9" strokeLinecap="round">
+      <path d="M7.4 16.2a5.6 5.6 0 019.2 0" fill="#FBB040" stroke="#F08019"/>
+      <path d="M5.4 19.4h13.2" strokeWidth="2.2"/>
+      <path d="M12 3.4v2.3M5.6 6l1.7 1.6M18.4 6l-1.7 1.6M3.2 12h2.3M18.5 12h2.3"/>
+    </svg>
+  ),
+  chart: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="#2C7BE8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3.4" y="4" width="17.2" height="16" rx="2.4"/>
+      <path d="M6.8 15.2l3.4-4 2.8 2.4 4.2-5.2" stroke="#1B62C4" strokeWidth="2"/>
+    </svg>
+  ),
+  /* —— 列表 —— */
+  chat: () => (
+    <svg viewBox="0 0 24 24" fill="#3B82E8">
+      <rect x="2" y="4" width="14.4" height="10.6" rx="3"/>
+      <path d="M5.6 14.6h3.2L6 17.6z"/>
+      <rect x="10.4" y="9.4" width="11.6" height="8.8" rx="2.8" fill="#77A9F2"/>
+    </svg>
+  ),
+  doc: () => (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect x="4.4" y="3" width="13" height="18" rx="2.6" fill="#8B6BE8"/>
+      <path d="M7.8 8h6.2M7.8 11.4h6.2M7.8 14.8h3.6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
+      <circle cx="17.4" cy="17.4" r="4" fill="#B79BFF"/>
+      <path d="M15.7 17.5l1.2 1.2 2.2-2.4" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  ),
+  cog: () => (
+    <svg viewBox="0 0 24 24" fill="#F0566B">
+      <path d="M10 2.6h4l.4 2.1 1.6.9 2-.7 2 3.4-1.6 1.4v1.8l1.6 1.4-2 3.4-2-.7-1.6.9-.4 2.1h-4l-.4-2.1-1.6-.9-2 .7-2-3.4L5.6 11.5V9.7L4 8.3l2-3.4 2 .7 1.6-.9z"/>
+      <circle cx="12" cy="10.6" r="2.5" fill="#fff"/>
+      <circle cx="18.2" cy="18" r="3.6" fill="#F58A99"/>
+      <circle cx="18.2" cy="18" r="1.3" fill="#fff"/>
+    </svg>
+  ),
+  shop: () => (
+    <svg viewBox="0 0 24 24" fill="#F0566B">
+      <path d="M3.6 4.4h16.8l1.3 4.2a2.9 2.9 0 01-5.6.9 2.9 2.9 0 01-5.6 0 2.9 2.9 0 01-5.6-.9z"/>
+      <path d="M5 11.6v7.2c0 .8.6 1.4 1.4 1.4h11.2c.8 0 1.4-.6 1.4-1.4v-7.2" fill="none" stroke="#F0566B" strokeWidth="1.8" strokeLinecap="round"/>
+    </svg>
+  ),
+  self: () => (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect x="4.6" y="2.8" width="12.4" height="16.4" rx="2.4" fill="#3B82E8"/>
+      <path d="M7.8 7.6h6M7.8 10.6h6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
+      <circle cx="16.4" cy="16.6" r="4.6" fill="#77A9F2"/>
+      <path d="M16.4 13.8v4.6M14.4 16.6l2 2 2-2" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  ),
+  star: () => (
+    <svg viewBox="0 0 24 24" fill="#F0435A">
+      <path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.1 1.1-6.5L2.6 9.5l6.5-1z"/>
+    </svg>
+  ),
+  mail: () => (
+    <svg viewBox="0 0 24 24" fill="none">
+      <rect x="2.6" y="4.6" width="18.8" height="14.8" rx="2.6" fill="#3B82E8"/>
+      <path d="M4.6 7.4L12 13l7.4-5.6" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M4.4 18.4l5.6-5M19.6 18.4l-5.6-5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  ),
+  pin: () => (
+    <svg viewBox="0 0 24 24" fill="#3FA85F">
+      <path d="M12 2.4c4 0 7.2 3.2 7.2 7.2 0 5-5.5 10.7-6.7 11.8a.8.8 0 01-1 0C10.3 20.3 4.8 14.6 4.8 9.6c0-4 3.2-7.2 7.2-7.2z"/>
+      <circle cx="12" cy="9.5" r="2.6" fill="#fff"/>
+    </svg>
+  ),
+  /* —— Tab —— */
+  tHome: a => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3.4 10.6L12 3.4l8.6 7.2V20a1 1 0 01-1 1h-4.2v-5.4H9.6V21H5.4a1 1 0 01-1-1z"/>
+    </svg>
+  ),
+  tDevice: a => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2.6l8.4 4.7v9.4L12 21.4 3.6 16.7V7.3z"/>
+      <path d="M12 12.4l-4.3-2.4M12 12.4l4.3-2.4M12 12.4v4.8"/>
+    </svg>
+  ),
+  tAudit: a => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={a ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="6.6" r="3.6"/>
+      <path d="M4.6 20.4c.6-4 3.7-6.6 7.4-6.6s6.8 2.6 7.4 6.6z"/>
+    </svg>
+  ),
+  tMe: a => (
+    a
+      ? <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6.6" r="3.9"/><path d="M12 12.6c4 0 7.2 2.9 7.8 6.8.1.6-.4 1.2-1 1.2H5.2c-.6 0-1.1-.6-1-1.2.6-3.9 3.8-6.8 7.8-6.8z"/></svg>
+      : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="6.6" r="3.6"/><path d="M4.8 20.4c.6-4 3.7-6.8 7.2-6.8s6.6 2.8 7.2 6.8z"/></svg>
+  ),
+  /* —— 其它 —— */
+  grid: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">
+      <rect x="3.4" y="3.4" width="7" height="7" rx="2"/><rect x="13.6" y="3.4" width="7" height="7" rx="2"/>
+      <rect x="3.4" y="13.6" width="7" height="7" rx="2"/><rect x="13.6" y="13.6" width="7" height="7" rx="2"/>
+    </svg>
+  ),
+  box: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
+      <path d="M12 2.8l9 5v8.4l-9 5-9-5V7.8z"/><path d="M3 7.8l9 5 9-5M12 12.8v8.4"/>
+    </svg>
+  ),
+  scan: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3.4 8.4V5.6a2.2 2.2 0 012.2-2.2h2.8M15.6 3.4h2.8a2.2 2.2 0 012.2 2.2v2.8M20.6 15.6v2.8a2.2 2.2 0 01-2.2 2.2h-2.8M8.4 20.6H5.6a2.2 2.2 0 01-2.2-2.2v-2.8"/>
+      <path d="M3.4 12h17.2"/>
+    </svg>
+  ),
+  gift: () => (
+    <svg viewBox="0 0 24 24" fill="#F2913E">
+      <rect x="3" y="9.4" width="18" height="11.2" rx="2"/><rect x="2" y="6" width="20" height="4.4" rx="1.4"/>
+      <rect x="10.6" y="6" width="2.8" height="14.6" fill="#fff" opacity=".8"/>
+      <path d="M12 6c-1.6-3.6-6-3.4-5.4-.6.3 1.4 3.2 1 5.4.6zM12 6c1.6-3.6 6-3.4 5.4-.6-.3 1.4-3.2 1-5.4.6z"/>
+    </svg>
+  ),
+  bell: () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3a6 6 0 016 6v4l1.6 3H4.4L6 13V9a6 6 0 016-6z"/><path d="M9.6 19.2a2.6 2.6 0 004.8 0"/>
+    </svg>
+  ),
+};
+
+/* 系统权限弹窗里的应用图标 + 蓝色隐私手势角标 */
+const PermIcon = ({ kind }) => (
+  <span className="alert-ico">
+    {kind === 'cam'
+      ? <svg viewBox="0 0 24 24"><rect x="2" y="6.6" width="13.4" height="10.8" rx="3.2"/><path d="M17 11.4l4.2-2.8c.6-.4 1.4 0 1.4.7v5.4c0 .7-.8 1.1-1.4.7L17 12.6z"/></svg>
+      : <svg viewBox="0 0 24 24"><rect x="2.2" y="4.6" width="19.6" height="14.8" rx="3.2"/><circle cx="8" cy="9.6" r="1.9" fill="#8E8E93"/><path d="M4 17.6l5-5.4 3.4 3.2 3.2-3.4 4.4 5.6z" fill="#8E8E93"/></svg>}
+    <i>
+      <svg viewBox="0 0 24 24">
+        <path d="M6.4 20.6c-2.2-1.8-3.4-4.1-3.4-6.9v-3.4c0-.8.6-1.4 1.3-1.4s1.3.6 1.3 1.4v1.8h.5V5.3c0-.8.6-1.4 1.3-1.4s1.3.6 1.3 1.4v6.3h.5V3.8c0-.8.6-1.4 1.3-1.4s1.3.6 1.3 1.4v7.8h.5V5.6c0-.8.6-1.4 1.3-1.4s1.3.6 1.3 1.4v8.6c0 3.3-1.5 5.3-3.7 6.4z"/>
+      </svg>
+    </i>
+  </span>
+);
+
+/* 头像：未设置时为浅灰圆，授权换图后为渐变底 + 昵称首字 */
+const Avatar = ({ size, set, name }) => (
+  <span className={'av' + (set ? ' is-set' : '')}
+        style={{ width: size, height: size, fontSize: Math.round(size * 0.42) }}>
+    {set ? (name || '旺').slice(0, 1) : ''}
+  </span>
+);
+
+/* 签到星星（圆底 + 白星） */
+const DayStar = ({ on }) => (
+  <svg className="day-star" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="11" fill={on ? '#FFA51F' : '#C6C9D0'}/>
+    <path d="M12 5.8l1.9 3.9 4.3.6-3.1 3 .7 4.2-3.8-2-3.8 2 .7-4.2-3.1-3 4.3-.6z" fill="#fff"/>
+  </svg>
+);
+
+/* =========================================================
+   2. 状态栏（15:19 / 满格 / WiFi / 49%）
+   ========================================================= */
+const StatusBar = () => (
+  <div className="statusbar">
+    <span className="sb-time">15:19</span>
+    <span className="sb-right">
+      <svg className="sb-signal" viewBox="0 0 17 11" aria-hidden="true">
+        <rect x="0" y="7.5" width="2.6" height="3.5" rx="1.3"/>
+        <rect x="3.6" y="5.5" width="2.6" height="5.5" rx="1.3"/>
+        <rect x="7.2" y="3.4" width="2.6" height="7.6" rx="1.3"/>
+        <rect x="10.8" y="1.4" width="2.6" height="9.6" rx="1.3"/>
+        <rect x="14.4" y="0" width="2.6" height="11" rx="1.3"/>
+      </svg>
+      <svg className="sb-wifi" viewBox="0 0 16 12" aria-hidden="true">
+        <path d="M8 11.2l2.2-2.7a3.4 3.4 0 00-4.4 0z"/>
+        <path d="M8 5.6c1.5 0 2.9.5 4 1.4l1.4-1.7A8.6 8.6 0 008 3.3a8.6 8.6 0 00-5.4 2l1.4 1.7A6.3 6.3 0 018 5.6z"/>
+        <path d="M8 1.2c2.4 0 4.6.8 6.4 2.2L15.8 1.7A12 12 0 008 -.9 12 12 0 00.2 1.7l1.4 1.7A10 10 0 018 1.2z"/>
+      </svg>
+      <svg className="sb-battery" viewBox="0 0 27 13" aria-hidden="true">
+        <clipPath id="batClip"><rect x="0" y="0" width="25" height="13" rx="4.2"/></clipPath>
+        <rect x="0" y="0" width="25" height="13" rx="4.2" fill="#D4D4D9"/>
+        <rect x="0" y="0" width="12.2" height="13" fill="#0B0B0F" clipPath="url(#batClip)"/>
+        <path d="M25.9 4.3c.9.3 1.1 1 1.1 2.2s-.2 1.9-1.1 2.2z" fill="#D4D4D9"/>
+        <text x="10.4" y="9.9" textAnchor="middle" fontSize="9.2" fontWeight="700" fill="#fff">49</text>
+      </svg>
+    </span>
+  </div>
+);
+
+/* =========================================================
+   3. 静态数据
+   ========================================================= */
+const ACCOUNTS = [
+  { id: 'a1', name: '旺是旺旺的旺', tag: '个体户', note: '138****6621 · 默认身份' },
+  { id: 'a2', name: '三一重工股份有限公司', tag: '企业', note: '统一信用代码 91430***XA' },
+  { id: 'a3', name: '长沙旺旺工程机械租赁', tag: '车队', note: '在管设备 12 台' },
+];
+
+const WEEK_INIT = [
+  { d: '9.16', n: 3, on: true },
+  { d: '9.17', n: 5, on: true },
+  { d: '9.18', n: 0 },
+  { d: '9.19', n: 0 },
+  { d: '9.20', n: 0 },
+  { d: '9.21', n: 0 },
+  { d: '今天', n: 0, today: true },
+];
+
+const ROWS_1 = [
+  { k: 'inquiry',  t: '主机询价', ico: <Ico.chat/>, bg: '#EAF2FF' },
+  { k: 'delivery', t: '主机交付', ico: <Ico.doc/>,  bg: '#F0EAFF' },
+  { k: 'parts',    t: '配件交付', ico: <Ico.cog/>,  bg: '#FFECEE' },
+];
+
+const ROWS_2 = [
+  { k: 'mall',     t: '积分商城', ico: <Ico.shop/>, bg: '#FFE8EA', badge: '全面升级' },
+  { k: 'self',     t: '自助服务', ico: <Ico.self/>, bg: '#E9F1FF' },
+  { k: 'fav',      t: '收藏中心', ico: <Ico.star/>, bg: '#FFE7EB' },
+  { k: 'feedback', t: 'APP反馈',  ico: <Ico.mail/>, bg: '#E9F1FF' },
+  { k: 'addr',     t: '地址管理', ico: <Ico.pin/>,  bg: '#E6F6EA' },
+];
+
+const WARNINGS = [
+  { t: 'SY215C · 液压油温偏高', d: '当前 96℃，持续 12 分钟 · 长沙星沙工地', lv: '严重', c: '#E2231A', bg: '#FFECEC' },
+  { t: 'SY75C · 保养里程临近', d: '距下次保养剩余 38 小时', lv: '提醒', c: '#EE9B14', bg: '#FFF4E2' },
+  { t: 'SY335H · 离线超过 24 小时', d: '最后上报 9.21 08:12 · 岳阳临港', lv: '一般', c: '#3B82E8', bg: '#EAF2FF' },
+];
+
+const FLEET = [
+  { n: 'SY215C-10', v: 86, c: '#FF7A18' },
+  { n: 'SY75C',     v: 64, c: '#FF9A21' },
+  { n: 'SY335H',    v: 41, c: '#3B82E8' },
+  { n: 'SY485H',    v: 18, c: '#C6C9D0' },
+];
+
+const GOODS = [
+  { n: '原厂机油滤芯', p: 1200 },
+  { n: '定制工装外套', p: 3800 },
+  { n: '保养代金券 ¥200', p: 5000 },
+  { n: '三一模型车', p: 9800 },
+];
+
+const ADDRS = [
+  { n: '王师傅', p: '138****6621', a: '湖南省长沙市长沙县星沙街道三一工业城 1 号门', def: true },
+  { n: '李工',   p: '150****0987', a: '湖南省岳阳市云溪区临港新区工地临时仓库' },
+];
+
+const FAQS = [
+  ['如何绑定我的设备？', '「我的 — 绑定设备」输入设备出厂编号或扫描铭牌二维码，提交后由机主确认，通常 10 分钟内生效。'],
+  ['为什么看不到设备工况？', '请确认设备已安装智能终端且处于在线状态。离线超过 24 小时会在「设备预警」中提示。'],
+  ['星星和积分有什么区别？', '星星来自每日签到与任务，可按比例折算为积分；积分用于「积分商城」兑换配件与代金券。'],
+  ['如何申请保养或报修？', '「自助服务 — 保养预约 / 服务工单」提交需求，工程师将在 2 小时内响应。'],
+];
+
+const DOCS = {
+  terms: [
+    ['', '本协议由您与三一集团（以下简称“三一”）就 MySANY 应用所提供的各项服务订立。请在使用前完整阅读。'],
+    ['一、服务内容', '三一通过 MySANY 向您提供设备管理、工况查看、服务预约、配件商城、在线报修等功能。具体服务以应用内实际展示为准。'],
+    ['二、账号与实名', '您应使用本人手机号或企业分配的账号注册与登录，并对账号下的一切操作负责。涉及设备控制、订单支付等敏感操作时，三一可能要求您完成实名认证。'],
+    ['三、使用规范', '您承诺不利用本应用从事任何违反法律法规的活动，不干扰服务的正常运行，不非法获取他人设备数据。'],
+    ['四、服务变更与中止', '因设备维护、系统升级或不可抗力导致服务中断的，三一将尽合理努力提前公告并及时恢复。'],
+    ['五、争议解决', '本协议适用中华人民共和国法律。如发生争议，双方应友好协商；协商不成的，提交三一住所地有管辖权的人民法院裁决。'],
+  ],
+  privacy: [
+    ['', '三一非常重视您的隐私。本政策说明我们如何收集、使用、存储与保护您的个人信息。'],
+    ['一、我们收集的信息', '手机号码与验证码：用于登录与身份校验。设备信息与日志：用于安全风控与故障排查。位置信息（可选）：用于就近匹配服务网点与救援。'],
+    ['二、信息的使用', '仅用于向您提供服务、改进产品体验、保障账号安全，以及在您同意的前提下推送服务通知。'],
+    ['三、广告与个性化', '如您关闭「个性化广告」，我们将不再基于您的设备型号、作业区域等信息筛选广告内容，但您收到的广告数量不会因此减少。'],
+    ['四、对外提供', '除法律法规要求或取得您的单独同意外，我们不会向第三方共享您的个人信息。为完成服务所必需的委托处理方，将受与本政策同等的保密义务约束。'],
+    ['五、您的权利', '您可随时在「我的 — 设置」中查询、更正、删除您的个人信息，或注销账号。'],
+  ],
+};
+
+/* Cookie 目录：正式上线时由服务端配置中心下发并与实际网络请求保持一致 */
+const COOKIE_CATALOG = {
+  necessary: {
+    title: '严格必要 Cookie',
+    note: '这些 Cookie 用于提供登录、安全和隐私选择等核心功能，无法关闭。',
+    items: [
+      { name: 'mysany_session', provider: 'MySANY', type: 'HTTP Cookie', duration: '会话期间', purpose: '维持登录状态，并将页面请求关联到当前会话。' },
+      { name: 'mysany_csrf', provider: 'MySANY', type: 'HTTP Cookie', duration: '会话期间', purpose: '防止跨站请求伪造，保护账号和操作安全。' },
+      { name: 'mysany_consent', provider: 'MySANY', type: '本地存储', duration: '12 个月', purpose: '保存您的 Cookie 分类选择及对应政策版本。' },
+      { name: 'route_hint', provider: 'MySANY', type: 'HTTP Cookie', duration: '会话期间', purpose: '将请求分配至稳定的服务节点，保障页面正常访问。' },
+    ],
+  },
+  functional: {
+    title: '功能体验 Cookie',
+    note: '这些 Cookie 用于记住您的选择并启用地图等增强功能；关闭后部分体验可能受限。',
+    items: [
+      { name: 'mysany_locale', provider: 'MySANY', type: '本地存储', duration: '12 个月', purpose: '记住语言和地区设置。' },
+      { name: 'map_provider_pref', provider: '地图服务商', type: '本地存储', duration: '6 个月', purpose: '记住地图图层、缩放级别和地图服务偏好。' },
+      { name: 'recently_viewed', provider: 'MySANY', type: '本地存储', duration: '30 天', purpose: '展示最近查看的设备和服务入口。' },
+      { name: 'ui_density', provider: 'MySANY', type: '本地存储', duration: '12 个月', purpose: '保存字体大小与界面密度偏好。' },
+    ],
+  },
+  analytics: {
+    title: '分析统计 Cookie',
+    note: '这些 Cookie 帮助我们了解产品使用、崩溃和性能情况，不用于直接识别您的真实身份。',
+    items: [
+      { name: 'analytics_instance_id', provider: '产品分析服务商', type: 'SDK 标识', duration: '13 个月', purpose: '区分匿名应用实例并统计功能使用情况。' },
+      { name: 'analytics_session', provider: '产品分析服务商', type: 'HTTP Cookie', duration: '30 分钟', purpose: '将连续访问归入同一次匿名使用会话。' },
+      { name: 'crash_instance_id', provider: '崩溃分析服务商', type: 'SDK 标识', duration: '90 天', purpose: '关联崩溃日志，定位稳定性问题。' },
+      { name: 'performance_sample', provider: 'MySANY', type: '本地存储', duration: '24 小时', purpose: '控制性能抽样频率，避免重复采集。' },
+    ],
+  },
+  marketing: {
+    title: '广告营销 Cookie',
+    note: '这些 Cookie 用于营销归因、个性化广告及广告效果衡量；关闭不影响核心功能。',
+    items: [
+      { name: 'marketing_attribution_id', provider: '营销归因服务商', type: 'SDK 标识', duration: '90 天', purpose: '判断安装或活动参与来自哪个推广渠道。' },
+      { name: 'ad_personalization', provider: '广告服务商', type: '本地存储', duration: '6 个月', purpose: '保存个性化广告偏好及授权状态。' },
+      { name: 'campaign_source', provider: 'MySANY', type: 'HTTP Cookie', duration: '30 天', purpose: '记录推广活动来源并衡量活动效果。' },
+      { name: 'ad_frequency', provider: '广告服务商', type: 'HTTP Cookie', duration: '7 天', purpose: '限制同一广告的展示频率。' },
+    ],
+  },
+};
+
+const LOGIN_URL = 'index.html';   // 退出登录后回到登录页原型
+const COOKIE_STORE_KEY = 'mysany.cookieConsent.v1';
+const COOKIE_SCHEMA_VERSION = '1.0';
+const COOKIE_DEFAULTS = { necessary: true, functional: false, analytics: false, marketing: false };
+
+const CANCEL_STORE_KEY = 'mysany.cancelPrototype.v1';
+const cancelStatusSummary = () => {
+  try {
+    const record = JSON.parse(localStorage.getItem(CANCEL_STORE_KEY));
+    return {
+      PENDING: '待审核', COOLING: '冷静期', PROCESSING: '注销中', FAILED: '处理异常',
+      REJECTED: '上次申请已驳回', REVOKED: '上次申请已撤销', CANCELLED: '已注销',
+    }[record && record.status] || '';
+  } catch (e) {
+    return '';
+  }
+};
+
+const readCookieConsent = () => {
+  try {
+    const record = JSON.parse(localStorage.getItem(COOKIE_STORE_KEY));
+    return record && record.choices ? { ...COOKIE_DEFAULTS, ...record.choices } : { ...COOKIE_DEFAULTS };
+  } catch (e) {
+    return { ...COOKIE_DEFAULTS };
+  }
+};
+
+const saveCookieConsent = (choices, action = 'settings_update') => {
+  const record = {
+    schemaVersion: COOKIE_SCHEMA_VERSION,
+    policyVersion: '2026.09',
+    vendorListVersion: '1.0',
+    region: 'EEA',
+    action,
+    choices: { ...COOKIE_DEFAULTS, ...choices },
+    timestamp: new Date().toISOString(),
+  };
+  try { localStorage.setItem(COOKIE_STORE_KEY, JSON.stringify(record)); } catch (e) {}
+  return record.choices;
+};
+
+const cookieSummary = choices => {
+  const count = ['functional', 'analytics', 'marketing'].filter(k => choices && choices[k]).length;
+  if (count === 0) return '仅必要';
+  if (count === 3) return '全部允许';
+  return '已允许 ' + count + ' 类';
+};
+
+const fmtRp = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+/* =========================================================
+   4. 通用组件
+   ========================================================= */
+const Sheet = ({ title, cancel = '取消', onClose, children }) => (
+  <>
+    <div className="scrim" onClick={onClose}/>
+    <div className="sheet">
+      <div className="sheet-bar"/>
+      <div className="sheet-head">
+        <button className="sheet-cancel" onClick={onClose}>{cancel}</button>
+        <span className="sheet-title">{title}</span>
+        <span className="sheet-spacer"/>
+      </div>
+      <div className="sheet-body">{children}</div>
+    </div>
+  </>
+);
+
+/* 开关 */
+const Switch = ({ on, onChange }) => (
+  <span className={'switch' + (on ? ' is-on' : '')} role="switch" aria-checked={on}
+        tabIndex="0"
+        onKeyDown={e => {
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          e.preventDefault(); e.stopPropagation(); onChange(!on);
+        }}
+        onClick={e => { e.stopPropagation(); onChange(!on); }}><i/></span>
+);
+
+/* 单选弹层：性别 / 身份 */
+const PickSheet = ({ title, options, value, onPick, onClose }) => (
+  <Sheet title={title} onClose={onClose}>
+    {options.map(o => (
+      <div key={o} className={'acc' + (o === value ? ' is-on' : '')} style={{ height: 52 }} onClick={() => onPick(o)}>
+        <div className="acc-b"><div className="acc-n">{o}</div></div>
+        {o === value && <span className="acc-ck"><Ico.check/></span>}
+      </div>
+    ))}
+  </Sheet>
+);
+
+/* 昵称编辑弹层 */
+function NameSheet({ name, onClose, onSave }) {
+  const [v, setV] = useState(name);
+  return (
+    <Sheet title="修改昵称" onClose={onClose}>
+      <div className="input-line" style={{ marginTop: 2 }}>
+        <input value={v} maxLength={20} onChange={e => setV(e.target.value)} placeholder="请输入昵称"/>
+      </div>
+      <button className="btn-primary" style={{ margin: '14px 0 6px' }}
+              onClick={() => v.trim() && onSave(v.trim())}>保存</button>
+    </Sheet>
+  );
+}
+
+const Empty = ({ txt, sub }) => (
+  <div className="empty">
+    <Ico.box/>
+    <p>{txt}</p>
+    {sub && <p className="empty-sub">{sub}</p>}
+  </div>
+);
+
+/* =========================================================
+   5. 二级页
+   ========================================================= */
+function SubPage({ view, onBack, toast, acc, profile, openSheet, settings, setSettings, push, confirm }) {
+  const [sn, setSn] = useState('');
+  const [fb, setFb] = useState('');
+  const [openQ, setOpenQ] = useState(-1);
+  const [cookieDraft, setCookieDraft] = useState({ ...(settings.cookies || COOKIE_DEFAULTS) });
+  const set = (k, v) => setSettings(s => ({ ...s, [k]: v }));
+  const setCookie = (k, v) => setCookieDraft(s => ({ ...s, [k]: v }));
+  const setMarketingConsent = value => {
+    setSettings(s => {
+      const next = { ...(s.cookies || COOKIE_DEFAULTS), marketing: value };
+      saveCookieConsent(next, value ? 'marketing_enable' : 'marketing_disable');
+      return { ...s, ads: value, cookies: next };
+    });
+    toast(value ? '已开启个性化广告' : '已关闭个性化广告');
+  };
+  const commitCookies = (next, action) => {
+    const saved = saveCookieConsent(next, action);
+    setCookieDraft(saved);
+    setSettings(s => ({ ...s, cookies: saved, ads: saved.marketing }));
+    toast('Cookie 偏好已保存');
+    onBack();
+  };
+
+  const body = () => {
+    switch (view.k) {
+      case 'setting':
+        return (
+          <>
+            <div className="pf-list">
+              <div className="pf-row" onClick={() => openSheet('lang')}>
+                <span className="pf-lbl">语言</span>
+                <span className="pf-val">{settings.lang}</span>
+                <span className="pf-chev"><Ico.chev/></span>
+              </div>
+
+              <div className="pf-row">
+                <span className="pf-lbl">消息推送</span>
+                <Switch on={settings.push} onChange={v => { set('push', v); toast(v ? '已开启消息推送' : '已关闭消息推送'); }}/>
+              </div>
+
+              {/* 新增：个性化广告 */}
+              <div className="pf-row is-col">
+                <div className="pf-line">
+                  <span className="pf-lbl">个性化广告</span>
+                  <Switch on={settings.ads} onChange={() => confirm({
+                    t: '“MySANY”个性化广告',
+                    m: '关闭个性化广告将限制sanvist向你推送相关广告的能力，但不会减少你收到的广告数量。',
+                    cancel: '不允许',
+                    ok: '允许',
+                    onCancel: () => setMarketingConsent(false),
+                    onOk:     () => setMarketingConsent(true),
+                  })}/>
+                </div>
+                <p className="pf-desc">关闭个性化广告将限制sanvist向你推送相关广告的能力，但不会减少你收到的广告数量。</p>
+              </div>
+
+              <div className="pf-row" onClick={() => push('cookies')}>
+                <span className="pf-lbl">Cookie 设置</span>
+                <span className="pf-val cookie-summary">{cookieSummary(settings.cookies)}</span>
+                <span className="pf-chev"><Ico.chev/></span>
+              </div>
+
+              <div className="pf-row">
+                <span className="pf-lbl">强制解除提醒</span>
+                <Switch on={settings.force} onChange={v => { set('force', v); toast(v ? '已开启强制解除提醒' : '已关闭强制解除提醒'); }}/>
+              </div>
+
+              <div className="pf-row" onClick={() => toast('已是最新版本 V4.9.45')}>
+                <span className="pf-lbl">当前版本</span>
+                <span className="pf-val">V4.9.45</span>
+              </div>
+
+              <div className="pf-row" onClick={() => push('help')}>
+                <span className="pf-lbl">使用帮助</span>
+                <span className="pf-chev"><Ico.chev/></span>
+              </div>
+
+              <div className="pf-row is-tall" onClick={() => toast('拨打 0086-4006098318')}>
+                <span className="pf-lbl">服务电话</span>
+                <div className="pf-vals">
+                  <div className="pf-val">0086-4006098318</div>
+                  <div className="pf-val2">Beijing Time 9:00-18:00(GMT+8)</div>
+                </div>
+              </div>
+
+              <div className="pf-row" onClick={() => { window.location.href = 'account-cancellation.html'; }}>
+                <span className="pf-lbl">注销申请</span>
+                {cancelStatusSummary() && <span className="pf-val cookie-summary">{cancelStatusSummary()}</span>}
+                <span className="pf-chev"><Ico.chev/></span>
+              </div>
+
+              <div className="pf-row" onClick={() => push('privacy')}>
+                <span className="pf-lbl">隐私协议</span>
+                <span className="pf-chev"><Ico.chev/></span>
+              </div>
+
+              <div className="pf-row" onClick={() => push('terms')}>
+                <span className="pf-lbl">用户服务协议</span>
+                <span className="pf-chev"><Ico.chev/></span>
+              </div>
+
+              <div className="pf-row" onClick={() => toast('已清除缓存 32.6MB')}>
+                <span className="pf-lbl">清除缓存</span>
+              </div>
+            </div>
+
+            <div style={{ flex: 1 }}/>
+            <div className="st-foot">
+              <button className="btn-tenant" onClick={() => openSheet('account')}>切换租户</button>
+              <button className="btn-exit" onClick={() => confirm({
+                t: '确认退出登录？', m: '退出后将不再接收设备告警推送。', ok: '退出',
+                onOk: () => {
+                  toast('已退出登录', 900);
+                  setTimeout(() => { window.location.href = LOGIN_URL; }, 800);
+                },
+              })}>退出</button>
+            </div>
+          </>
+        );
+
+      case 'cookies':
+        return (
+          <>
+            <div className="cookie-intro">
+              <strong>Cookie 与类似追踪技术</strong>
+              <p>除严格必要技术外，其他类别只有在您主动允许后才会启用。拒绝不会影响登录、设备管理和售后服务等核心功能。</p>
+            </div>
+
+            <div className="cookie-pref-list">
+              <div className="cookie-pref">
+                <div className="cookie-pref-line">
+                  <div className="cookie-pref-copy"><strong>严格必要</strong><p>用于登录会话、安全认证、网络负载和保存隐私选择。</p></div>
+                  <span className="cookie-required">始终启用</span>
+                </div>
+                <div className="cookie-meta">保存期限：会话期至 12 个月 · 不用于广告</div>
+                <button className="cookie-detail-link" onClick={() => push('cookieNecessary')}>查看 Cookie 详情 <Ico.chev/></button>
+              </div>
+
+              <div className="cookie-pref">
+                <div className="cookie-pref-line">
+                  <div className="cookie-pref-copy"><strong>功能体验</strong><p>记住语言、地区和界面偏好，并提供地图等增强功能。</p></div>
+                  <Switch on={cookieDraft.functional} onChange={v => setCookie('functional', v)}/>
+                </div>
+                <div className="cookie-meta">示例：语言偏好、地图服务 · 2 个合作方</div>
+                <button className="cookie-detail-link" onClick={() => push('cookieFunctional')}>查看 Cookie 详情 <Ico.chev/></button>
+              </div>
+
+              <div className="cookie-pref">
+                <div className="cookie-pref-line">
+                  <div className="cookie-pref-copy"><strong>分析统计</strong><p>了解功能使用情况、崩溃和性能问题，以改进产品。</p></div>
+                  <Switch on={cookieDraft.analytics} onChange={v => setCookie('analytics', v)}/>
+                </div>
+                <div className="cookie-meta">示例：使用分析、崩溃分析 · 2 个合作方</div>
+                <button className="cookie-detail-link" onClick={() => push('cookieAnalytics')}>查看 Cookie 详情 <Ico.chev/></button>
+              </div>
+
+              <div className="cookie-pref">
+                <div className="cookie-pref-line">
+                  <div className="cookie-pref-copy"><strong>广告营销</strong><p>用于营销归因、个性化广告及广告效果衡量。</p></div>
+                  <Switch on={cookieDraft.marketing} onChange={v => setCookie('marketing', v)}/>
+                </div>
+                <div className="cookie-meta">示例：广告 ID、营销归因 · 2 个合作方</div>
+                <button className="cookie-detail-link" onClick={() => push('cookieMarketing')}>查看 Cookie 详情 <Ico.chev/></button>
+              </div>
+            </div>
+
+            <p className="cookie-legal">您可随时修改或撤回授权。撤回后将停止对应追踪，并清理可以清理的非必要 Cookie 与本地标识。</p>
+            <div style={{ flex: 1 }}/>
+            <div className="cookie-foot">
+              <button className="btn-primary" onClick={() => commitCookies(cookieDraft, 'settings_update')}>保存我的选择</button>
+              <div className="cookie-bulk">
+                <button onClick={() => commitCookies({ ...COOKIE_DEFAULTS }, 'reject_all')}>全部拒绝</button>
+                <button onClick={() => commitCookies({ necessary: true, functional: true, analytics: true, marketing: true }, 'accept_all')}>全部接受</button>
+              </div>
+            </div>
+          </>
+        );
+
+      case 'cookie-detail': {
+        const group = COOKIE_CATALOG[view.category];
+        return (
+          <>
+            <div className="cookie-detail-intro">
+              <strong>{group.title}</strong>
+              <p>{group.note}</p>
+              <span>共 {group.items.length} 项</span>
+            </div>
+            <div className="cookie-detail-list">
+              {group.items.map(item => (
+                <article className="cookie-item" key={item.name}>
+                  <div className="cookie-item-head"><code>{item.name}</code><span>{item.duration}</span></div>
+                  <dl>
+                    <div><dt>提供方</dt><dd>{item.provider}</dd></div>
+                    <div><dt>类型</dt><dd>{item.type}</dd></div>
+                    <div><dt>作用</dt><dd>{item.purpose}</dd></div>
+                  </dl>
+                </article>
+              ))}
+            </div>
+            <p className="cookie-detail-tail">本页为原型示例。正式上线时应展示实际 Cookie、SDK 标识、提供方、用途和保存期限。</p>
+          </>
+        );
+      }
+
+      case 'help':
+        return (
+          <div className="list" style={{ marginTop: 12 }}>
+            {FAQS.map(([q, a], i) => (
+              <div className={'faq' + (openQ === i ? ' is-open' : '')} key={i} onClick={() => setOpenQ(openQ === i ? -1 : i)}>
+                <div className="faq-q">{q}<span className="row-chev"><Ico.chev/></span></div>
+                {openQ === i && <p className="faq-a">{a}</p>}
+              </div>
+            ))}
+          </div>
+        );
+
+      case 'privacy':
+      case 'terms':
+        return (
+          <div className="doc">
+            {DOCS[view.k].map(([h, p], i) => (
+              <React.Fragment key={i}>
+                {h && <h4>{h}</h4>}
+                <p>{p}</p>
+              </React.Fragment>
+            ))}
+            <p className="tail">（原型演示文本，不构成正式法律文件。）</p>
+          </div>
+        );
+
+      case 'profile': {
+        const rows = [
+          { l: '头像',      avatar: true, sheet: 'avatar' },
+          { l: '昵称',      v: acc.name,       sheet: 'nickname' },
+          { l: '国家 / 地区', v: profile.country, flat: true },
+          { l: '身份',      v: profile.role,   sheet: 'role' },
+          { l: '手机号码',  v: profile.phone,  tip: '更换手机号需通过短信验证' },
+          { l: '邮箱',      v: profile.email,  tip: '更换邮箱需重新验证' },
+          { l: '密码',      v: '',             tip: '修改密码需先通过短信验证' },
+        ];
+        return (
+          <div className="pf-list">
+            {rows.map((r, i) => (
+              <div className="pf-row" key={i}
+                   onClick={() => r.flat ? toast('国家 / 地区由实名信息决定\n如需修改请联系客服')
+                                         : (r.sheet ? openSheet(r.sheet) : toast(r.tip))}>
+                <span className="pf-lbl">{r.l}</span>
+                {r.avatar
+                  ? <span className="pf-av"><Avatar size={28} set={profile.avatar} name={acc.name}/></span>
+                  : <span className="pf-val">{r.v}</span>}
+                {!r.flat && <span className="pf-chev"><Ico.chev/></span>}
+              </div>
+            ))}
+          </div>
+        );
+      }
+
+      case 'bind':
+        return (
+          <>
+            <div className="card" style={{ marginTop: 12 }}>
+              <div className="card-title">输入设备出厂编号</div>
+              <div className="input-line">
+                <input value={sn} onChange={e => setSn(e.target.value.toUpperCase())} placeholder="例：SY215C10-0012345"/>
+                <button className="ico-btn" onClick={() => toast('调起相机\n扫描设备铭牌二维码')}><Ico.scan/></button>
+              </div>
+            </div>
+            <p className="sub-note">绑定后可查看设备工况、油耗、保养计划与告警推送。一台设备可被多个账号绑定，机主拥有最高权限。</p>
+            <div style={{ flex: 1 }}/>
+            <div className="sub-foot">
+              <button className="btn-primary" onClick={() => {
+                if (sn.trim().length < 6) return toast('请输入完整的设备出厂编号');
+                toast('已提交绑定申请\n等待机主确认'); onBack();
+              }}>提交绑定</button>
+            </div>
+          </>
+        );
+
+      case 'warn':
+        return (
+          <>
+            <div className="list" style={{ marginTop: 12 }}>
+              {WARNINGS.map((w, i) => (
+                <div className="warn" key={i} onClick={() => toast('查看告警详情：\n' + w.t)}>
+                  <span className="warn-dot" style={{ background: w.c }}/>
+                  <div className="warn-b">
+                    <div className="warn-t">{w.t}</div>
+                    <div className="warn-d">{w.d}</div>
+                  </div>
+                  <span className="warn-lv" style={{ color: w.c, background: w.bg }}>{w.lv}</span>
+                </div>
+              ))}
+            </div>
+            <p className="sub-note">共 3 条未处理告警，超过 48 小时未处理将自动升级为服务工单。</p>
+          </>
+        );
+
+      case 'report':
+        return (
+          <>
+            <div className="card" style={{ marginTop: 12 }}>
+              <div className="card-title">本月机群概览</div>
+              <div className="stats">
+                <div className="stat"><span className="stat-num">4</span><span className="stat-lbl">在管设备</span></div>
+                <div className="stat"><span className="stat-num">312</span><span className="stat-lbl">作业小时</span></div>
+                <div className="stat"><span className="stat-num">52%</span><span className="stat-lbl">平均利用率</span></div>
+              </div>
+            </div>
+            <div className="list bars" style={{ marginTop: 10 }}>
+              {FLEET.map((f, i) => (
+                <div className="bar-row" key={i}>
+                  <div className="bar-top"><span>{f.n}</span><b>{f.v}%</b></div>
+                  <div className="bar-track"><div className="bar-fill" style={{ width: f.v + '%', background: f.c }}/></div>
+                </div>
+              ))}
+            </div>
+            <p className="sub-note">利用率 = 当月实际作业小时 / 可作业小时，数据每日 06:00 更新。</p>
+          </>
+        );
+
+      case 'mall':
+        return (
+          <>
+            <div className="card" style={{ marginTop: 12, display: 'flex', alignItems: 'center' }}>
+              <div>
+                <div style={{ fontSize: 13, color: '#8A8C93' }}>可用积分</div>
+                <div style={{ fontSize: 26, fontWeight: 700, color: '#FF7A18', marginTop: 2 }}>2,860</div>
+              </div>
+              <button className="star-view" style={{ marginLeft: 'auto' }} onClick={() => toast('积分明细')}>
+                积分明细 <Ico.chev/>
+              </button>
+            </div>
+            <div className="goods">
+              {GOODS.map((g, i) => (
+                <div className="good" key={i} onClick={() => toast(g.p > 2860 ? '积分不足，还差 ' + (g.p - 2860) + ' 分' : '已加入兑换单：\n' + g.n)}>
+                  <div className="good-img"><Ico.gift/></div>
+                  <div className="good-n">{g.n}</div>
+                  <div className="good-p">{fmtRp(g.p)}<span>积分</span></div>
+                </div>
+              ))}
+            </div>
+          </>
+        );
+
+      case 'addr':
+        return (
+          <>
+            <div className="list" style={{ marginTop: 12 }}>
+              {ADDRS.map((a, i) => (
+                <div className="addr" key={i} onClick={() => toast('编辑收货地址')}>
+                  <div className="addr-h">
+                    <span>{a.n}</span><span style={{ color: '#8A8C93', fontSize: 13 }}>{a.p}</span>
+                    {a.def && <span className="tag">默认</span>}
+                  </div>
+                  <p className="addr-p">{a.a}</p>
+                </div>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}/>
+            <div className="sub-foot">
+              <button className="btn-primary" onClick={() => toast('新增收货地址')}>+ 新增地址</button>
+            </div>
+          </>
+        );
+
+      case 'feedback':
+        return (
+          <>
+            <div className="card" style={{ marginTop: 12 }}>
+              <div className="card-title">问题描述</div>
+              <textarea className="ta" value={fb} onChange={e => setFb(e.target.value)} maxLength={200}
+                        placeholder="请描述你遇到的问题或建议，我们会在 1 个工作日内回复"/>
+              <div style={{ textAlign: 'right', fontSize: 12, color: '#B4B7BE' }}>{fb.length}/200</div>
+            </div>
+            <div style={{ flex: 1 }}/>
+            <div className="sub-foot">
+              <button className="btn-primary" onClick={() => {
+                if (!fb.trim()) return toast('请先填写问题描述');
+                toast('反馈已提交，感谢你的建议'); onBack();
+              }}>提交反馈</button>
+            </div>
+          </>
+        );
+
+      case 'self':
+        return (
+          <>
+            <div className="card" style={{ marginTop: 12 }}>
+              <div className="kf">
+                {[['保养预约', <Ico.cog/>], ['配件查询', <Ico.box/>], ['电子保单', <Ico.doc/>]].map(([t, ic], i) => (
+                  <div className="kf-item" key={i} onClick={() => toast(t)}>{ic}<span>{t}</span></div>
+                ))}
+              </div>
+              <div className="kf">
+                {[['发票申请', <Ico.mail/>], ['进度查询', <Ico.chart/>], ['服务网点', <Ico.pin/>]].map(([t, ic], i) => (
+                  <div className="kf-item" key={i} onClick={() => toast(t)}>{ic}<span>{t}</span></div>
+                ))}
+              </div>
+            </div>
+            <p className="sub-note">自助服务 7×24 小时可用，复杂问题可转人工客服 400-887-8318。</p>
+          </>
+        );
+
+      default:
+        return <Empty txt={view.empty || '暂无数据'} sub={view.sub}/>;
+    }
+  };
+
+  return (
+    <div className={'subpage' + (view.white ? ' is-white' : '')}>
+      <div className={'sub-hd' + (view.left ? ' is-left' : '')}>
+        <button className="sub-back" onClick={onBack} aria-label="返回"><Ico.back/></button>
+        <span className="sub-title">{view.t}</span>
+        {!view.left && <span className="sub-right">{view.right || ''}</span>}
+      </div>
+      <div className={'scroll' + (view.k === 'cookies' ? ' cookie-settings-scroll' : '')}
+           style={{ display: 'flex', flexDirection: 'column' }}>{body()}</div>
+    </div>
+  );
+}
+
+/* =========================================================
+   6. 「我的」页
+   ========================================================= */
+function MinePage({ acc, profile, stars, week, claimed, onClaim, toast, push, openSheet }) {
+  const [stuck, setStuck] = useState(false);
+  const claimable = week.reduce((s, d) => s + (d.on && !claimed ? d.n : 0), 0);
+
+  return (
+    <>
+      {/* 顶部账号栏（吸顶） */}
+      <div className={'mine-hd' + (stuck ? ' is-stuck' : '')}>
+        <div className="hd-avatar" onClick={() => push('profile')}>
+          <Avatar size={40} set={profile.avatar} name={acc.name}/>
+          <span className="hd-badge">!</span>
+        </div>
+        <div className="hd-main">
+          <div className="hd-line">
+            <span className="hd-name" onClick={() => push('profile')}>{acc.name}</span>
+            <button className="hd-swap" onClick={() => openSheet('account')} aria-label="切换身份"><Ico.swap/></button>
+          </div>
+          <span className="hd-tag">{acc.tag}</span>
+        </div>
+        <div className="hd-acts">
+          <button onClick={() => openSheet('service')} aria-label="客服"><Ico.headset/></button>
+          <button onClick={() => push('setting')} aria-label="设置"><Ico.gear/></button>
+        </div>
+      </div>
+
+      <div className="scroll" onScroll={e => setStuck(e.currentTarget.scrollTop > 6)}>
+
+        {/* 星星签到 */}
+        <div className="card star-card">
+          <div className="star-top">
+            <button className="star-view" onClick={() => openSheet('star')}>立即查看 <Ico.chev/></button>
+          </div>
+          <div className="star-sum">
+            我的星星 <em>{stars}</em> ≈ <span className="rp">Rp </span><em>{fmtRp(stars * 100)},-</em>
+          </div>
+
+          <div className="week">
+            {week.map((d, i) => (
+              <div key={i} className={'day' + (d.on ? ' is-on' : '') + (d.today ? ' is-today' : '') + (d.pop ? ' pop' : '')}
+                   onClick={() => toast(d.today ? '今日签到可得 +2 颗星星' : d.d + ' ' + (d.on ? '已获得 ' + d.n + ' 颗星星' : '未获得星星'))}>
+                <div className="day-date">{d.d}</div>
+                <div className="day-box">
+                  <DayStar on={d.on}/>
+                  <div className="day-add">+{d.n}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button className={'btn-claim' + (claimable ? '' : ' is-done')}
+                  onClick={() => claimable ? onClaim(claimable) : toast('今日已领取，明天再来')}>
+            {claimable ? '一键领取 ' + claimable + ' 颗星星' : '今日已领取'}
+          </button>
+        </div>
+
+        {/* 三宫格 */}
+        <div className="card quick">
+          {[
+            { k: 'bind',   t: '绑定设备', ico: <Ico.link/>,   bg: '#EDF3FF' },
+            { k: 'warn',   t: '设备预警', ico: <Ico.beacon/>, bg: '#FFF2E4' },
+            { k: 'report', t: '机群报表', ico: <Ico.chart/>,  bg: '#EDF3FF' },
+          ].map(q => (
+            <button className="qk" key={q.k} onClick={() => push(q.k)}>
+              <span className="qk-ico" style={{ background: q.bg }}>{q.ico}</span>
+              <span className="qk-txt">{q.t}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* 设备管理 */}
+        <div className="card">
+          <div className="card-title">设备管理</div>
+          <div className="stats">
+            <button className="stat" onClick={() => push('maint')}>
+              <span className="stat-num">0</span><span className="stat-lbl">待保养</span>
+            </button>
+            <button className="stat" onClick={() => push('ticket')}>
+              <span className="stat-num">0</span><span className="stat-lbl">服务工单</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 业务列表 */}
+        <div className="list">
+          {ROWS_1.map(r => (
+            <div className="row" key={r.k} onClick={() => push(r.k)}>
+              <span className="row-ico" style={{ background: r.bg }}>{r.ico}</span>
+              <span className="row-txt">{r.t}</span>
+              <span className="row-chev"><Ico.chev/></span>
+            </div>
+          ))}
+        </div>
+
+        {/* 服务列表 */}
+        <div className="list">
+          {ROWS_2.map(r => (
+            <div className="row" key={r.k} onClick={() => push(r.k)}>
+              <span className="row-ico" style={{ background: r.bg }}>{r.ico}</span>
+              <span className="row-txt">{r.t}</span>
+              {r.badge && <span className="row-badge">{r.badge}</span>}
+              <span className="row-chev"><Ico.chev/></span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* =========================================================
+   7. 其它 Tab 占位
+   ========================================================= */
+const PlainPage = ({ title, txt, sub }) => (
+  <>
+    <div className="plain-hd">{title}</div>
+    <div className="scroll fade-in"><Empty txt={txt} sub={sub}/></div>
+  </>
+);
+
+/* =========================================================
+   8. 根组件
+   ========================================================= */
+const SUBS = {
+  bind:     { k: 'bind',     t: '绑定设备' },
+  warn:     { k: 'warn',     t: '设备预警', right: '3 条' },
+  report:   { k: 'report',   t: '机群报表' },
+  maint:    { k: 'maint',    t: '待保养设备', empty: '暂无待保养设备', sub: '保养到期前 7 天会自动提醒' },
+  ticket:   { k: 'ticket',   t: '服务工单',   empty: '暂无服务工单', sub: '设备故障可在此发起报修' },
+  inquiry:  { k: 'inquiry',  t: '主机询价',   empty: '暂无询价单', sub: '可在「设备」页选型后发起询价' },
+  delivery: { k: 'delivery', t: '主机交付',   empty: '暂无交付单', sub: '订单发货后可在此查看物流' },
+  parts:    { k: 'parts',    t: '配件交付',   empty: '暂无配件订单', sub: '配件订单发货后自动同步' },
+  profile:  { k: 'profile',  t: '个人信息', left: true, white: true },
+  setting:  { k: 'setting',  t: '设置',     left: true, white: true },
+  cookies:  { k: 'cookies',  t: 'Cookie 设置', left: true, white: true },
+  cookieNecessary:  { k: 'cookie-detail', category: 'necessary',  t: '严格必要 Cookie', left: true, white: true },
+  cookieFunctional: { k: 'cookie-detail', category: 'functional', t: '功能体验 Cookie', left: true, white: true },
+  cookieAnalytics:  { k: 'cookie-detail', category: 'analytics',  t: '分析统计 Cookie', left: true, white: true },
+  cookieMarketing:  { k: 'cookie-detail', category: 'marketing',  t: '广告营销 Cookie', left: true, white: true },
+  help:     { k: 'help',     t: '使用帮助' },
+  privacy:  { k: 'privacy',  t: '隐私协议' },
+  terms:    { k: 'terms',    t: '用户服务协议' },
+  mall:     { k: 'mall',     t: '积分商城' },
+  self:     { k: 'self',     t: '自助服务' },
+  fav:      { k: 'fav',      t: '收藏中心',   empty: '还没有收藏内容', sub: '长按机型或资讯即可收藏' },
+  feedback: { k: 'feedback', t: 'APP反馈' },
+  addr:     { k: 'addr',     t: '地址管理' },
+};
+
+const PROFILE_INIT = {
+  avatar: false,               // 是否已设置头像
+  country: '中国',
+  role: '设备操作手',
+  phone: '133****2180',
+  email: '8*********@qq.com',
+};
+
+function App() {
+  const [tab, setTab] = useState('me');
+  const [accs, setAccs] = useState(ACCOUNTS);
+  const [profile, setProfile] = useState(PROFILE_INIT);
+  const [dialog, setDialog] = useState(null);   // 系统弹窗 / 二次确认
+  const [settings, setSettings] = useState(() => {
+    const cookies = readCookieConsent();
+    return { lang: '跟随系统', push: true, ads: cookies.marketing, force: true, cookies };
+  });
+  const [accId, setAccId] = useState('a1');
+  const [week, setWeek] = useState(WEEK_INIT);
+  const [stars, setStars] = useState(0);
+  const [claimed, setClaimed] = useState(false);
+  const [sheet, setSheet] = useState(null);
+  const [stack, setStack] = useState(() => {
+    const direct = new URLSearchParams(window.location.search).get('view');
+    return direct && SUBS[direct] ? [SUBS[direct]] : [];
+  });                                           // 二级页导航栈；支持原型直达 ?view=cookies
+  const [msg, setMsg] = useState('');
+  const timer = useRef(0);
+  const sub = stack[stack.length - 1];
+
+  const acc = accs.find(a => a.id === accId);
+
+  const toast = useCallback((t, ms) => {
+    setMsg(t);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setMsg(''), ms || 1800);
+  }, []);
+
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  /* 一键领取：数字滚动 + 星星弹跳 */
+  const claim = n => {
+    setClaimed(true);
+    setWeek(w => w.map(d => d.on ? { ...d, pop: true } : d));
+    let i = 0;
+    const id = setInterval(() => {
+      i += 1;
+      setStars(i);
+      if (i >= n) { clearInterval(id); toast('领取成功，获得 ' + n + ' 颗星星'); }
+    }, 70);
+    setTimeout(() => setWeek(w => w.map(d => ({ ...d, pop: false }))), 600);
+  };
+
+  /* 更换头像：相机先走系统权限授权，相册直接进隐私确认 */
+  const askPhoto = from => {
+    if (from !== '相机') return askAvatarPrivacy(from);
+    setDialog({
+      perm: true,
+      dark: true,                      // 相机场景弹窗浮在取景黑屏上
+      icon: 'cam',
+      t: '允许“MySANY”访问相机？',
+      m: '“MySANY”想访问您的相机,为了帮您实现扫描二维码,设置头像等功能',
+      cancel: '不允许',
+      ok: '允许',
+      onCancel: () => toast('已拒绝授权\n无法使用相机更换头像'),
+      onOk: () => askAvatarPrivacy(from),
+    });
+  };
+
+  /* 更换头像：第 2 步 — 头像隐私确认 */
+  const askAvatarPrivacy = from => setDialog({
+    t: '头像使用说明',
+    m: '仅用于账号身份识别、内部同事识别。',
+    cancel: '取消',
+    ok: '同意',
+    onCancel: () => toast('已取消更换头像'),
+    onOk: () => {
+      setProfile(p => ({ ...p, avatar: true }));
+      toast(from === '相机' ? '拍照完成，头像已更新' : '已选择图片，头像已更新');
+    },
+  });
+
+  const push = k => SUBS[k] ? setStack(s => [...s, SUBS[k]]) : toast('功能开发中');
+  const back = () => setStack(s => s.slice(0, -1));
+  const confirm = d => setDialog({ cancel: '取消', ...d });
+
+  return (
+    <div className="stage">
+      <div className="device">
+        <StatusBar/>
+
+        <div className="screen">
+          {tab === 'me' && (
+            <MinePage acc={acc} profile={profile} stars={stars} week={week} claimed={claimed}
+                      onClaim={claim} toast={toast} push={push} openSheet={setSheet}/>
+          )}
+          {tab === 'home'   && <PlainPage title="首页"   txt="首页内容仅在完整版中展示" sub="本原型聚焦「我的」页交互"/>}
+          {tab === 'device' && <PlainPage title="设备"   txt="还没有绑定任何设备" sub="回到「我的」页点击绑定设备"/>}
+          {tab === 'audit'  && <PlainPage title="审核"   txt="暂无待审核事项" sub="成员申请、用车审批会在此汇总"/>}
+
+          {/* 右侧悬浮球 */}
+          {tab === 'me' && (
+            <button className="fab" onClick={() => openFab(toast)} aria-label="快捷入口">
+              <Ico.grid/>
+            </button>
+          )}
+
+        </div>
+
+        {/* 底部 Tab */}
+        <div className="tabbar">
+          {[
+            { k: 'home',   t: '首页', i: Ico.tHome },
+            { k: 'device', t: '设备', i: Ico.tDevice },
+            { k: 'audit',  t: '审核', i: Ico.tAudit },
+            { k: 'me',     t: '我',   i: Ico.tMe },
+          ].map(t => (
+            <button key={t.k} className={'tabitem' + (tab === t.k ? ' is-active' : '')}
+                    onClick={() => {
+                      if (t.k === 'home') { window.location.href = 'home.html'; return; }
+                      setStack([]); setTab(t.k);
+                    }}>
+              {t.i(tab === t.k)}
+              <span>{t.t}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* 二级页：覆盖底部 Tab 的全屏页，支持多级返回 */}
+        {sub && <SubPage key={stack.length} view={sub} onBack={back} toast={toast}
+                         acc={acc} profile={profile} openSheet={setSheet}
+                         settings={settings} setSettings={setSettings} push={push} confirm={confirm}/>}
+
+        {/* ── 头像来源：相机 / 相册 / 取消 ── */}
+        {sheet === 'avatar' && (
+          <>
+            <div className="scrim" onClick={() => setSheet(null)}/>
+            <div className="as">
+              <div className="as-group">
+                <button className="as-item" onClick={() => { setSheet(null); askPhoto('相机'); }}>相机</button>
+                <button className="as-item" onClick={() => { setSheet(null); askPhoto('相册'); }}>相册</button>
+              </div>
+              <div className="as-group as-cancel">
+                <button className="as-item" onClick={() => setSheet(null)}>取消</button>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* ── 系统弹窗：授权 / 二次确认 ── */}
+        {dialog && (
+          <div className={'alert-wrap' + (dialog.dark ? ' is-dark' : '')}>
+            <div key={dialog.t} className={'alert' + (dialog.perm ? ' is-perm' : '') + (dialog.dark ? ' is-dark' : '')}>
+              {dialog.icon && <PermIcon kind={dialog.icon}/>}
+              <div className="alert-t">{dialog.t}</div>
+              <p className="alert-m">{dialog.m}</p>
+              <div className="alert-btns">
+                <button className="alert-btn" onClick={() => { setDialog(null); dialog.onCancel && dialog.onCancel(); }}>
+                  {dialog.cancel}
+                </button>
+                <button className="alert-btn primary" onClick={() => { setDialog(null); dialog.onOk && dialog.onOk(); }}>
+                  {dialog.ok}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── 个人信息编辑 ── */}
+        {sheet === 'nickname' && (
+          <NameSheet name={acc.name} onClose={() => setSheet(null)}
+                     onSave={n => { setAccs(as => as.map(a => a.id === accId ? { ...a, name: n } : a)); setSheet(null); toast('昵称已更新'); }}/>
+        )}
+        {sheet === 'role' && (
+          <PickSheet title="选择身份" options={['设备操作手', '机主', '车队管理员', '服务工程师']} value={profile.role}
+                     onClose={() => setSheet(null)}
+                     onPick={v => { setProfile(p => ({ ...p, role: v })); setSheet(null); toast('身份已提交审核\n当前显示为' + v); }}/>
+        )}
+
+        {/* ── 弹层 ── */}
+        {sheet === 'account' && (
+          <Sheet title="切换身份" onClose={() => setSheet(null)}>
+            {ACCOUNTS.map(a => (
+              <div key={a.id} className={'acc' + (a.id === accId ? ' is-on' : '')}
+                   onClick={() => { setAccId(a.id); setSheet(null); toast('已切换至\n' + a.name); }}>
+                <span className="acc-av"/>
+                <div className="acc-b">
+                  <div className="acc-n">{a.name}</div>
+                  <div className="acc-t">{a.tag} · {a.note}</div>
+                </div>
+                {a.id === accId && <span className="acc-ck"><Ico.check/></span>}
+              </div>
+            ))}
+          </Sheet>
+        )}
+
+        {sheet === 'service' && (
+          <Sheet title="在线客服" cancel="关闭" onClose={() => setSheet(null)}>
+            <div className="kf">
+              {[['在线咨询', <Ico.chat/>], ['电话客服', <Ico.headset/>], ['服务网点', <Ico.pin/>]].map(([t, ic], i) => (
+                <div className="kf-item" key={i} onClick={() => { setSheet(null); toast(t === '电话客服' ? '拨打 400-887-8318' : t); }}>
+                  {ic}<span>{t}</span>
+                </div>
+              ))}
+            </div>
+            <p className="sub-note" style={{ margin: '4px 0 10px' }}>
+              服务时间 7×24 小时。涉及设备故障请优先提交「服务工单」，工程师将在 2 小时内响应。
+            </p>
+          </Sheet>
+        )}
+
+        {sheet === 'lang' && (
+          <PickSheet title="语言" options={['跟随系统', '简体中文', 'English', 'Bahasa Indonesia']} value={settings.lang}
+                     onClose={() => setSheet(null)}
+                     onPick={v => { setSettings(s => ({ ...s, lang: v })); setSheet(null); toast('语言已切换为 ' + v); }}/>
+        )}
+
+        {sheet === 'star' && (
+          <Sheet title="星星明细" cancel="关闭" onClose={() => setSheet(null)}>
+            <div style={{ padding: '2px 0 10px', fontSize: 13, color: '#8A8C93' }}>
+              当前 <b style={{ color: '#FF7A18', fontSize: 16 }}>{stars}</b> 颗 ≈ Rp {fmtRp(stars * 100)},-（1 颗星星 ≈ Rp 100）
+            </div>
+            {[
+              { l: '一键领取签到星星', d: '今天 15:19', n: claimed ? '+8' : '—' },
+              { l: '9.17 每日签到',    d: '9.17 09:02', n: '+5' },
+              { l: '9.16 完善企业资料', d: '9.16 14:30', n: '+3' },
+              { l: '积分商城兑换',      d: '9.12 10:44', n: '-20', minus: true },
+            ].map((r, i) => (
+              <div className="star-log" key={i}>
+                <div className="l">{r.l}<div className="d">{r.d}</div></div>
+                <span className={'n' + (r.minus ? ' minus' : '')}>{r.n}</span>
+              </div>
+            ))}
+          </Sheet>
+        )}
+
+        {msg && <div className="toast">{msg}</div>}
+      </div>
+    </div>
+  );
+}
+
+function openFab(toast) { toast('快捷工具箱\n扫一扫 / 报修 / 找配件'); }
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MySANY 管理平台 · 列表页设计规范参考</title>
+<link rel="stylesheet" href="assets/sany-ui.css" />
+<link rel="stylesheet" href="assets/shell/shell-lock.css" />
+<style>
+  /* 仅本参考页用于并排展示规范的辅助样式，业务页面不要复制本段 */
+  .ref-note{margin:0 0 12px;padding:8px 10px;background:#feffe6;border:1px solid #e0e0e0;font-size:12px;color:#333}
+  .ref-block{margin-bottom:24px}
+  .ref-block>h3{margin:0 0 8px;font-size:12px;font-weight:700;color:rgba(0,0,0,.85)}
+  .ref-swatches{display:flex;flex-wrap:wrap;gap:8px}
+  .ref-sw{width:132px;border:1px solid #e0e0e0}
+  .ref-sw i{display:block;height:40px}
+  .ref-sw span{display:block;padding:4px 6px;font-size:12px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<!-- 图标雪碧图：取自系统实际使用的 Material 图标名 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-menu-fold" viewBox="0 0 24 24"><path d="M3 18h13v-2H3v2zm0-5h10v-2H3v2zm0-7v2h13V6H3zm18 9.59L17.42 12 21 8.41 19.59 7l-5 5 5 5L21 15.59z"/></symbol>
+  <symbol id="i-expand-more" viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></symbol>
+  <symbol id="i-date-range" viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zm0 16H5V9h14v11z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol>
+  <symbol id="i-first-page" viewBox="0 0 24 24"><path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"/></symbol>
+  <symbol id="i-navigate-before" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></symbol>
+  <symbol id="i-navigate-next" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></symbol>
+  <symbol id="i-last-page" viewBox="0 0 24 24"><path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"/></symbol>
+  <symbol id="i-notifications" viewBox="0 0 24 24"><path d="M12 22a2 2 0 002-2h-4a2 2 0 002 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 10-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></symbol>
+  <symbol id="i-apps" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm0 12h-4a3 3 0 01-6 0H5V5h14v10z"/></symbol>
+  <symbol id="i-play-arrow" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+</defs></svg>
+
+<div class="sany-app" id="app">
+
+  <!-- ===================== 锁定外壳：顶栏 ===================== -->
+  <header class="sany-header" data-locked-shell="true">
+    <div class="sany-header-inner">
+      <div class="sany-header-left">
+        <div class="sany-header-logo">
+          <svg class="s-ico sany-header-logo-mark"><use href="#i-apps"/></svg>
+          <h1 class="sany-header-title">MySANY管理平台</h1>
+        </div>
+        <button class="sany-collapse-trigger" id="collapseBtn" aria-label="收起菜单">
+          <svg class="s-ico"><use href="#i-menu-fold"/></svg>
+        </button>
+      </div>
+      <div class="sany-header-right">
+        <div class="sany-header-item">
+          <button class="sany-header-item-btn">新加坡站点 <svg class="s-ico"><use href="#i-expand-more"/></svg></button>
+        </div>
+        <span class="sany-header-divider"></span>
+        <div class="sany-header-item">
+          <button class="sany-header-item-btn">简体中文 <svg class="s-ico"><use href="#i-expand-more"/></svg></button>
+        </div>
+        <div class="sany-header-item sany-header-notice">
+          <svg class="s-ico"><use href="#i-notifications"/></svg>
+          <span class="sany-header-notice-dot"></span>
+        </div>
+        <div class="sany-header-item">
+          <span class="sany-header-avatar">刘</span>
+          <button class="sany-header-item-btn" style="margin-left:8px">liufw <svg class="s-ico"><use href="#i-expand-more"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="sany-body">
+
+    <!-- ===================== 锁定外壳：侧栏 ===================== -->
+    <nav class="sany-nav" data-locked-shell="true">
+      <div class="sany-nav-search">
+        <svg class="s-ico sany-nav-search-icon"><use href="#i-search"/></svg>
+        <input type="text" placeholder="菜单搜索" />
+      </div>
+      <div class="sany-nav-menu">
+        <ul class="sany-menu">
+          <li class="sany-menu-item"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">活动管理模块</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+          <li class="sany-menu-item"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">广告管理</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+          <li class="sany-menu-item"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">审核检查</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+          <li class="sany-menu-item"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">客户分析</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+          <li class="sany-menu-item is-active"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">客户管理</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+          <li class="sany-menu-item"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">数据管理</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+          <li class="sany-menu-item"><svg class="s-ico sany-menu-item-icon"><use href="#i-inbox"/></svg><span class="sany-menu-item-title">设备管理</span><svg class="s-ico sany-menu-item-arrow"><use href="#i-play-arrow"/></svg></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- ===================== 内容区 ===================== -->
+    <main class="sany-content">
+
+      <!-- 多页签栏：顶栏与页头之间，36px，选中页签 #f0f0f0 + 主色字 -->
+      <div class="s-tabs">
+        <button class="s-tab">工作台</button>
+        <button class="s-tab">月活跃用户 <span class="s-tab-close"><svg class="s-ico"><use href="#i-close"/></svg></span></button>
+        <button class="s-tab">用户留存率 <span class="s-tab-close"><svg class="s-ico"><use href="#i-close"/></svg></span></button>
+        <button class="s-tab">账户管理 <span class="s-tab-close"><svg class="s-ico"><use href="#i-close"/></svg></span></button>
+        <button class="s-tab is-active">租户审核 <span class="s-tab-close"><svg class="s-ico"><use href="#i-close"/></svg></span></button>
+      </div>
+
+      <div class="page-container">
+
+        <div class="page-head">
+          <span class="page-head-title">租户审核</span>
+          <div class="page-head-operator">
+            <button class="s-btn s-btn-default">导入</button>
+            <button class="s-btn s-btn-primary">新建租户</button>
+          </div>
+        </div>
+
+        <div class="page-content-wrap">
+          <div class="page-content">
+
+            <p class="ref-note">
+              本页为 <b>MySANY 管理平台</b> 设计规范参考实现。数值全部取自线上真实 CSS，
+              业务页面请只裁剪所需区块，不要把本页的多场景并排结构带进生产页面。
+            </p>
+
+            <!-- ---------- 查询区：label 列 80px 右对齐带冒号；按钮 更多→重置→查询 ---------- -->
+            <div class="s-query-bar" id="queryBar">
+              <div class="s-form">
+                <table>
+                  <colgroup>
+                    <col style="width:80px" /><col />
+                    <col style="width:80px" /><col />
+                    <col style="width:80px" /><col />
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <td class="s-form-label">申请时间范围</td>
+                      <td class="s-form-cell">
+                        <span class="s-field-affix">
+                          <input class="s-input" type="text" placeholder="请选择" readonly />
+                          <svg class="s-ico s-field-affix-icon"><use href="#i-date-range"/></svg>
+                        </span>
+                      </td>
+                      <td class="s-form-label">申请人手机号</td>
+                      <td class="s-form-cell"><input class="s-input" type="text" placeholder="请输入" /></td>
+                      <td class="s-form-label">审核状态</td>
+                      <td class="s-form-cell">
+                        <select class="s-select"><option>全部</option><option>待审核</option><option>已通过</option><option>已驳回</option></select>
+                      </td>
+                    </tr>
+                    <tr class="s-query-row-overflow">
+                      <td class="s-form-label">企业名称</td>
+                      <td class="s-form-cell"><input class="s-input" type="text" placeholder="请输入" /></td>
+                      <td class="s-form-label">D365客户编码</td>
+                      <td class="s-form-cell"><input class="s-input" type="text" placeholder="请输入" /></td>
+                      <td class="s-form-label">联系人姓名</td>
+                      <td class="s-form-cell"><input class="s-input" type="text" placeholder="请输入" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="s-query-actions">
+                <button class="s-btn s-btn-default s-query-more" id="moreBtn">更多 <svg class="s-ico"><use href="#i-expand-more"/></svg></button>
+                <button class="s-btn s-btn-default">重置</button>
+                <button class="s-btn s-btn-primary">查询</button>
+              </div>
+            </div>
+
+            <!-- ---------- 工具栏：主操作靠左 ---------- -->
+            <div class="s-toolbar">
+              <div class="s-toolbar-left">
+                <button class="s-btn s-btn-primary">导出</button>
+                <button class="s-btn s-btn-default" id="batchBtn" disabled>批量通过</button>
+              </div>
+              <div class="s-toolbar-right">
+                <span style="color:#bfbfbf">已选 <b id="selCount" style="color:#29bece">0</b> 项</span>
+              </div>
+            </div>
+
+            <!-- ---------- 表格：行高 36px，表头 rgba(0,0,0,.04)+700 ---------- -->
+            <div class="s-table-wrap">
+              <table class="s-table" id="tbl">
+                <colgroup>
+                  <col style="width:40px" /><col style="width:140px" /><col style="width:150px" />
+                  <col style="width:120px" /><col style="width:100px" /><col />
+                  <col style="width:100px" /><col style="width:90px" /><col style="width:130px" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th class="s-col-check"><label class="s-check"><input type="checkbox" id="checkAll" /></label></th>
+                    <th>申请编号 <span class="s-sort" data-sort><i class="up"></i><i class="down"></i></span></th>
+                    <th>申请时间 <span class="s-sort" data-sort><i class="up"></i><i class="down"></i></span></th>
+                    <th>申请人手机号</th>
+                    <th>申请人姓名</th>
+                    <th>企业名称</th>
+                    <th class="s-col-num">授权账号数</th>
+                    <th>审核状态</th>
+                    <th class="s-col-action">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="s-col-check"><label class="s-check"><input type="checkbox" class="row-check" /></label></td>
+                    <td>SQ2026012700135</td><td>2026-01-27 00:05:35</td><td>138****2891</td><td>刘方伟</td>
+                    <td>三一重工股份有限公司</td><td class="s-col-num">128</td>
+                    <td><span class="s-status is-on"><i class="s-status-dot"></i>待审核</span></td>
+                    <td class="s-col-action"><div class="s-row-actions">
+                      <button class="s-btn s-btn-flat">查看</button>
+                      <button class="s-btn s-btn-flat">审核</button>
+                    </div></td>
+                  </tr>
+                  <tr>
+                    <td class="s-col-check"><label class="s-check"><input type="checkbox" class="row-check" /></label></td>
+                    <td>SQ2026012700134</td><td>2026-01-26 18:42:10</td><td>139****5520</td><td>陈建国</td>
+                    <td>长沙中联重科智能技术有限公司</td><td class="s-col-num">64</td>
+                    <td><span class="s-status is-off"><i class="s-status-dot"></i>已通过</span></td>
+                    <td class="s-col-action"><div class="s-row-actions">
+                      <button class="s-btn s-btn-flat">查看</button>
+                      <button class="s-btn s-btn-flat is-danger" id="delBtn">停用</button>
+                    </div></td>
+                  </tr>
+                  <tr>
+                    <td class="s-col-check"><label class="s-check"><input type="checkbox" class="row-check" /></label></td>
+                    <td>SQ2026012700133</td><td>2026-01-26 09:17:02</td><td>135****7743</td><td>王丽</td>
+                    <td>三一汽车制造有限公司</td><td class="s-col-num">12</td>
+                    <td><span class="s-status is-error"><i class="s-status-dot"></i>已驳回</span></td>
+                    <td class="s-col-action"><div class="s-row-actions">
+                      <button class="s-btn s-btn-flat">查看</button>
+                      <button class="s-btn s-btn-flat is-disabled" disabled>审核</button>
+                    </div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- ---------- 分页：右对齐，文案与系统一致 ---------- -->
+            <nav class="s-pagination">
+              <span class="s-pagination-perpage">每页行数：</span>
+              <select class="s-select s-pagination-size"><option>20</option><option>50</option><option>100</option></select>
+              <span class="s-pagination-info">1 - 20 / 45</span>
+              <button class="s-pagination-pager" disabled><svg class="s-ico"><use href="#i-first-page"/></svg></button>
+              <button class="s-pagination-pager" disabled><svg class="s-ico"><use href="#i-navigate-before"/></svg></button>
+              <button class="s-pagination-pager"><svg class="s-ico"><use href="#i-navigate-next"/></svg></button>
+              <button class="s-pagination-pager"><svg class="s-ico"><use href="#i-last-page"/></svg></button>
+            </nav>
+
+            <!-- ================= 以下为规范展示区，业务页面请勿复制 ================= -->
+            <hr style="margin:24px 0;border:0;border-top:1px solid #e0e0e0" />
+
+            <div class="ref-block">
+              <h3>色彩</h3>
+              <div class="ref-swatches">
+                <div class="ref-sw"><i style="background:#29bece"></i><span>primary<br>#29bece</span></div>
+                <div class="ref-sw"><i style="background:#1995a8"></i><span>primary-hover<br>#1995a8</span></div>
+                <div class="ref-sw"><i style="background:#172742"></i><span>header<br>#172742</span></div>
+                <div class="ref-sw"><i style="background:#1e3255"></i><span>nav<br>#1e3255</span></div>
+                <div class="ref-sw"><i style="background:#f4f5f7"></i><span>canvas<br>#f4f5f7</span></div>
+                <div class="ref-sw"><i style="background:#e0e0e0"></i><span>border<br>#e0e0e0</span></div>
+                <div class="ref-sw"><i style="background:#d50000"></i><span>error<br>#d50000</span></div>
+                <div class="ref-sw"><i style="background:#feffe6"></i><span>required-bg<br>#feffe6</span></div>
+              </div>
+            </div>
+
+            <div class="ref-block">
+              <h3>按钮（28px / lg 40px / sm 24px，圆角 2px）</h3>
+              <div class="s-btn-group" style="flex-wrap:wrap">
+                <button class="s-btn s-btn-primary">主按钮</button>
+                <button class="s-btn s-btn-default">次按钮</button>
+                <button class="s-btn s-btn-flat">文字按钮</button>
+                <button class="s-btn s-btn-danger">危险</button>
+                <button class="s-btn s-btn-primary" disabled>禁用</button>
+                <button class="s-btn s-btn-primary s-btn-lg">大按钮</button>
+                <button class="s-btn s-btn-default s-btn-sm">小按钮</button>
+              </div>
+            </div>
+
+            <div class="ref-block">
+              <h3>表单控件（28px，必填=淡黄底，不是红星号）</h3>
+              <div class="s-form" style="max-width:720px">
+                <table>
+                  <colgroup><col style="width:80px" /><col /><col style="width:80px" /><col /></colgroup>
+                  <tbody>
+                    <tr>
+                      <td class="s-form-label">租户名称</td>
+                      <td class="s-form-cell"><input class="s-input is-required" value="三一重工股份有限公司" /></td>
+                      <td class="s-form-label">租户类型</td>
+                      <td class="s-form-cell"><select class="s-select is-required"><option>集团客户</option></select></td>
+                    </tr>
+                    <tr>
+                      <td class="s-form-label">联系邮箱</td>
+                      <td class="s-form-cell">
+                        <input class="s-input is-invalid" value="not-an-email" />
+                        <div class="s-msg-error">请输入正确的邮箱地址</div>
+                      </td>
+                      <td class="s-form-label">状态</td>
+                      <td class="s-form-cell"><label class="s-switch"><input type="checkbox" checked /></label></td>
+                    </tr>
+                    <tr>
+                      <td class="s-form-label">备注</td>
+                      <td class="s-form-cell" colspan="3"><textarea class="s-textarea" placeholder="请输入"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td class="s-form-label">禁用项</td>
+                      <td class="s-form-cell"><input class="s-input" value="只读内容" disabled /></td>
+                      <td class="s-form-label">勾选</td>
+                      <td class="s-form-cell">
+                        <label class="s-check"><input type="checkbox" checked /> 选项A</label>
+                        <label class="s-check" style="margin-left:12px"><input type="radio" name="r" checked /> 选项B</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="ref-block">
+              <h3>标签与状态</h3>
+              <span class="s-tag">主色标签</span>
+              <span class="s-tag s-tag-outline">描边标签</span>
+              <span class="s-tag s-tag-danger">危险标签</span>
+              <span class="s-status is-on" style="margin-left:12px"><i class="s-status-dot"></i>启用</span>
+              <span class="s-status is-off" style="margin-left:12px"><i class="s-status-dot"></i>停用</span>
+            </div>
+
+            <div class="ref-block">
+              <h3>弹窗 / 抽屉 / 空状态</h3>
+              <div class="s-btn-group">
+                <button class="s-btn s-btn-default" id="openModal">打开弹窗</button>
+                <button class="s-btn s-btn-default" id="openDrawer">打开抽屉</button>
+                <button class="s-btn s-btn-default" id="showMsg">全局消息</button>
+              </div>
+              <div class="s-empty" style="border:1px solid #e0e0e0;margin-top:8px">
+                <span class="s-empty-icon">□</span>暂无数据
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ---------- 弹窗：520px，底部右对齐，取消在左主按钮在右 ---------- -->
+<div class="s-mask" id="modalMask" hidden>
+  <div class="s-modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <div class="s-modal-header">
+      <h4 class="s-modal-title" id="mTitle">审核租户申请</h4>
+      <button class="s-modal-close" data-close><svg class="s-ico"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="s-modal-body">
+      <div class="s-form">
+        <table>
+          <colgroup><col style="width:80px" /><col /></colgroup>
+          <tbody>
+            <tr><td class="s-form-label">申请编号</td><td class="s-form-cell">SQ2026012700135</td></tr>
+            <tr><td class="s-form-label">企业名称</td><td class="s-form-cell">三一重工股份有限公司</td></tr>
+            <tr><td class="s-form-label">审核结果</td><td class="s-form-cell">
+              <label class="s-check"><input type="radio" name="audit" checked /> 通过</label>
+              <label class="s-check" style="margin-left:12px"><input type="radio" name="audit" /> 驳回</label>
+            </td></tr>
+            <tr><td class="s-form-label">审核意见</td><td class="s-form-cell"><textarea class="s-textarea" placeholder="请输入"></textarea></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="s-modal-footer">
+      <button class="s-btn s-btn-default" data-close>取消</button>
+      <button class="s-btn s-btn-primary" data-close>确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- ---------- 抽屉：内容较多时使用 ---------- -->
+<div class="s-mask" id="drawerMask" hidden style="padding:0;align-items:stretch;justify-content:flex-end">
+  <div class="s-drawer" role="dialog" aria-modal="true">
+    <div class="s-modal-header">
+      <h4 class="s-modal-title">租户详情</h4>
+      <button class="s-modal-close" data-close><svg class="s-ico"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="s-modal-body">
+      <div class="s-section-title">基本信息</div>
+      <div class="s-desc">
+        <div class="s-desc-item"><span class="s-desc-label">申请编号</span><span class="s-desc-value">SQ2026012700135</span></div>
+        <div class="s-desc-item"><span class="s-desc-label">企业名称</span><span class="s-desc-value">三一重工股份有限公司</span></div>
+        <div class="s-desc-item"><span class="s-desc-label">信用代码</span><span class="s-desc-value">91430100183181981K</span></div>
+        <div class="s-desc-item"><span class="s-desc-label">申请人</span><span class="s-desc-value">刘方伟</span></div>
+        <div class="s-desc-item"><span class="s-desc-label">手机号</span><span class="s-desc-value">138****2891</span></div>
+        <div class="s-desc-item"><span class="s-desc-label">申请时间</span><span class="s-desc-value">2026-01-27 00:05:35</span></div>
+      </div>
+    </div>
+    <div class="s-modal-footer">
+      <button class="s-btn s-btn-default" data-close>关闭</button>
+      <button class="s-btn s-btn-primary" data-close>去审核</button>
+    </div>
+  </div>
+</div>
+
+<div class="s-message" id="msgHost"></div>
+
+<script>
+(function(){
+  var $=function(s,c){return (c||document).querySelector(s)};
+  var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+
+  // 侧栏折叠
+  $('#collapseBtn').addEventListener('click',function(){ $('#app').classList.toggle('is-collapsed') });
+
+  // 查询区展开/收起
+  $('#moreBtn').addEventListener('click',function(){
+    var bar=$('#queryBar'), on=bar.classList.toggle('is-expanded');
+    this.childNodes[0].nodeValue = on?'收起 ':'更多 ';
+  });
+
+  // 菜单选中
+  $$('.sany-menu-item').forEach(function(el){
+    el.addEventListener('click',function(){
+      $$('.sany-menu-item').forEach(function(x){x.classList.remove('is-active')});
+      el.classList.add('is-active');
+    });
+  });
+
+  // 行选择 + 全选 + 联动工具栏
+  function sync(){
+    var rows=$$('.row-check'), n=rows.filter(function(c){return c.checked}).length;
+    $('#selCount').textContent=n;
+    $('#batchBtn').disabled = n===0;
+    var all=$('#checkAll');
+    all.checked = n>0 && n===rows.length;
+    all.indeterminate = n>0 && n<rows.length;
+    rows.forEach(function(c){ c.closest('tr').classList.toggle('is-selected', c.checked) });
+  }
+  $('#checkAll').addEventListener('change',function(){
+    $$('.row-check').forEach(function(c){c.checked=$('#checkAll').checked});
+    sync();
+  });
+  $$('.row-check').forEach(function(c){ c.addEventListener('change',sync) });
+
+  // 排序三态
+  $$('[data-sort]').forEach(function(el){
+    el.addEventListener('click',function(){
+      var asc=el.classList.contains('is-asc');
+      $$('[data-sort]').forEach(function(x){x.classList.remove('is-asc','is-desc')});
+      el.classList.add(asc?'is-desc':'is-asc');
+    });
+  });
+
+  // 弹窗 / 抽屉
+  function open(id){ $(id).hidden=false }
+  function close(el){ el.hidden=true }
+  $('#openModal').addEventListener('click',function(){open('#modalMask')});
+  $('#openDrawer').addEventListener('click',function(){open('#drawerMask')});
+  $$('.s-mask').forEach(function(m){
+    m.addEventListener('click',function(e){ if(e.target===m) close(m) });
+    $$('[data-close]',m).forEach(function(b){ b.addEventListener('click',function(){close(m)}) });
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape') $$('.s-mask').forEach(function(m){ if(!m.hidden) close(m) });
+  });
+
+  // 全局消息
+  function toast(text){
+    var d=document.createElement('div');
+    d.className='s-message-item is-success';
+    d.textContent=text;
+    $('#msgHost').appendChild(d);
+    setTimeout(function(){ d.remove() },2000);
+  }
+  $('#showMsg').addEventListener('click',function(){ toast('操作成功') });
+
+  // 危险操作二次确认
+  $('#delBtn').addEventListener('click',function(){
+    if(confirm('确定停用该租户？')) toast('已停用');
+  });
+})();
+</script>
+</body>
+</html>

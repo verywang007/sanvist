@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[19],{1038:function(e,t,a){"use strict";a.r(t);var n=a(5);t["default"]={namespace:"market",state:{isAgree:null},effects:{},reducers:{updateState:function(e,t){var a=t.payload;return Object(n["default"])({},e,{},a)}}}}}]);

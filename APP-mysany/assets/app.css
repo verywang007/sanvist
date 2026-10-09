@@ -1,0 +1,351 @@
+/* =========================================================
+   MySANY APP · 登录页原型
+   基准设备 414 × 896（尺寸均由原图逐像素量取后换算）
+   ========================================================= */
+
+:root{
+  --red:          #E2231A;   /* SANY 品牌红 */
+  --red-weak:     #EDA6AA;   /* 登录按钮未激活态 */
+  --field:        #F3F4F8;   /* 输入框底色 */
+  --field-focus:  #EDEEF4;
+  --ink:          #14141C;   /* 图标 / 强文本 */
+  --text:         #17171C;   /* 输入值 */
+  --muted:        #98989E;   /* 次级文本 */
+  --placeholder:  #C0C0C4;
+  --line:         #C9C9CE;   /* 复选框描边 */
+  --blue:         #3B76C6;   /* 注册 */
+  --pad:          24px;      /* 页面左右留白 */
+}
+
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+[hidden]{ display:none !important; }
+
+html,body{ margin:0; padding:0; }
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro SC","SF Pro Text","PingFang SC",
+              "Helvetica Neue","Microsoft YaHei",sans-serif;
+  background:#E9EAEE;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+}
+
+.stage{
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  padding:28px 16px;
+}
+
+.device{
+  position:relative;
+  width:414px; height:896px;
+  background:#fff;
+  border-radius:44px;
+  overflow:hidden;
+  box-shadow:0 24px 70px rgba(18,20,28,.26), 0 2px 8px rgba(18,20,28,.10);
+}
+
+/* ── 状态栏 ─────────────────────────────────────────── */
+.statusbar{
+  height:54px;
+  padding:0 22px 0 27px;
+  display:flex; align-items:center; justify-content:space-between;
+  color:#0B0B0F;
+}
+.sb-time{ font-size:16px; font-weight:600; letter-spacing:-.2px; }
+.sb-right{ display:flex; align-items:center; gap:6px; }
+.sb-signal{ width:17px; height:11px; fill:#0B0B0F; }
+.sb-5g{ font-size:14px; font-weight:500; letter-spacing:-.1px; }
+.sb-battery{ width:27px; height:13px; }
+
+/* ── 页面 ───────────────────────────────────────────── */
+/* flow-root：阻断 .logo 的上外边距穿透，保证 .page 高度 = 屏高 - 状态栏 */
+.page{ position:relative; display:flow-root; height:calc(100% - 54px); padding:0 var(--pad); }
+
+.logo{ display:block; margin-top:78px; width:73px; height:auto; }
+
+/* ── 登录方式切换 ───────────────────────────────────── */
+.tabs{
+  position:relative;
+  margin-top:43px;
+  display:flex; align-items:flex-end; gap:27px;
+  height:24px;
+}
+.tab{
+  appearance:none; border:0; background:none; padding:0; margin:0;
+  font:inherit; cursor:pointer;
+  font-size:14px; font-weight:400; color:var(--muted);
+  line-height:24px;
+  transition:color .18s ease;
+}
+.tab.is-active{ font-size:17px; font-weight:700; color:#141416; }
+
+.tab-ink{
+  position:absolute; top:27px; left:var(--ink-x,5px);
+  width:var(--ink-w,24px); height:3px;
+  border-radius:2px; background:var(--red);
+  transition:left .24s cubic-bezier(.4,0,.2,1), width .24s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── 输入区 ─────────────────────────────────────────── */
+.panel{ margin-top:34px; min-height:172px; }
+.panel[hidden]{ display:none; }
+.panel.is-active{ animation:panel-in .22s ease both; }
+@keyframes panel-in{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none; } }
+
+.field{
+  position:relative;
+  display:flex; align-items:center;
+  height:48px; margin-bottom:14px;
+  padding:0 18px;
+  background:var(--field);
+  border:0; border-radius:10px;
+  font:inherit; text-align:left;
+  transition:background .16s ease;
+}
+.field:last-child{ margin-bottom:0; }
+.field:focus-within{ background:var(--field-focus); }
+.field-tap{ width:100%; cursor:pointer; }
+.field-tap:active{ background:#E8E9F0; }
+
+.fi{ flex:none; width:16px; height:16px; margin-right:12px; fill:var(--ink); }
+
+.f-value{ font-size:15px; color:var(--text); }
+.f-dial { font-size:15px; color:var(--text); margin-right:16px; }
+
+.field input{
+  flex:1 1 auto; min-width:0;
+  appearance:none; border:0; outline:0; background:transparent;
+  font:inherit; font-size:15px; color:var(--text);
+  padding:0; height:100%;
+}
+.field input::placeholder{ color:var(--placeholder); }
+.field input::-webkit-search-cancel-button{ display:none; }
+
+.chev{ margin-left:auto; width:7px; height:12px; color:#15141A; flex:none; }
+
+.f-action{
+  appearance:none; border:0; background:none; padding:0 0 0 12px; margin:0;
+  font:inherit; font-size:15px; color:var(--muted); cursor:pointer;
+  white-space:nowrap;
+}
+.f-action:active{ opacity:.55; }
+.f-action.is-counting{ color:var(--placeholder); cursor:default; }
+.f-action.is-ready{ color:var(--red); }
+
+.f-icon{
+  appearance:none; border:0; background:none; padding:0 0 0 12px; margin:0;
+  color:var(--muted); cursor:pointer; display:flex; align-items:center;
+}
+.f-icon svg{ width:20px; height:20px; }
+
+.f-clear{
+  appearance:none; border:0; background:none; padding:0 0 0 10px; margin:0;
+  cursor:pointer; display:flex; align-items:center;
+}
+.f-clear svg{ width:16px; height:16px; fill:#C7C7CC; }
+
+.row-forgot{ margin-top:14px; text-align:right; }
+.row-forgot a{ font-size:14px; color:var(--muted); text-decoration:none; }
+
+/* ── 协议勾选（两行，各自独立复选框）─────────────────── */
+.agreements{ margin-top:24px; }
+
+.agree{
+  position:relative;
+  display:flex; align-items:center;
+  height:22px; margin-bottom:8px;
+  cursor:pointer;
+}
+.agree:last-child{ margin-bottom:0; }
+
+.cb-input{
+  position:absolute; opacity:0; width:0; height:0; margin:0;
+}
+.cb{
+  flex:none;
+  width:20px; height:20px; margin-right:12px;
+  border:1.5px solid var(--line);
+  border-radius:50%;
+  background:#fff;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .16s ease, border-color .16s ease, transform .16s ease;
+}
+.cb svg{ width:14px; height:14px; opacity:0; transform:scale(.6); transition:opacity .14s ease, transform .18s cubic-bezier(.34,1.56,.64,1); }
+.cb-input:checked + .cb{ background:var(--red); border-color:var(--red); }
+.cb-input:checked + .cb svg{ opacity:1; transform:none; }
+.cb-input:focus-visible + .cb{ box-shadow:0 0 0 3px rgba(226,35,26,.22); }
+
+.agree-txt{ font-size:15px; color:var(--muted); line-height:22px; }
+.agree-txt a{ color:inherit; text-decoration:underline; text-underline-offset:2px; }
+
+.agreements.shake{ animation:shake .42s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes shake{
+  10%,90%{ transform:translateX(-2px); }
+  20%,80%{ transform:translateX(4px); }
+  30%,50%,70%{ transform:translateX(-6px); }
+  40%,60%{ transform:translateX(6px); }
+}
+
+/* ── 登录按钮 ───────────────────────────────────────── */
+.btn-login{
+  appearance:none; border:0; margin-top:26px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:100%; height:48px;
+  border-radius:10px;
+  background:var(--red); color:#fff;
+  font:inherit; font-size:16px; letter-spacing:1px;
+  cursor:pointer;
+  transition:background .2s ease, box-shadow .2s ease, transform .1s ease;
+  box-shadow:0 6px 16px rgba(226,35,26,.26);
+}
+.btn-login:active{ transform:scale(.99); }
+.btn-login.is-disabled{
+  background:var(--red-weak);
+  box-shadow:none;
+}
+.btn-login.is-loading .btn-label{ opacity:.85; }
+.btn-login .spinner{
+  display:none;
+  width:16px; height:16px;
+  border:2px solid rgba(255,255,255,.45);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+.btn-login.is-loading .spinner{ display:block; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+/* ── 第三方登录 ─────────────────────────────────────── */
+.socials{
+  margin-top:26px;
+  display:flex; justify-content:center; gap:28px;
+}
+.social{
+  appearance:none; border:0; background:none; padding:0; margin:0;
+  width:40px; height:40px; border-radius:50%;
+  cursor:pointer;
+  transition:transform .14s ease, opacity .14s ease;
+}
+.social svg{ display:block; width:40px; height:40px; }
+.social:active{ transform:scale(.92); opacity:.85; }
+
+/* ── 底部 ───────────────────────────────────────────── */
+.foot{
+  position:absolute; left:0; right:0; bottom:44px;
+  text-align:center;
+  font-size:15px; line-height:20px; color:var(--muted);
+}
+.foot a{ color:var(--blue); text-decoration:none; }
+.foot a:active{ opacity:.6; }
+
+/* ── 遮罩 / 底部弹层 ────────────────────────────────── */
+.scrim{
+  position:absolute; inset:0; z-index:20;
+  background:rgba(12,13,18,.42);
+  opacity:0; transition:opacity .26s ease;
+}
+.scrim.is-open{ opacity:1; }
+
+.sheet{
+  position:absolute; left:0; right:0; bottom:0; z-index:21;
+  max-height:76%;
+  display:flex; flex-direction:column;
+  background:#fff;
+  border-radius:18px 18px 0 0;
+  transform:translateY(100%);
+  transition:transform .3s cubic-bezier(.32,.72,0,1);
+  overflow:hidden;
+}
+.sheet.is-open{ transform:none; }
+
+.sheet-bar{
+  width:36px; height:4px; border-radius:2px;
+  background:#DEDEE3;
+  margin:8px auto 0;
+}
+.sheet-head{
+  display:flex; align-items:center; justify-content:space-between;
+  height:48px; padding:0 18px;
+}
+.sheet-title{ font-size:16px; font-weight:600; color:#141416; }
+.sheet-cancel, .sheet-spacer{ width:52px; }
+.sheet-cancel{
+  appearance:none; border:0; background:none; padding:0; margin:0;
+  font:inherit; font-size:15px; color:var(--muted); text-align:left; cursor:pointer;
+}
+
+.sheet-search{
+  display:flex; align-items:center; gap:8px;
+  margin:0 18px 10px;
+  height:38px; padding:0 12px;
+  background:var(--field); border-radius:9px;
+  color:var(--muted);
+}
+.sheet-search svg{ width:16px; height:16px; flex:none; }
+.sheet-search input{
+  flex:1; min-width:0; appearance:none; border:0; outline:0; background:none;
+  font:inherit; font-size:15px; color:var(--text);
+}
+.sheet-search input::placeholder{ color:var(--placeholder); }
+
+.country-list{
+  list-style:none; margin:0; padding:0 0 18px;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+}
+.country-list li{
+  display:flex; align-items:center;
+  height:50px; margin:0 18px;
+  border-bottom:1px solid #F0F0F4;
+  font-size:15px; color:var(--text);
+  cursor:pointer;
+}
+.country-list li:active{ background:#F7F7FA; }
+.country-list li .c-flag{ width:26px; font-size:19px; line-height:1; }
+.country-list li .c-name{ flex:1; }
+.country-list li .c-dial{ color:var(--muted); font-size:14px; }
+.country-list li.is-current .c-name{ color:var(--red); }
+.country-list li.is-current .c-dial{ color:var(--red); }
+.country-list li.country-empty{
+  display:block; height:auto; border:0;
+  padding:24px 0; text-align:center;
+  color:var(--placeholder); font-size:14px; cursor:default;
+}
+
+/* 协议全文 */
+.sheet-doc{ height:76%; }
+.doc-body{
+  flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:4px 20px 20px;
+  font-size:14px; line-height:1.85; color:#4A4A52;
+}
+.doc-body h4{ margin:18px 0 6px; font-size:15px; color:#141416; }
+.doc-body p{ margin:0 0 8px; }
+.doc-foot{ padding:10px 20px calc(20px + env(safe-area-inset-bottom)); }
+.doc-foot .btn-login{ margin-top:0; }
+
+/* ── Toast ──────────────────────────────────────────── */
+/* top 定在 34%：避开协议勾选行与登录按钮，
+   否则"请先同意协议"的提示会正好盖住它所指的复选框 */
+.toast{
+  position:absolute; z-index:40;
+  left:50%; top:34%;
+  transform:translate(-50%,-50%) scale(.94);
+  max-width:260px;
+  padding:12px 18px;
+  border-radius:12px;
+  background:rgba(20,20,26,.86);
+  color:#fff; font-size:14px; line-height:1.5; text-align:center; white-space:pre-line;
+  opacity:0; pointer-events:none;
+  transition:opacity .2s ease, transform .2s ease;
+}
+.toast.is-open{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+
+/* ── 真机全屏 ───────────────────────────────────────── */
+@media (max-width:459px), (max-height:930px) and (pointer:coarse){
+  .stage{ padding:0; min-height:100dvh; }
+  .device{
+    width:100%; height:100dvh;
+    border-radius:0; box-shadow:none;
+  }
+}
