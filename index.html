@@ -3,73 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>sanvist 原型预览 · 全部页面</title>
+<title>sanvist 全部页面</title>
 <style>
   body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;margin:0;padding:32px 16px;color:#1f2329}
-  .wrap{max-width:860px;margin:0 auto}
-  h1{font-size:22px;margin:0 0 4px}
-  p.sub{color:#8a919f;margin:0 0 24px}
-  h2{font-size:15px;color:#4d96ff;margin:26px 0 10px;padding-left:10px;border-left:3px solid #4d96ff}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
-  a.item{display:block;background:#fff;border:1px solid #e5e8ee;border-radius:8px;padding:11px 14px;text-decoration:none;color:#1f2329;font-size:14px;transition:.15s;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  a.item:hover{border-color:#4d96ff;box-shadow:0 3px 10px rgba(77,150,255,.12)}
-  .path{display:block;font-size:11px;color:#aab0bc;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wrap{max-width:900px;margin:0 auto}
+  h1{font-size:20px;margin:0 0 16px}
+  ol{list-style:none;padding:0;margin:0;counter-reset:pg}
+  li{counter-increment:pg;background:#fff;border:1px solid #e5e8ee;border-radius:8px;margin:7px 0}
+  li a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 16px;text-decoration:none;color:#1f2329;font-size:14px}
+  li a:hover{border-color:#4d96ff}
+  li a::before{content:counter(pg);color:#aab0bc;font-size:12px;width:22px;flex:none}
+  .name{flex:1}
+  .path{font-size:11px;color:#aab0bc}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>sanvist 原型预览</h1>
-  <p class="sub">共 33 个页面，点击任意项在新标签打开</p>
-
-  <h2>APP 端（APP-mysany）</h2>
-  <div class="grid">
-    <a class="item" target="_blank" href="APP-mysany/index.html">登录<span class="path">APP-mysany/index.html</span></a>
-    <a class="item" target="_blank" href="APP-mysany/home.html">首页<span class="path">APP-mysany/home.html</span></a>
-    <a class="item" target="_blank" href="APP-mysany/mine.html">我的<span class="path">APP-mysany/mine.html</span></a>
-    <a class="item" target="_blank" href="APP-mysany/account-cancellation.html">账号注销<span class="path">APP-mysany/account-cancellation.html</span></a>
-    <a class="item" target="_blank" href="APP-mysany/ads.html">广告页<span class="path">APP-mysany/ads.html</span></a>
-    <a class="item" target="_blank" href="APP-mysany/cookie-consent.html">Cookie 授权<span class="path">APP-mysany/cookie-consent.html</span></a>
-    <a class="item" target="_blank" href="APP-mysany/privacy-update.html">隐私更新<span class="path">APP-mysany/privacy-update.html</span></a>
-  </div>
-
-  <h2>PC 端（Mysany-pc）</h2>
-  <div class="grid">
-    <a class="item" target="_blank" href="Mysany-pc/index.html">首页<span class="path">Mysany-pc/index.html</span></a>
-    <a class="item" target="_blank" href="Mysany-pc/登录.html">登录<span class="path">Mysany-pc/登录.html</span></a>
-    <a class="item" target="_blank" href="Mysany-pc/工作台.html">工作台<span class="path">Mysany-pc/工作台.html</span></a>
-    <a class="item" target="_blank" href="Mysany-pc/吊装规划.html">吊装规划<span class="path">Mysany-pc/吊装规划.html</span></a>
-    <a class="item" target="_blank" href="Mysany-pc/协议变更.html">协议变更<span class="path">Mysany-pc/协议变更.html</span></a>
-    <a class="item" target="_blank" href="Mysany-pc/企业服务-用户管理.html">企业服务-用户管理<span class="path">Mysany-pc/企业服务-用户管理.html</span></a>
-    <a class="item" target="_blank" href="Mysany-pc/企业服务-角色管理.html">企业服务-角色管理<span class="path">Mysany-pc/企业服务-角色管理.html</span></a>
-    <a class="item" target="_blank" href="Mysany-pc/企业服务-组织管理.html">企业服务-组织管理<span class="path">Mysany-pc/企业服务-组织管理.html</span></a>
-    <a class="item" target="_blank" href="Mysany-pc/企业服务-租户管理.html">企业服务-租户管理<span class="path">Mysany-pc/企业服务-租户管理.html</span></a>
-  </div>
-
-  <h2>后管端（sany-后管）</h2>
-  <div class="grid">
-    <a class="item" target="_blank" href="sany-后管/客户管理-账户管理.html">客户管理-账户管理<span class="path">sany-后管/客户管理-账户管理.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/客户管理-组织管理.html">客户管理-组织管理<span class="path">sany-后管/客户管理-组织管理.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/客户管理-客户认证使用.html">客户管理-客户认证使用<span class="path">sany-后管/客户管理-客户认证使用.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/客户管理-租户审核.html">客户管理-租户审核<span class="path">sany-后管/客户管理-租户审核.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/客户管理-直接创建租户.html">客户管理-直接创建租户<span class="path">sany-后管/客户管理-直接创建租户.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/客户管理-设备管理员配置.html">客户管理-设备管理员配置<span class="path">sany-后管/客户管理-设备管理员配置.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/客户管理-异常申诉.html">客户管理-异常申诉<span class="path">sany-后管/客户管理-异常申诉.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/客户管理-注销申请管理.html">客户管理-注销申请管理<span class="path">sany-后管/客户管理-注销申请管理.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/客户管理-隐私授权记录.html">客户管理-隐私授权记录<span class="path">sany-后管/客户管理-隐私授权记录.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/客户管理-客户分析.html">客户管理-客户分析<span class="path">sany-后管/客户管理-客户分析.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/客户分析-月活跃用户.html">客户分析-月活跃用户<span class="path">sany-后管/客户分析-月活跃用户.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/客户分析-用户留存率.html">客户分析-用户留存率<span class="path">sany-后管/客户分析-用户留存率.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/通用配置-公告.html">通用配置-公告<span class="path">sany-后管/通用配置-公告.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/通用配置-隐私服务协议管理.html">通用配置-隐私服务协议管理<span class="path">sany-后管/通用配置-隐私服务协议管理.html</span></a>
-    <a class="item" target="_blank" href="sany-后管/assets/suggestBrowser.html">推荐浏览器提示页<span class="path">sany-后管/assets/suggestBrowser.html</span></a>
-  </div>
-
-  <h2>原型规范（原型skill_后管）</h2>
-  <div class="grid">
-    <a class="item" target="_blank" href="原型skill_后管/build-b2b-form-pages/assets/form-page-template/index.html">表单页模板<span class="path">build-b2b-form-pages/.../index.html</span></a>
-    <a class="item" target="_blank" href="原型skill_后管/build-b2b-table-pages/assets/table-page-template/index.html">表格页模板<span class="path">build-b2b-table-pages/.../index.html</span></a>
-    <a class="item" target="_blank" href="原型skill_后管/b-data-list-design-spec-v2/assets/templates/full-reference.html">数据列表设计规范<span class="path">b-data-list-design-spec-v2/.../full-reference.html</span></a>
-  </div>
+  <h1>sanvist · 全部页面（共 33 个，点击直达）</h1>
+  <ol>
+    <li><a target="_blank" href="APP-mysany/index.html"><span class="name">APP 登录</span><span class="path">APP-mysany/index.html</span></a></li>
+    <li><a target="_blank" href="APP-mysany/home.html"><span class="name">APP 首页</span><span class="path">APP-mysany/home.html</span></a></li>
+    <li><a target="_blank" href="APP-mysany/mine.html"><span class="name">APP 我的</span><span class="path">APP-mysany/mine.html</span></a></li>
+    <li><a target="_blank" href="APP-mysany/account-cancellation.html"><span class="name">APP 账号注销</span><span class="path">APP-mysany/account-cancellation.html</span></a></li>
+    <li><a target="_blank" href="APP-mysany/ads.html"><span class="name">APP 广告页</span><span class="path">APP-mysany/ads.html</span></a></li>
+    <li><a target="_blank" href="APP-mysany/cookie-consent.html"><span class="name">APP Cookie 授权</span><span class="path">APP-mysany/cookie-consent.html</span></a></li>
+    <li><a target="_blank" href="APP-mysany/privacy-update.html"><span class="name">APP 隐私更新</span><span class="path">APP-mysany/privacy-update.html</span></a></li>
+    <li><a target="_blank" href="Mysany-pc/index.html"><span class="name">PC 首页</span><span class="path">Mysany-pc/index.html</span></a></li>
+    <li><a target="_blank" href="Mysany-pc/登录.html"><span class="name">PC 登录</span><span class="path">Mysany-pc/登录.html</span></a></li>
+    <li><a target="_blank" href="Mysany-pc/工作台.html"><span class="name">PC 工作台</span><span class="path">Mysany-pc/工作台.html</span></a></li>
+    <li><a target="_blank" href="Mysany-pc/吊装规划.html"><span class="name">PC 吊装规划</span><span class="path">Mysany-pc/吊装规划.html</span></a></li>
+    <li><a target="_blank" href="Mysany-pc/协议变更.html"><span class="name">PC 协议变更</span><span class="path">Mysany-pc/协议变更.html</span></a></li>
+    <li><a target="_blank" href="Mysany-pc/企业服务-用户管理.html"><span class="name">PC 企业服务-用户管理</span><span class="path">Mysany-pc/企业服务-用户管理.html</span></a></li>
+    <li><a target="_blank" href="Mysany-pc/企业服务-角色管理.html"><span class="name">PC 企业服务-角色管理</span><span class="path">Mysany-pc/企业服务-角色管理.html</span></a></li>
+    <li><a target="_blank" href="Mysany-pc/企业服务-组织管理.html"><span class="name">PC 企业服务-组织管理</span><span class="path">Mysany-pc/企业服务-组织管理.html</span></a></li>
+    <li><a target="_blank" href="Mysany-pc/企业服务-租户管理.html"><span class="name">PC 企业服务-租户管理</span><span class="path">Mysany-pc/企业服务-租户管理.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户管理-账户管理.html"><span class="name">后管 客户管理-账户管理</span><span class="path">sany-后管/客户管理-账户管理.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户管理-组织管理.html"><span class="name">后管 客户管理-组织管理</span><span class="path">sany-后管/客户管理-组织管理.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户管理-客户认证使用.html"><span class="name">后管 客户管理-客户认证使用</span><span class="path">sany-后管/客户管理-客户认证使用.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户管理-租户审核.html"><span class="name">后管 客户管理-租户审核</span><span class="path">sany-后管/客户管理-租户审核.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户管理-直接创建租户.html"><span class="name">后管 客户管理-直接创建租户</span><span class="path">sany-后管/客户管理-直接创建租户.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户管理-设备管理员配置.html"><span class="name">后管 客户管理-设备管理员配置</span><span class="path">sany-后管/客户管理-设备管理员配置.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户管理-异常申诉.html"><span class="name">后管 客户管理-异常申诉</span><span class="path">sany-后管/客户管理-异常申诉.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户管理-注销申请管理.html"><span class="name">后管 客户管理-注销申请管理</span><span class="path">sany-后管/客户管理-注销申请管理.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户管理-隐私授权记录.html"><span class="name">后管 客户管理-隐私授权记录</span><span class="path">sany-后管/客户管理-隐私授权记录.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户管理-客户分析.html"><span class="name">后管 客户管理-客户分析</span><span class="path">sany-后管/客户管理-客户分析.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户分析-月活跃用户.html"><span class="name">后管 客户分析-月活跃用户</span><span class="path">sany-后管/客户分析-月活跃用户.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/客户分析-用户留存率.html"><span class="name">后管 客户分析-用户留存率</span><span class="path">sany-后管/客户分析-用户留存率.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/通用配置-公告.html"><span class="name">后管 通用配置-公告</span><span class="path">sany-后管/通用配置-公告.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/通用配置-隐私服务协议管理.html"><span class="name">后管 通用配置-隐私服务协议管理</span><span class="path">sany-后管/通用配置-隐私服务协议管理.html</span></a></li>
+    <li><a target="_blank" href="sany-后管/assets/suggestBrowser.html"><span class="name">后管 推荐浏览器提示页</span><span class="path">sany-后管/assets/suggestBrowser.html</span></a></li>
+    <li><a target="_blank" href="原型skill_后管/build-b2b-form-pages/assets/form-page-template/index.html"><span class="name">规范 表单页模板</span><span class="path">build-b2b-form-pages/.../index.html</span></a></li>
+    <li><a target="_blank" href="原型skill_后管/build-b2b-table-pages/assets/table-page-template/index.html"><span class="name">规范 表格页模板</span><span class="path">build-b2b-table-pages/.../index.html</span></a></li>
+    <li><a target="_blank" href="原型skill_后管/b-data-list-design-spec-v2/assets/templates/full-reference.html"><span class="name">规范 数据列表设计规范</span><span class="path">b-data-list-design-spec-v2/.../full-reference.html</span></a></li>
+  </ol>
 </div>
 </body>
 </html>
